@@ -1,0 +1,79 @@
+/* components/common/IconButton/IconButton.module.css */
+
+.button {
+  --icon-btn-bg: transparent;
+  --icon-btn-color: var(--color-text-soft);
+  --icon-btn-border: var(--color-border-soft);
+  --icon-btn-hover-bg: rgba(148, 163, 184, 0.08);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--icon-btn-border);
+  background: var(--icon-btn-bg);
+  color: var(--icon-btn-color);
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.button:hover:not(:disabled) {
+  background: var(--icon-btn-hover-bg);
+  transform: translateY(-1px);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.sm {
+  width: 32px;
+  height: 32px;
+}
+
+.md {
+  width: 38px;
+  height: 38px;
+}
+
+.lg {
+  width: 44px;
+  height: 44px;
+}
+
+.ghost {
+  --icon-btn-bg: transparent;
+  --icon-btn-color: var(--color-text-soft);
+  --icon-btn-border: var(--color-border-soft);
+  --icon-btn-hover-bg: rgba(148, 163, 184, 0.08);
+}
+
+.secondary {
+  --icon-btn-bg: var(--color-surface-soft);
+  --icon-btn-color: var(--color-text-main);
+  --icon-btn-border: var(--color-border-medium);
+  --icon-btn-hover-bg: var(--color-surface-hover);
+}
+
+.primary {
+  --icon-btn-bg: var(--color-primary);
+  --icon-btn-color: var(--color-text-inverse);
+  --icon-btn-border: transparent;
+  --icon-btn-hover-bg: var(--color-primary-hover);
+}
+
+.danger {
+  --icon-btn-bg: var(--color-danger-soft);
+  --icon-btn-color: var(--color-danger);
+  --icon-btn-border: var(--color-danger-border);
+  --icon-btn-hover-bg: rgba(251, 113, 133, 0.18);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

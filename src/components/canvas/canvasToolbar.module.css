@@ -1,0 +1,27 @@
+/*  src\components\canvas\canvasToolbar.module.css */
+
+.toolbarContainer {
+  position: relative;
+}
+
+.toolbarToggle {
+  min-width: 90px;
+}
+
+.toolbarMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: var(--z-dropdown);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  padding-top: var(--spacing-xs);
+  border-top: 1px solid var(--color-border-soft);
+}

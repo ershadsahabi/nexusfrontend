@@ -1,0 +1,707 @@
+/* src/components/canvas/canvas.module.css */
+
+.canvasShell {
+  --canvas-bg-top: var(--color-surface-canvas-top, #08101d);
+  --canvas-bg-bottom: var(--color-surface-canvas-bottom, #0b1324);
+  --canvas-border: var(--color-border-soft, rgba(148, 163, 184, 0.16));
+  --canvas-panel-bg: rgba(8, 15, 30, 0.72);
+  --canvas-panel-bg-strong: rgba(9, 16, 32, 0.82);
+  --canvas-panel-border: rgba(148, 163, 184, 0.18);
+  --canvas-text: var(--color-text-primary, #f8fafc);
+  --canvas-text-muted: var(--color-text-secondary, #cbd5e1);
+  --canvas-text-soft: var(--color-text-tertiary, #94a3b8);
+  --canvas-shadow: 0 24px 60px rgba(2, 6, 23, 0.34);
+  --canvas-shadow-soft: 0 12px 32px rgba(2, 6, 23, 0.24);
+  --canvas-radius-xl: 20px;
+  --canvas-radius-lg: 16px;
+  --canvas-radius-md: 14px;
+  --canvas-radius-sm: 10px;
+  --canvas-blur: blur(14px);
+
+  position: relative;
+  width: 100%;
+  height: clamp(520px, 78vh, 920px);
+  min-height: 520px;
+  border: 1px solid var(--canvas-border);
+  border-radius: var(--canvas-radius-xl);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.1), transparent 28%),
+    radial-gradient(circle at top right, rgba(168, 85, 247, 0.08), transparent 24%),
+    linear-gradient(180deg, var(--canvas-bg-top) 0%, var(--canvas-bg-bottom) 100%);
+  box-shadow: var(--canvas-shadow);
+  isolation: isolate;
+}
+
+.canvasShell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035), transparent 18%),
+    linear-gradient(to top, rgba(2, 6, 23, 0.14), transparent 24%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.canvasStage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.canvasSceneLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.canvasSceneLayer > div,
+.canvasSceneLayer canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.canvasUiLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.overlayTopLeft,
+.overlayTopRight,
+.overlayBottomLeft,
+.overlayBottomRight,
+.overlayEntityActions {
+  position: absolute;
+  pointer-events: auto;
+}
+
+.overlayTopLeft {
+  top: 18px;
+  left: 18px;
+  z-index: 30;
+  max-width: min(760px, calc(100% - 220px));
+}
+
+.overlayTopRight {
+  top: 18px;
+  right: 18px;
+  z-index: 35;
+}
+
+.overlayEntityActions {
+  top: 96px;
+  right: 18px;
+  z-index: 36;
+}
+
+.overlayBottomLeft {
+  left: 18px;
+  bottom: 18px;
+  z-index: 40;
+}
+
+.overlayBottomRight {
+  right: 18px;
+  bottom: 18px;
+  z-index: 30;
+}
+
+.canvasState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 520px;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  color: var(--canvas-text);
+  background:
+    radial-gradient(circle at center, rgba(30, 41, 59, 0.35), transparent 44%),
+    #0f172a;
+  font-size: 14px;
+  text-align: center;
+}
+
+.deleteEntityButton {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 1px solid rgba(248, 113, 113, 0.34);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(127, 29, 29, 0.96), rgba(107, 33, 33, 0.94));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--canvas-shadow-soft);
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.deleteEntityButton:hover:not(:disabled) {
+  background: linear-gradient(180deg, rgba(153, 27, 27, 0.98), rgba(127, 29, 29, 0.96));
+  border-color: rgba(252, 165, 165, 0.48);
+  transform: translateY(-1px);
+}
+
+.deleteEntityButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.deleteEntityButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* toolbar */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 10px;
+  max-width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--canvas-panel-border);
+  border-radius: var(--canvas-radius-lg);
+  background: var(--canvas-panel-bg);
+  backdrop-filter: var(--canvas-blur);
+  -webkit-backdrop-filter: var(--canvas-blur);
+  box-shadow: var(--canvas-shadow-soft);
+}
+
+.toolbarButton {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.96) 0%, rgba(20, 28, 45, 0.96) 100%);
+  color: var(--canvas-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.toolbarButton:hover {
+  background: linear-gradient(180deg, rgba(51, 65, 85, 0.98) 0%, rgba(31, 41, 55, 0.98) 100%);
+  border-color: rgba(148, 163, 184, 0.34);
+  transform: translateY(-1px);
+}
+
+.toolbarButton:active {
+  transform: translateY(0);
+}
+
+.toolbarButtonActive {
+  background: linear-gradient(180deg, #6d28d9 0%, #4c1d95 100%);
+  border-color: rgba(196, 181, 253, 0.86);
+  color: #fff;
+  box-shadow:
+    0 0 0 1px rgba(167, 139, 250, 0.22),
+    0 8px 18px rgba(76, 29, 149, 0.28);
+}
+
+.toolbarHint {
+  flex: 1 1 100%;
+  margin-top: 2px;
+  color: var(--canvas-text-muted);
+  font-size: 12px;
+  line-height: 1.55;
+  opacity: 0.96;
+}
+
+/* camera */
+
+.cameraPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 262px;
+  padding: 12px;
+  border: 1px solid var(--canvas-panel-border);
+  border-radius: var(--canvas-radius-lg);
+  background: var(--canvas-panel-bg-strong);
+  backdrop-filter: var(--canvas-blur);
+  -webkit-backdrop-filter: var(--canvas-blur);
+  box-shadow: var(--canvas-shadow-soft);
+}
+
+.cameraPanelInlineRow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.cameraButton,
+.cameraButtonWide,
+.cameraViewButton {
+  appearance: none;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.96) 0%, rgba(20, 28, 45, 0.96) 100%);
+  color: var(--canvas-text);
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.cameraButton:hover,
+.cameraButtonWide:hover,
+.cameraViewButton:hover {
+  background: linear-gradient(180deg, rgba(51, 65, 85, 0.98) 0%, rgba(31, 41, 55, 0.98) 100%);
+  border-color: rgba(148, 163, 184, 0.34);
+  transform: translateY(-1px);
+}
+
+.cameraButton:active,
+.cameraButtonWide:active,
+.cameraViewButton:active {
+  transform: translateY(0);
+}
+
+.cameraButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.cameraButtonWide {
+  min-height: 40px;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cameraButtonActive {
+  background: linear-gradient(180deg, #166534 0%, #14532d 100%);
+  border-color: #4ade80;
+  box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.18);
+}
+
+.cameraViews {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.cameraViewButton {
+  min-height: 38px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cameraCoords {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 12px;
+  background: rgba(10, 15, 27, 0.72);
+  color: var(--canvas-text-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* bottom legend */
+
+.canvasLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--canvas-panel-border);
+  border-radius: var(--canvas-radius-md);
+  background: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #e2e8f0;
+  font-size: 12px;
+  box-shadow: var(--canvas-shadow-soft);
+}
+
+.legendSwatchMacro,
+.legendSwatchFem,
+.legendSwatchEnv,
+.legendSwatchGeneric {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-inline-end: 6px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.legendSwatchMacro { background: #3b82f6; }
+.legendSwatchFem { background: #10b981; }
+.legendSwatchEnv { background: #f59e0b; }
+.legendSwatchGeneric { background: #94a3b8; }
+
+/* node labels */
+
+.nodeLabel {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  gap: 8px;
+  max-width: 240px;
+  white-space: nowrap;
+  background: rgba(10, 16, 29, 0.94);
+  color: var(--canvas-text);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 999px;
+  padding: 5px 8px 5px 10px;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.35);
+  font-size: 12px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.nodeLabelSelected {
+  border-color: #fde047;
+  box-shadow:
+    0 0 0 1px rgba(253, 224, 71, 0.4),
+    0 8px 24px rgba(2, 6, 23, 0.35);
+}
+
+.nodeLabelEdgeSource {
+  border-color: #c084fc;
+  box-shadow:
+    0 0 0 1px rgba(192, 132, 252, 0.45),
+    0 8px 24px rgba(2, 6, 23, 0.35);
+}
+
+.nodeLabelBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+.nodeLabelText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+.nodeLabelCode {
+  color: var(--canvas-text-soft);
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+/* edge labels */
+
+.edgeLabel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  max-width: 240px;
+  padding: 4px 8px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.9);
+  color: #e2e8f0;
+  font-size: 11px;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.edgeLabelSelected {
+  border-color: #fde047;
+  box-shadow:
+    0 0 0 1px rgba(253, 224, 71, 0.35),
+    0 8px 24px rgba(2, 6, 23, 0.35);
+}
+
+.edgeDeleteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 999px;
+  background: #7f1d1d;
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 18px;
+  flex-shrink: 0;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.edgeDeleteButton:hover {
+  background: #991b1b;
+  transform: scale(1.05);
+}
+
+
+
+@media (max-width: 1100px) {
+  .overlayTopLeft {
+    max-width: min(620px, calc(100% - 210px));
+  }
+
+  .canvasLegend {
+    max-width: 260px;
+  }
+
+  .nodeLabel,
+  .edgeLabel {
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .canvasShell,
+  .canvasState {
+    min-height: 520px;
+  }
+
+  .overlayTopLeft {
+    top: 10px;
+    left: 10px;
+    max-width: calc(100% - 20px);
+  }
+
+  .overlayTopRight {
+    top: 10px;
+    right: 10px;
+  }
+
+  .overlayBottomLeft {
+    left: 10px;
+    bottom: 10px;
+  }
+
+  .overlayBottomRight {
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .overlayEntityActions {
+    top: 72px;
+    right: 10px;
+  }
+
+  .toolbar {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .toolbarButton {
+    min-height: 38px;
+    padding: 9px 12px;
+  }
+
+  .cameraPanel {
+    width: 220px;
+    padding: 10px;
+  }
+
+  .canvasLegend {
+    gap: 8px;
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  .formGrid3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .canvasShell {
+    border-radius: 14px;
+  }
+
+  .toolbar,
+  .cameraPanel,
+  .canvasLegend {
+    max-width: min(100%, 92vw);
+  }
+
+  .cameraPanelInlineRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toolbarHint {
+    width: 100%;
+  }
+
+  .nodeLabel,
+  .edgeLabel {
+    max-width: 180px;
+  }
+
+  .modalCard {
+    width: min(100%, calc(100% - 16px));
+    padding: 16px;
+    border-radius: 14px;
+  }
+}
+
+
+
+
+.workspaceControls{
+display:flex;
+align-items:flex-start;
+gap:12px;
+flex-wrap:wrap;
+}
+
+/* =========================
+   Hierarchy Navigator
+========================= */
+
+.hierarchyNavigator{
+width:260px;
+max-height:420px;
+overflow-y:auto;
+background:rgba(15,23,42,0.92);
+border:1px solid rgba(148,163,184,0.2);
+border-radius:14px;
+padding:12px;
+backdrop-filter:blur(10px);
+}
+
+.hierarchyHeader{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:12px;
+color:white;
+font-size:13px;
+font-weight:600;
+}
+
+.hierarchyResetButton{
+border:none;
+background:rgba(59,130,246,0.2);
+color:#93c5fd;
+border-radius:8px;
+padding:4px 8px;
+cursor:pointer;
+font-size:11px;
+}
+
+.hierarchyTree{
+display:flex;
+flex-direction:column;
+gap:2px;
+}
+
+.hierarchyNode{
+display:flex;
+align-items:center;
+min-height:30px;
+border-radius:8px;
+transition:background 0.15s ease;
+}
+
+.hierarchyNode:hover{
+background:rgba(255,255,255,0.05);
+}
+
+.hierarchyNodeActive{
+display:flex;
+align-items:center;
+min-height:30px;
+border-radius:8px;
+background:rgba(59,130,246,0.2);
+}
+
+.hierarchyFocusButton{
+width:22px;
+height:22px;
+border:none;
+background:transparent;
+color:#94a3b8;
+cursor:pointer;
+}
+
+.hierarchyLabel{
+flex:1;
+border:none;
+background:transparent;
+text-align:left;
+color:#e2e8f0;
+cursor:pointer;
+font-size:13px;
+padding:4px 6px;
+}
+
+.hierarchyDepthControls{
+display:flex;
+align-items:center;
+gap:8px;
+margin-left:24px;
+margin-bottom:6px;
+}
+
+.hierarchyDepthControls button{
+width:22px;
+height:22px;
+border:none;
+border-radius:6px;
+background:rgba(255,255,255,0.08);
+color:white;
+cursor:pointer;
+}

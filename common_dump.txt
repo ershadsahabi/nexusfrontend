@@ -1,0 +1,1865 @@
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Badge\Badge.module.css
+==============================
+
+/* components/common/Badge/Badge.module.css */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-2xs);
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.default {
+  background: var(--color-surface-soft);
+  color: var(--color-text-soft);
+  border-color: var(--color-border-soft);
+}
+
+.primary {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.success {
+  background: var(--color-success);
+  color: #052e16;
+}
+
+.warning {
+  background: var(--color-warning);
+  color: #1c1917;
+}
+
+.danger {
+  background: var(--color-danger);
+  color: white;
+}
+
+.info {
+  background: var(--color-info);
+  color: #08111f;
+}
+
+.subtle.default {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--color-text-soft);
+  border-color: var(--color-border-soft);
+}
+
+.subtle.primary {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border-color: var(--color-primary-border);
+}
+
+.subtle.success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  border-color: var(--color-success-border);
+}
+
+.subtle.warning {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+  border-color: var(--color-warning-border);
+}
+
+.subtle.danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  border-color: var(--color-danger-border);
+}
+
+.subtle.info {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+  border-color: var(--color-info-border);
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Badge\Badge.tsx
+==============================
+
+// components/common/Badge/Badge.tsx
+
+
+import React from 'react';
+import styles from './Badge.module.css';
+
+type Variant = 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+
+type Props = {
+  children: React.ReactNode;
+  variant?: Variant;
+  subtle?: boolean;
+  className?: string;
+};
+
+export default function Badge({
+  children,
+  variant = 'default',
+  subtle = false,
+  className = '',
+}: Props) {
+  return (
+    <span
+      className={[
+        styles.badge,
+        styles[variant],
+        subtle ? styles.subtle : '',
+        className,
+      ].join(' ')}
+    >
+      {children}
+    </span>
+  );
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Button\Button.module.css
+==============================
+
+/* components/common/Button/Button.module.css */
+
+.button {
+  --btn-bg: var(--color-primary);
+  --btn-color: var(--color-text-inverse);
+  --btn-border: transparent;
+  --btn-hover-bg: var(--color-primary-hover);
+  --btn-active-bg: var(--color-primary-active);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius-md);
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    opacity var(--transition-fast);
+  box-shadow: var(--shadow-xs);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--btn-hover-bg);
+  transform: translateY(-1px);
+}
+
+.button:active:not(:disabled) {
+  background: var(--btn-active-bg);
+  transform: translateY(0);
+}
+
+.button:disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.sm {
+  min-height: 34px;
+  padding: 0 var(--spacing-md);
+  font-size: var(--font-size-xs);
+}
+
+.md {
+  min-height: 40px;
+  padding: 0 var(--spacing-lg);
+  font-size: var(--font-size-sm);
+}
+
+.lg {
+  min-height: 46px;
+  padding: 0 var(--spacing-xl);
+  font-size: var(--font-size-md);
+}
+
+.primary {
+  --btn-bg: var(--color-primary);
+  --btn-color: var(--color-text-inverse);
+  --btn-border: transparent;
+  --btn-hover-bg: var(--color-primary-hover);
+  --btn-active-bg: var(--color-primary-active);
+}
+
+.secondary {
+  --btn-bg: var(--color-surface-soft);
+  --btn-color: var(--color-text-main);
+  --btn-border: var(--color-border-medium);
+  --btn-hover-bg: var(--color-surface-hover);
+  --btn-active-bg: var(--color-surface-active);
+}
+
+.ghost {
+  --btn-bg: transparent;
+  --btn-color: var(--color-text-soft);
+  --btn-border: var(--color-border-soft);
+  --btn-hover-bg: rgba(148, 163, 184, 0.08);
+  --btn-active-bg: rgba(148, 163, 184, 0.14);
+  box-shadow: none;
+}
+
+.danger {
+  --btn-bg: var(--color-danger);
+  --btn-color: white;
+  --btn-border: transparent;
+  --btn-hover-bg: var(--color-danger-hover);
+  --btn-active-bg: var(--color-danger-active);
+}
+
+.success {
+  --btn-bg: var(--color-success);
+  --btn-color: #052e16;
+  --btn-border: transparent;
+  --btn-hover-bg: var(--color-success-hover);
+  --btn-active-bg: var(--color-success-hover);
+}
+
+.warning {
+  --btn-bg: var(--color-warning);
+  --btn-color: #1c1917;
+  --btn-border: transparent;
+  --btn-hover-bg: var(--color-warning-hover);
+  --btn-active-bg: var(--color-warning-hover);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading {
+  pointer-events: none;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  border-top-color: currentColor;
+  animation: button-spin 0.7s linear infinite;
+}
+
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Button\Button.tsx
+==============================
+
+// components/common/Button/Button.tsx
+
+'use client';
+
+import React from 'react';
+import styles from './Button.module.css';
+
+type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'ghost'
+  | 'danger'
+  | 'success'
+  | 'warning';
+
+type ButtonSize = 'sm' | 'md' | 'lg';
+
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  fullWidth?: boolean;
+  loading?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+};
+
+export default function Button({
+  variant = 'primary',
+  size = 'md',
+  fullWidth = false,
+  loading = false,
+  leftIcon,
+  rightIcon,
+  className = '',
+  children,
+  disabled,
+  ...props
+}: ButtonProps) {
+  const isDisabled = disabled || loading;
+
+  return (
+    <button
+      className={[
+        styles.button,
+        styles[variant],
+        styles[size],
+        fullWidth ? styles.fullWidth : '',
+        loading ? styles.loading : '',
+        className,
+      ].join(' ')}
+      disabled={isDisabled}
+      {...props}
+    >
+      {loading && <span className={styles.spinner} aria-hidden="true" />}
+
+      {!loading && leftIcon && (
+        <span className={styles.icon} aria-hidden="true">
+          {leftIcon}
+        </span>
+      )}
+
+      <span className={styles.label}>{children}</span>
+
+      {!loading && rightIcon && (
+        <span className={styles.icon} aria-hidden="true">
+          {rightIcon}
+        </span>
+      )}
+    </button>
+  );
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Card\Card.module.css
+==============================
+
+/* components/common/Card/Card.module.css */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-soft);
+}
+
+.headText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-main);
+}
+
+.subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.body {
+  padding: var(--spacing-lg);
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Card\Card.tsx
+==============================
+
+// components/common/Card/Card.tsx
+
+
+import React from 'react';
+import styles from './Card.module.css';
+
+type Props = {
+  title?: React.ReactNode;
+  subtitle?: React.ReactNode;
+  actions?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+};
+
+export default function Card({
+  title,
+  subtitle,
+  actions,
+  children,
+  className = '',
+}: Props) {
+  return (
+    <section className={[styles.card, className].join(' ')}>
+      {(title || subtitle || actions) && (
+        <header className={styles.header}>
+          <div className={styles.headText}>
+            {title && <h3 className={styles.title}>{title}</h3>}
+            {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+          </div>
+
+          {actions && <div className={styles.actions}>{actions}</div>}
+        </header>
+      )}
+
+      <div className={styles.body}>{children}</div>
+    </section>
+  );
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Checkbox\Checkbox.module.css
+==============================
+
+/* components/common/Checkbox/Checkbox.module.css */
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  color: var(--color-text-main);
+  user-select: none;
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.box {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1px solid var(--color-border-medium);
+  background: var(--color-bg-elevated);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.check {
+  font-size: 11px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+  color: var(--color-text-inverse);
+}
+
+.input:checked + .box {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.input:checked + .box .check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.input:focus-visible + .box {
+  box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-soft);
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Checkbox\Checkbox.tsx
+==============================
+
+//components/common/Checkbox/Checkbox.tsx
+
+
+'use client';
+
+import React from 'react';
+import styles from './Checkbox.module.css';
+
+type Props = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> & {
+  label?: React.ReactNode;
+};
+
+export default function Checkbox({ label, className = '', ...props }: Props) {
+  return (
+    <label className={[styles.root, className].join(' ')}>
+      <input className={styles.input} type="checkbox" {...props} />
+      <span className={styles.box} aria-hidden="true">
+        <span className={styles.check}>✓</span>
+      </span>
+      {label && <span className={styles.label}>{label}</span>}
+    </label>
+  );
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\DataGrid\DataGrid.module.css
+==============================
+
+/* src/components/common/DataGrid/DataGrid.module.css */
+
+
+.tableShell {
+  width: 100%;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.025),
+      rgba(255, 255, 255, 0)
+    ),
+    var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.tableScroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  text-align: right;
+  direction: rtl;
+}
+
+.table thead {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(148, 163, 184, 0.08),
+      rgba(148, 163, 184, 0.035)
+    );
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-medium);
+
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  white-space: nowrap;
+  text-align: right;
+
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+.table td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-soft);
+
+  color: var(--color-text-main);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  vertical-align: middle;
+}
+
+.table tbody tr {
+  transition:
+    background var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.table tbody tr:hover {
+  background: rgba(148, 163, 184, 0.055);
+}
+
+.table tbody tr:hover td {
+  color: var(--color-text-main);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table td:first-child,
+.table th:first-child {
+  padding-right: var(--spacing-xl);
+}
+
+.table td:last-child,
+.table th:last-child {
+  padding-left: var(--spacing-xl);
+}
+
+.stateBox {
+  display: flex;
+  min-height: 180px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+
+  padding: var(--spacing-2xl);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.025),
+      rgba(255, 255, 255, 0)
+    ),
+    var(--color-surface);
+  border: 1px dashed var(--color-border-medium);
+  border-radius: var(--radius-lg);
+
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.loadingSpinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(148, 163, 184, 0.26);
+  border-top-color: var(--color-primary);
+  animation: datagrid-spin 0.75s linear infinite;
+}
+
+.emptyIcon {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: var(--radius-full);
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--color-text-subtle);
+  font-weight: var(--font-weight-bold);
+}
+
+@keyframes datagrid-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .table {
+    min-width: 680px;
+  }
+
+  .table th,
+  .table td {
+    padding: var(--spacing-md);
+  }
+
+  .table td:first-child,
+  .table th:first-child {
+    padding-right: var(--spacing-md);
+  }
+
+  .table td:last-child,
+  .table th:last-child {
+    padding-left: var(--spacing-md);
+  }
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\DataGrid\DataGrid.tsx
+==============================
+
+// NexusProject\nexus-frontend\src\components\common\DataGrid\DataGrid.tsx
+
+import React from 'react';
+import styles from './DataGrid.module.css';
+
+export interface ColumnDef<T> {
+  key: string;
+  header: string;
+  render?: (row: T) => React.ReactNode;
+}
+
+interface DataGridProps<T> {
+  data: T[];
+  columns: ColumnDef<T>[];
+  isLoading?: boolean;
+  keyExtractor: (row: T) => string | number;
+}
+
+export function DataGrid<T>({
+  data,
+  columns,
+  isLoading,
+  keyExtractor,
+}: DataGridProps<T>) {
+  if (isLoading) {
+    return (
+      <div className={styles.stateBox}>
+        <div className={styles.loadingSpinner} aria-hidden="true" />
+        <span>در حال بارگذاری داده‌ها...</span>
+      </div>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div className={styles.stateBox}>
+        <div className={styles.emptyIcon} aria-hidden="true">
+          —
+        </div>
+        <span>داده‌ای یافت نشد.</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.tableShell}>
+      <div className={styles.tableScroll}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              {columns.map((col) => (
+                <th key={col.key} scope="col">
+                  {col.header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {data.map((row) => (
+              <tr key={keyExtractor(row)}>
+                {columns.map((col) => (
+                  <td key={col.key}>
+                    {col.render ? col.render(row) : (row as any)[col.key]}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Divider\Divider.module.css
+==============================
+
+/* components/common/Divider/Divider.module.css  */
+
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border-soft);
+}
+
+.withLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-xs);
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border-soft);
+}
+
+.label {
+  white-space: nowrap;
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Divider\Divider.tsx
+==============================
+
+// components/common/Divider/Divider.tsx
+
+
+import React from 'react';
+import styles from './Divider.module.css';
+
+type Props = {
+  label?: React.ReactNode;
+  className?: string;
+};
+
+export default function Divider({ label, className = '' }: Props) {
+  if (!label) {
+    return <hr className={[styles.divider, className].join(' ')} />;
+  }
+
+  return (
+    <div className={[styles.withLabel, className].join(' ')}>
+      <span className={styles.line} />
+      <span className={styles.label}>{label}</span>
+      <span className={styles.line} />
+    </div>
+  );
+}
+
+
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\EmptyState\EmptyState.module.css
+==============================
+
+/* components/common/EmptyState/EmptyState.module.css */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  text-align: center;
+  padding: var(--spacing-2xl);
+  background: rgba(148, 163, 184, 0.04);
+  border: 1px dashed var(--color-border-medium);
+  border-radius: var(--radius-lg);
+}
+
+.compact {
+  padding: var(--spacing-xl);
+}
+
+.icon {
+  color: var(--color-text-subtle);
+  opacity: 0.9;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 480px;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-main);
+}
+
+.description {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.action {
+  margin-top: var(--spacing-xs);
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\EmptyState\EmptyState.tsx
+==============================
+
+// components/common/EmptyState/EmptyState.tsx
+
+import React from 'react';
+import styles from './EmptyState.module.css';
+
+type Props = {
+  title: React.ReactNode;
+  description?: React.ReactNode;
+  icon?: React.ReactNode;
+  action?: React.ReactNode;
+  compact?: boolean;
+  className?: string;
+};
+
+export default function EmptyState({
+  title,
+  description,
+  icon,
+  action,
+  compact = false,
+  className = '',
+}: Props) {
+  return (
+    <div className={[styles.root, compact ? styles.compact : '', className].join(' ')}>
+      {icon && <div className={styles.icon}>{icon}</div>}
+      <div className={styles.content}>
+        <h3 className={styles.title}>{title}</h3>
+        {description && <p className={styles.description}>{description}</p>}
+      </div>
+      {action && <div className={styles.action}>{action}</div>}
+    </div>
+  );
+}
+
+
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Field\Field.module.css
+==============================
+
+/* components/common/Field/Field.module.css */
+
+ .field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-soft);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.required {
+  color: var(--color-danger);
+}
+
+.control {
+  width: 100%;
+}
+
+.hint {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-xs);
+}
+
+.error {
+  color: var(--color-danger);
+  font-size: var(--font-size-xs);
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Field\Field.tsx
+==============================
+
+// components/common/Field/Field.tsx
+
+import React from 'react';
+import styles from './Field.module.css';
+
+type Props = {
+  label?: React.ReactNode;
+  hint?: React.ReactNode;
+  error?: React.ReactNode;
+  required?: boolean;
+  htmlFor?: string;
+  children: React.ReactNode;
+};
+
+export default function Field({
+  label,
+  hint,
+  error,
+  required = false,
+  htmlFor,
+  children,
+}: Props) {
+  return (
+    <div className={styles.field}>
+      {label && (
+        <label className={styles.label} htmlFor={htmlFor}>
+          <span>{label}</span>
+          {required && <span className={styles.required}>*</span>}
+        </label>
+      )}
+
+      <div className={styles.control}>{children}</div>
+
+      {error ? (
+        <div className={styles.error}>{error}</div>
+      ) : hint ? (
+        <div className={styles.hint}>{hint}</div>
+      ) : null}
+    </div>
+  );
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\IconButton\IconButton.module.css
+==============================
+
+/* components/common/IconButton/IconButton.module.css */
+
+.button {
+  --icon-btn-bg: transparent;
+  --icon-btn-color: var(--color-text-soft);
+  --icon-btn-border: var(--color-border-soft);
+  --icon-btn-hover-bg: rgba(148, 163, 184, 0.08);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--icon-btn-border);
+  background: var(--icon-btn-bg);
+  color: var(--icon-btn-color);
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.button:hover:not(:disabled) {
+  background: var(--icon-btn-hover-bg);
+  transform: translateY(-1px);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.sm {
+  width: 32px;
+  height: 32px;
+}
+
+.md {
+  width: 38px;
+  height: 38px;
+}
+
+.lg {
+  width: 44px;
+  height: 44px;
+}
+
+.ghost {
+  --icon-btn-bg: transparent;
+  --icon-btn-color: var(--color-text-soft);
+  --icon-btn-border: var(--color-border-soft);
+  --icon-btn-hover-bg: rgba(148, 163, 184, 0.08);
+}
+
+.secondary {
+  --icon-btn-bg: var(--color-surface-soft);
+  --icon-btn-color: var(--color-text-main);
+  --icon-btn-border: var(--color-border-medium);
+  --icon-btn-hover-bg: var(--color-surface-hover);
+}
+
+.primary {
+  --icon-btn-bg: var(--color-primary);
+  --icon-btn-color: var(--color-text-inverse);
+  --icon-btn-border: transparent;
+  --icon-btn-hover-bg: var(--color-primary-hover);
+}
+
+.danger {
+  --icon-btn-bg: var(--color-danger-soft);
+  --icon-btn-color: var(--color-danger);
+  --icon-btn-border: var(--color-danger-border);
+  --icon-btn-hover-bg: rgba(251, 113, 133, 0.18);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\IconButton\IconButton.tsx
+==============================
+
+// components/common/IconButton/IconButton.tsx
+
+'use client';
+
+import React from 'react';
+import styles from './IconButton.module.css';
+
+type IconButtonVariant = 'ghost' | 'secondary' | 'primary' | 'danger';
+type IconButtonSize = 'sm' | 'md' | 'lg';
+
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: IconButtonVariant;
+  size?: IconButtonSize;
+  icon: React.ReactNode;
+  label: string;
+};
+
+export default function IconButton({
+  variant = 'ghost',
+  size = 'md',
+  icon,
+  label,
+  className = '',
+  ...props
+}: Props) {
+  return (
+    <button
+      type="button"
+      className={[styles.button, styles[variant], styles[size], className].join(' ')}
+      aria-label={label}
+      title={label}
+      {...props}
+    >
+      <span className={styles.icon} aria-hidden="true">
+        {icon}
+      </span>
+    </button>
+  );
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\index.ts
+==============================
+
+// src/components/common/index.ts
+
+export { default as Button } from './Button/Button';
+export { default as IconButton } from './IconButton/IconButton';
+export { default as Input } from './Input/Input';
+export { default as Select } from './Select/Select';
+export { default as Textarea } from './Textarea/Textarea';
+export { default as Checkbox } from './Checkbox/Checkbox';
+export { default as Switch } from './Switch/Switch';
+export { default as Badge } from './Badge/Badge';
+export { default as Card } from './Card/Card';
+export { default as SectionHeader } from './SectionHeader/SectionHeader';
+export { default as EmptyState } from './EmptyState/EmptyState';
+export { default as Spinner } from './Spinner/Spinner';
+export { default as InlineMessage } from './InlineMessage/InlineMessage';
+export { default as Divider } from './Divider/Divider';
+export { default as Field } from './Field/Field';
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\InlineMessage\InlineMessage.module.css
+==============================
+
+/* components/common/InlineMessage/InlineMessage.module.css */
+
+.root {
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  padding: var(--spacing-md);
+}
+
+.info {
+  background: var(--color-info-soft);
+  border-color: var(--color-info-border);
+  color: #bfdbfe;
+}
+
+.success {
+  background: var(--color-success-soft);
+  border-color: var(--color-success-border);
+  color: #a7f3d0;
+}
+
+.warning {
+  background: var(--color-warning-soft);
+  border-color: var(--color-warning-border);
+  color: #fcd34d;
+}
+
+.danger {
+  background: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
+  color: #fecdd3;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-weight: var(--font-weight-semibold);
+}
+
+.text {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\InlineMessage\InlineMessage.tsx
+==============================
+
+// components/common/InlineMessage/InlineMessage.tsx
+
+
+import React from 'react';
+import styles from './InlineMessage.module.css';
+
+type Variant = 'info' | 'success' | 'warning' | 'danger';
+
+type Props = {
+  variant?: Variant;
+  title?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+};
+
+export default function InlineMessage({
+  variant = 'info',
+  title,
+  children,
+  className = '',
+}: Props) {
+  return (
+    <div className={[styles.root, styles[variant], className].join(' ')}>
+      <div className={styles.content}>
+        {title && <div className={styles.title}>{title}</div>}
+        <div className={styles.text}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Input\Input.module.css
+==============================
+
+/* components/common/Input/Input.module.css */
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  min-height: 40px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-medium);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-main);
+  padding: 0 var(--spacing-md);
+  font-size: var(--font-size-sm);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.input:hover {
+  border-color: var(--color-border-strong);
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+}
+
+.wrapper:focus-within .input {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
+}
+
+.withLeftSlot .input {
+  padding-left: 36px;
+}
+
+.withRightSlot .input {
+  padding-right: 36px;
+}
+
+.slotLeft,
+.slotRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-subtle);
+  pointer-events: none;
+}
+
+.slotLeft {
+  left: 12px;
+}
+
+.slotRight {
+  right: 12px;
+}
+
+.invalid .input {
+  border-color: var(--color-danger);
+}
+
+.invalid:focus-within .input {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-danger);
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Input\Input.tsx
+==============================
+
+// src\components\common\Input\Input.tsx
+
+'use client';
+
+import React from 'react';
+import styles from './Input.module.css';
+
+type Props = React.InputHTMLAttributes<HTMLInputElement> & {
+  leftSlot?: React.ReactNode;
+  rightSlot?: React.ReactNode;
+  invalid?: boolean;
+};
+
+export default function Input({
+  leftSlot,
+  rightSlot,
+  invalid = false,
+  className = '',
+  ...props
+}: Props) {
+  return (
+    <div
+      className={[
+        styles.wrapper,
+        invalid ? styles.invalid : '',
+        leftSlot ? styles.withLeftSlot : '',
+        rightSlot ? styles.withRightSlot : '',
+        className,
+      ].join(' ')}
+    >
+      {leftSlot && <span className={styles.slotLeft}>{leftSlot}</span>}
+      <input className={styles.input} {...props} />
+      {rightSlot && <span className={styles.slotRight}>{rightSlot}</span>}
+    </div>
+  );
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Modal\Modal.module.css
+==============================
+
+/* src/components/common/Modal/Modal.module.css */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.content {
+  background: var(--panel-bg);
+  padding: 0;
+  border-radius: 12px;
+  min-width: 600px;
+  max-width: 90%;
+  max-height: 85vh;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding: 20px 24px;
+  background: var(--bg-dark);
+  border-radius: 12px 12px 0 0;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  line-height: 1;
+  transition: color 0.2s ease;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton:hover {
+  color: var(--accent-red);
+}
+
+.body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Modal\Modal.tsx
+==============================
+
+// src/components/common/Modal/Modal.tsx
+import React from 'react';
+import styles from './Modal.module.css';
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+}
+
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className={styles.backdrop} onClick={onClose}>
+      <div className={styles.content} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>{title}</h2>
+          <button className={styles.closeButton} onClick={onClose}>
+            &times;
+          </button>
+        </div>
+        <div className={styles.body}>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\SectionHeader\SectionHeader.module.css
+==============================
+
+    /* components/common/SectionHeader/SectionHeader.module.css */
+
+    .root {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-main);
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\SectionHeader\SectionHeader.tsx
+==============================
+
+// components/common/SectionHeader/SectionHeader.tsx
+
+import React from 'react';
+import styles from './SectionHeader.module.css';
+
+type Props = {
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
+  actions?: React.ReactNode;
+  className?: string;
+};
+
+export default function SectionHeader({
+  title,
+  subtitle,
+  actions,
+  className = '',
+}: Props) {
+  return (
+    <div className={[styles.root, className].join(' ')}>
+      <div className={styles.texts}>
+        <h2 className={styles.title}>{title}</h2>
+        {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+      </div>
+
+      {actions && <div className={styles.actions}>{actions}</div>}
+    </div>
+  );
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Select\Select.module.css
+==============================
+
+/* components/common/Select/Select.module.css */
+
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select {
+  appearance: none;
+  width: 100%;
+  min-height: 40px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-medium);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-main);
+  padding: 0 36px 0 var(--spacing-md);
+  font-size: var(--font-size-sm);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.wrapper:focus-within .select {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
+}
+
+.chevron {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-subtle);
+  pointer-events: none;
+}
+
+.invalid .select {
+  border-color: var(--color-danger);
+}
+
+.invalid:focus-within .select {
+  box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-danger);
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Select\Select.tsx
+==============================
+
+// components/common/Select/Select.tsx
+
+
+'use client';
+
+import React from 'react';
+import styles from './Select.module.css';
+
+type Props = React.SelectHTMLAttributes<HTMLSelectElement> & {
+  invalid?: boolean;
+};
+
+export default function Select({
+  invalid = false,
+  className = '',
+  children,
+  ...props
+}: Props) {
+  return (
+    <div className={[styles.wrapper, invalid ? styles.invalid : '', className].join(' ')}>
+      <select className={styles.select} {...props}>
+        {children}
+      </select>
+      <span className={styles.chevron} aria-hidden="true">
+        ▾
+      </span>
+    </div>
+  );
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Spinner\Spinner.module.css
+==============================
+
+/* src/components/common/Spinner/Spinner.module.css */
+
+
+.spinner {
+  display: inline-block;
+  border-radius: 50%;
+  border: 2px solid rgba(148, 163, 184, 0.24);
+  border-top-color: var(--color-primary);
+  animation: spin 0.75s linear infinite;
+}
+
+.sm {
+  width: 14px;
+  height: 14px;
+}
+
+.md {
+  width: 20px;
+  height: 20px;
+}
+
+.lg {
+  width: 28px;
+  height: 28px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Spinner\Spinner.tsx
+==============================
+
+// components/common/Spinner/Spinner.tsx
+
+import React from 'react';
+import styles from './Spinner.module.css';
+
+type Size = 'sm' | 'md' | 'lg';
+
+type Props = {
+  size?: Size;
+  className?: string;
+};
+
+export default function Spinner({ size = 'md', className = '' }: Props) {
+  return <span className={[styles.spinner, styles[size], className].join(' ')} aria-hidden="true" />;
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Switch\Switch.module.css
+==============================
+
+/* components/common/Switch/Switch.module.css */
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  user-select: none;
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.track {
+  width: 40px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-hover);
+  border: 1px solid var(--color-border-medium);
+  position: relative;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  transition: transform var(--transition-fast);
+}
+
+.input:checked + .track {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.input:checked + .track .thumb {
+  transform: translateX(18px);
+}
+
+.input:focus-visible + .track {
+  box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
+}
+
+.label {
+  color: var(--color-text-soft);
+  font-size: var(--font-size-sm);
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Switch\Switch.tsx
+==============================
+
+// components/common/Switch/Switch.tsx
+
+
+'use client';
+
+import React from 'react';
+import styles from './Switch.module.css';
+
+type Props = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> & {
+  label?: React.ReactNode;
+};
+
+export default function Switch({ label, className = '', ...props }: Props) {
+  return (
+    <label className={[styles.root, className].join(' ')}>
+      <input className={styles.input} type="checkbox" {...props} />
+      <span className={styles.track} aria-hidden="true">
+        <span className={styles.thumb} />
+      </span>
+      {label && <span className={styles.label}>{label}</span>}
+    </label>
+  );
+}
+
+
+
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Textarea\Textarea.module.css
+==============================
+
+/* components/common/Textarea/Textarea.module.css */
+
+.textarea {
+  width: 100%;
+  min-height: 110px;
+  resize: vertical;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-medium);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-main);
+  padding: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.textarea:hover {
+  border-color: var(--color-border-strong);
+}
+
+.textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-color);
+}
+
+.invalid {
+  border-color: var(--color-danger);
+}
+
+.invalid:focus {
+  box-shadow: 0 0 0 var(--focus-ring-size) var(--focus-ring-danger);
+}
+
+==============================
+FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Textarea\Textarea.tsx
+==============================
+
+// components/common/Textarea/Textarea.tsx
+
+
+'use client';
+
+import React from 'react';
+import styles from './Textarea.module.css';
+
+type Props = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  invalid?: boolean;
+};
+
+export default function Textarea({
+  invalid = false,
+  className = '',
+  ...props
+}: Props) {
+  return (
+    <textarea
+      className={[styles.textarea, invalid ? styles.invalid : '', className].join(' ')}
+      {...props}
+    />
+  );
+}

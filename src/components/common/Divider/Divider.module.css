@@ -1,0 +1,25 @@
+/* components/common/Divider/Divider.module.css  */
+
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border-soft);
+}
+
+.withLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-xs);
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border-soft);
+}
+
+.label {
+  white-space: nowrap;
+}

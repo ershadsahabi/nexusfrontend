@@ -1,0 +1,45 @@
+/* components/common/EmptyState/EmptyState.module.css */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  text-align: center;
+  padding: var(--spacing-2xl);
+  background: rgba(148, 163, 184, 0.04);
+  border: 1px dashed var(--color-border-medium);
+  border-radius: var(--radius-lg);
+}
+
+.compact {
+  padding: var(--spacing-xl);
+}
+
+.icon {
+  color: var(--color-text-subtle);
+  opacity: 0.9;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 480px;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-main);
+}
+
+.description {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.action {
+  margin-top: var(--spacing-xs);
+}

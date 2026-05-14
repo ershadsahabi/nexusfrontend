@@ -1,0 +1,81 @@
+/* components/common/Badge/Badge.module.css */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-2xs);
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.default {
+  background: var(--color-surface-soft);
+  color: var(--color-text-soft);
+  border-color: var(--color-border-soft);
+}
+
+.primary {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.success {
+  background: var(--color-success);
+  color: #052e16;
+}
+
+.warning {
+  background: var(--color-warning);
+  color: #1c1917;
+}
+
+.danger {
+  background: var(--color-danger);
+  color: white;
+}
+
+.info {
+  background: var(--color-info);
+  color: #08111f;
+}
+
+.subtle.default {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--color-text-soft);
+  border-color: var(--color-border-soft);
+}
+
+.subtle.primary {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border-color: var(--color-primary-border);
+}
+
+.subtle.success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  border-color: var(--color-success-border);
+}
+
+.subtle.warning {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+  border-color: var(--color-warning-border);
+}
+
+.subtle.danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  border-color: var(--color-danger-border);
+}
+
+.subtle.info {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+  border-color: var(--color-info-border);
+}

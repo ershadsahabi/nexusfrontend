@@ -1,0 +1,76 @@
+/* src/app/(dashboard)/projects/projects.module.css */
+
+.pageWrapper {
+  padding: var(--spacing-6) var(--spacing-8);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  overflow-y: auto; /* To allow scrolling if content overflows */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--color-border-base);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-main);
+}
+
+.createForm {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+/* Re-using input styles from the global design system concept */
+.input {
+  width: 300px; /* Or adjust as needed */
+  padding: var(--spacing-2) var(--spacing-3);
+  background-color: var(--color-surface);
+  color: var(--color-text-main);
+  border: 1px solid var(--color-border-base);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-border-focused);
+  box-shadow: var(--focus-ring-shadow-primary);
+}
+
+.input::placeholder {
+  color: var(--color-text-disabled);
+}
+
+.actionButtons {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.errorState {
+  padding: var(--spacing-4);
+  background-color: var(--color-danger-muted);
+  border: 1px solid var(--color-danger-translucent);
+  border-radius: var(--radius-lg);
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+}
+
+.dataGridContainer {
+  flex: 1; /* Takes up remaining space */
+  min-height: 0; /* Important for flexbox scrolling */
+  border: 1px solid var(--color-border-base);
+  border-radius: var(--radius-lg);
+  overflow: hidden; /* Let DataGrid handle its own scrolling */
+}

@@ -1,0 +1,86 @@
+/* src/app/login/login.module.css */
+
+.loginContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--bg-dark, #0f172a);
+  /* یک پس زمینه مهندسی ملایم برای صفحه لاگین */
+  background-image: radial-gradient(var(--border-color, #334155) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.loginForm {
+  background-color: var(--panel-bg, #1e293b);
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid var(--border-color, #334155);
+}
+
+.loginForm h2 {
+  color: var(--text-main, #f1f5f9);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  color: var(--text-muted, #94a3b8);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.formGroup input {
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color, #334155);
+  background-color: var(--bg-dark, #0f172a);
+  color: var(--text-main, #f1f5f9);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.formGroup input:focus {
+  border-color: var(--accent-blue, #38bdf8);
+}
+
+.loginForm button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--accent-blue, #38bdf8);
+  color: #0f172a;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1rem;
+}
+
+.loginForm button:hover:not(:disabled) {
+  background-color: #0ea5e9;
+}
+
+.loginForm button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error {
+  color: var(--accent-red, #fb7185);
+  font-size: 0.85rem;
+  margin-top: 1rem;
+  text-align: center;
+}

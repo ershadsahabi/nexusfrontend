@@ -1,0 +1,46 @@
+/* components/common/InlineMessage/InlineMessage.module.css */
+
+.root {
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  padding: var(--spacing-md);
+}
+
+.info {
+  background: var(--color-info-soft);
+  border-color: var(--color-info-border);
+  color: #bfdbfe;
+}
+
+.success {
+  background: var(--color-success-soft);
+  border-color: var(--color-success-border);
+  color: #a7f3d0;
+}
+
+.warning {
+  background: var(--color-warning-soft);
+  border-color: var(--color-warning-border);
+  color: #fcd34d;
+}
+
+.danger {
+  background: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
+  color: #fecdd3;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-weight: var(--font-weight-semibold);
+}
+
+.text {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
