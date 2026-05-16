@@ -872,6 +872,50 @@ export interface paths {
         patch: operations["entities_system_entities_partial_update"];
         trace?: never;
     };
+    "/api/v1/entities/system-entity-types/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Global catalog of system entity semantic types.
+         *
+         *     This endpoint is NOT project scoped.
+         *     Used by UI to populate type selectors.
+         */
+        get: operations["entities_system_entity_types_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/entities/system-entity-types/{uuid}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * @description Global catalog of system entity semantic types.
+         *
+         *     This endpoint is NOT project scoped.
+         *     Used by UI to populate type selectors.
+         */
+        get: operations["entities_system_entity_types_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/memory/attachments/": {
         parameters: {
             query?: never;
@@ -1651,6 +1695,15 @@ export interface components {
          * @enum {string}
          */
         BoundaryConditionTargetTypeEnum: "node" | "system_entity";
+        /**
+         * @description * `structure` - Structure
+         *     * `environment` - Environment
+         *     * `equipment` - Equipment
+         *     * `load` - Load
+         *     * `generic` - Generic
+         * @enum {string}
+         */
+        CategoryEnum: "structure" | "environment" | "equipment" | "load" | "generic";
         ConnectionEdge: {
             readonly id: number;
             /** Format: uuid */
@@ -2431,6 +2484,21 @@ export interface components {
             previous?: string | null;
             results: components["schemas"]["SystemEntity"][];
         };
+        PaginatedSystemEntityTypeSummaryList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["SystemEntityTypeSummary"][];
+        };
         PatchedAnalysisCase: {
             readonly id?: number;
             /** Format: uuid */
@@ -3032,7 +3100,18 @@ export interface components {
             readonly children?: components["schemas"]["SystemEntityTreeChild"][];
             code?: string;
             name?: string;
+            /**
+             * @description Presentation/representation layer type.
+             *
+             *     * `macro` - Macro Structure (Concept)
+             *     * `fem` - Finite Element Model (Detailed)
+             *     * `environment` - Environmental Object
+             *     * `generic` - Generic Node
+             */
             entity_type?: components["schemas"]["EntityTypeBddEnum"];
+            readonly system_type?: components["schemas"]["SystemEntityTypeSummary"];
+            /** Format: uuid */
+            system_type_uuid?: string | null;
             /** Format: double */
             pos_x?: number;
             /** Format: double */
@@ -3314,7 +3393,18 @@ export interface components {
             readonly children: components["schemas"]["SystemEntityTreeChild"][];
             code: string;
             name: string;
+            /**
+             * @description Presentation/representation layer type.
+             *
+             *     * `macro` - Macro Structure (Concept)
+             *     * `fem` - Finite Element Model (Detailed)
+             *     * `environment` - Environmental Object
+             *     * `generic` - Generic Node
+             */
             entity_type?: components["schemas"]["EntityTypeBddEnum"];
+            readonly system_type: components["schemas"]["SystemEntityTypeSummary"];
+            /** Format: uuid */
+            system_type_uuid?: string | null;
             /** Format: double */
             pos_x?: number;
             /** Format: double */
@@ -3337,9 +3427,56 @@ export interface components {
             readonly uuid: string;
             code: string;
             name: string;
+            /**
+             * @description Presentation/representation layer type.
+             *
+             *     * `macro` - Macro Structure (Concept)
+             *     * `fem` - Finite Element Model (Detailed)
+             *     * `environment` - Environmental Object
+             *     * `generic` - Generic Node
+             */
             entity_type?: components["schemas"]["EntityTypeBddEnum"];
+            readonly system_type: components["schemas"]["SystemEntityTypeSummary"];
             /** Format: int64 */
             sort_order?: number;
+        };
+        SystemEntityType: {
+            /** Format: uuid */
+            readonly uuid: string;
+            code: string;
+            name: string;
+            description?: string;
+            domain: string;
+            category?: components["schemas"]["CategoryEnum"];
+            fem_eligible?: boolean;
+            is_root_allowed?: boolean;
+            allows_children?: boolean;
+            icon_key?: string;
+            shape_key?: string;
+            color_key?: string;
+            render_variant?: string;
+            is_active?: boolean;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
+        };
+        SystemEntityTypeSummary: {
+            /** Format: uuid */
+            readonly uuid: string;
+            code: string;
+            name: string;
+            domain: string;
+            category?: components["schemas"]["CategoryEnum"];
+            fem_eligible?: boolean;
+            is_root_allowed?: boolean;
+            allows_children?: boolean;
+            icon_key?: string;
+            shape_key?: string;
+            color_key?: string;
+            render_variant?: string;
+            is_active?: boolean;
         };
         TokenObtainPair: {
             email: string;
@@ -5995,6 +6132,49 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SystemEntity"];
+                };
+            };
+        };
+    };
+    entities_system_entity_types_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedSystemEntityTypeSummaryList"];
+                };
+            };
+        };
+    };
+    entities_system_entity_types_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SystemEntityType"];
                 };
             };
         };

@@ -8,21 +8,8 @@ import type {
 import type {
   CanvasConnection,
   CanvasEntity,
-  EntityType,
   RelationType,
 } from '@/lib/types/canvas.types';
-
-function normalizeEntityType(value: string | undefined): EntityType {
-  switch (value) {
-    case 'macro':
-    case 'fem':
-    case 'environment':
-    case 'generic':
-      return value;
-    default:
-      return 'generic';
-  }
-}
 
 function normalizeRelationType(edge: ApiConnectionEdge): RelationType {
   return (edge.connection_type || edge.relation_type || 'connected_to') as RelationType;
@@ -41,11 +28,11 @@ export function mapApiEntityToCanvas(entity: ApiSystemEntity): CanvasEntity {
     parentId: entity.parent ?? null,
     childIds: entity.children ?? [],
 
-
     name: entity.name ?? '',
     code: entity.code ?? '',
 
-    entityType: normalizeEntityType(entity.entity_type),
+    // entityType جای خود را به systemType داد
+    systemType: entity.system_type,
 
     position: [
       Number(entity.pos_x ?? 0),

@@ -7,34 +7,10 @@ import type {
 
 import {
   buildChildrenMap,
-  buildEntityMap,
   collectSubtree,
   findRootSystems,
 } from './systemTree';
 
-/**
- * Collect ancestor chain from node → root
- */
-function collectAncestors(
-  uuid: string,
-  entityMap: Map<string, CanvasEntity>
-) {
-  const result = new Set<string>();
-
-  let current = entityMap.get(uuid);
-
-  while (current && current.parentId) {
-    result.add(current.parentId);
-    current = entityMap.get(current.parentId);
-  }
-
-  return result;
-}
-
-/**
- * Controls which part of graph
- * should be visible in canvas.
- */
 export function filterVisibleGraph(
   entities: CanvasEntity[],
   connections: CanvasConnection[],
@@ -42,11 +18,6 @@ export function filterVisibleGraph(
   depth: number,
   focusUuid?: string | null
 ) {
-
-  /**
-   * No root selected
-   * -> show only root systems
-   */
   if (!rootUuid) {
     const roots = findRootSystems(entities);
 
@@ -64,82 +35,40 @@ export function filterVisibleGraph(
     };
   }
 
-  /**
-   * Build hierarchy structures
-   */
   const childrenMap = buildChildrenMap(entities);
-  const entityMap = buildEntityMap(entities);
 
-  /**
-   * Step 1:
-   * visible subtree from root
-   */
-  const rootVisibleSet = collectSubtree(
+  const rootFullSet = collectSubtree(
+    rootUuid,
+    childrenMap
+  );
+
+  let visibleEntitySet = collectSubtree(
     rootUuid,
     childrenMap,
     depth
   );
 
-  let visibleEntitySet = rootVisibleSet;
-
-  /**
-   * Step 2:
-   * focus drill-down
-   */
   if (
     focusUuid &&
-    rootVisibleSet.has(focusUuid)
+    rootFullSet.has(focusUuid)
   ) {
-    const focusSubtree = collectSubtree(
+    visibleEntitySet = collectSubtree(
       focusUuid,
       childrenMap,
       depth
     );
-
-    const ancestors = collectAncestors(
-      focusUuid,
-      entityMap
-    );
-
-    const merged = new Set<string>();
-
-    for (const id of ancestors) {
-      if (rootVisibleSet.has(id)) {
-        merged.add(id);
-      }
-    }
-
-    for (const id of focusSubtree) {
-      if (rootVisibleSet.has(id)) {
-        merged.add(id);
-      }
-    }
-
-    merged.add(focusUuid);
-
-    visibleEntitySet = merged;
   }
 
-  /**
-   * Filter entities
-   */
   const visibleEntities = entities.filter(
     (entity) =>
       visibleEntitySet.has(entity.uuid)
   );
 
-  /**
-   * Filter connections
-   */
   const visibleConnections =
     connections.filter(
       (connection) =>
-        visibleEntitySet.has(
-          connection.sourceUuid
-        ) &&
-        visibleEntitySet.has(
-          connection.targetUuid
-        )
+        visibleEntitySet.has(connection.sourceUuid) &&
+        visibleEntitySet.has(connection.targetUuid)
     );
 
   return {

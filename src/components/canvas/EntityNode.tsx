@@ -23,8 +23,11 @@ type Props = {
   ) => void;
 };
 
-function getEntityVisualConfig(entityType: CanvasEntity['entityType']) {
-  switch (entityType) {
+function getEntityVisualConfig(systemTypeName?: string) {
+  // نام نوع سیستم را برای مقایسه یکپارچه کوچک می‌کنیم
+  const normalizedType = systemTypeName?.toLowerCase() || 'generic';
+
+  switch (normalizedType) {
     case 'macro':
       return {
         color: '#3b82f6',
@@ -85,17 +88,18 @@ export default function EntityNode({
     }
   }, [entity.position, dragging]);
 
+  // استفاده از systemType.name به جای entityType
   const visual = useMemo(
-    () => getEntityVisualConfig(entity.entityType),
-    [entity.entityType]
+    () => getEntityVisualConfig(entity.systemType?.name),
+    [entity.systemType?.name]
   );
 
-const dragPlane = useMemo(() => {
-  return new THREE.Plane(
-    new THREE.Vector3(0, 1, 0),
-    -localPosition[1]
-  );
-}, [localPosition]);
+  const dragPlane = useMemo(() => {
+    return new THREE.Plane(
+      new THREE.Vector3(0, 1, 0),
+      -localPosition[1]
+    );
+  }, [localPosition]);
 
   const tempPoint = useMemo(() => new THREE.Vector3(), []);
 

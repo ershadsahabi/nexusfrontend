@@ -1,6 +1,7 @@
 // src/lib/types/canvas.types.ts
 
-export type EntityType = 'macro' | 'fem' | 'environment' | 'generic';
+// اضافه کردن ایمپورت برای تایپ خلاصه سیستم
+import type { SystemEntityTypeSummary } from '@/lib/api/types';
 
 export type CanvasMode = 'select' | 'create-edge';
 
@@ -22,7 +23,8 @@ export interface CanvasEntity {
   name: string;
   code: string;
 
-  entityType: EntityType;
+  // entityType حذف شد و با systemType جایگزین شد
+  systemType: SystemEntityTypeSummary;
 
   position: [number, number, number];
 

@@ -2891,6 +2891,58 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/entities/system-entity-types/:
+    get:
+      operationId: entities_system_entity_types_list
+      description: |-
+        Global catalog of system entity semantic types.
+
+        This endpoint is NOT project scoped.
+        Used by UI to populate type selectors.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - entities
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSystemEntityTypeSummaryList'
+          description: ''
+  /api/v1/entities/system-entity-types/{uuid}/:
+    get:
+      operationId: entities_system_entity_types_retrieve
+      description: |-
+        Global catalog of system entity semantic types.
+
+        This endpoint is NOT project scoped.
+        Used by UI to populate type selectors.
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - entities
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemEntityType'
+          description: ''
   /api/v1/memory/attachments/:
     get:
       operationId: memory_attachments_list
@@ -5760,6 +5812,20 @@ components:
       description: |-
         * `node` - Node
         * `system_entity` - System Entity
+    CategoryEnum:
+      enum:
+      - structure
+      - environment
+      - equipment
+      - load
+      - generic
+      type: string
+      description: |-
+        * `structure` - Structure
+        * `environment` - Environment
+        * `equipment` - Equipment
+        * `load` - Load
+        * `generic` - Generic
     ConnectionEdge:
       type: object
       properties:
@@ -7201,6 +7267,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SystemEntity'
+    PaginatedSystemEntityTypeSummaryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SystemEntityTypeSummary'
     PatchedAnalysisCase:
       type: object
       properties:
@@ -8448,7 +8537,24 @@ components:
           type: string
           maxLength: 255
         entity_type:
-          $ref: '#/components/schemas/EntityTypeBddEnum'
+          allOf:
+          - $ref: '#/components/schemas/EntityTypeBddEnum'
+          description: |-
+            Presentation/representation layer type.
+
+            * `macro` - Macro Structure (Concept)
+            * `fem` - Finite Element Model (Detailed)
+            * `environment` - Environmental Object
+            * `generic` - Generic Node
+        system_type:
+          allOf:
+          - $ref: '#/components/schemas/SystemEntityTypeSummary'
+          readOnly: true
+        system_type_uuid:
+          type: string
+          format: uuid
+          writeOnly: true
+          nullable: true
         pos_x:
           type: number
           format: double
@@ -9078,7 +9184,24 @@ components:
           type: string
           maxLength: 255
         entity_type:
-          $ref: '#/components/schemas/EntityTypeBddEnum'
+          allOf:
+          - $ref: '#/components/schemas/EntityTypeBddEnum'
+          description: |-
+            Presentation/representation layer type.
+
+            * `macro` - Macro Structure (Concept)
+            * `fem` - Finite Element Model (Detailed)
+            * `environment` - Environmental Object
+            * `generic` - Generic Node
+        system_type:
+          allOf:
+          - $ref: '#/components/schemas/SystemEntityTypeSummary'
+          readOnly: true
+        system_type_uuid:
+          type: string
+          format: uuid
+          writeOnly: true
+          nullable: true
         pos_x:
           type: number
           format: double
@@ -9118,6 +9241,7 @@ components:
       - is_root
       - name
       - project
+      - system_type
       - updated_at
       - uuid
     SystemEntityTreeChild:
@@ -9134,7 +9258,19 @@ components:
           type: string
           maxLength: 255
         entity_type:
-          $ref: '#/components/schemas/EntityTypeBddEnum'
+          allOf:
+          - $ref: '#/components/schemas/EntityTypeBddEnum'
+          description: |-
+            Presentation/representation layer type.
+
+            * `macro` - Macro Structure (Concept)
+            * `fem` - Finite Element Model (Detailed)
+            * `environment` - Environmental Object
+            * `generic` - Generic Node
+        system_type:
+          allOf:
+          - $ref: '#/components/schemas/SystemEntityTypeSummary'
+          readOnly: true
         sort_order:
           type: integer
           maximum: 9223372036854775807
@@ -9142,6 +9278,107 @@ components:
           format: int64
       required:
       - code
+      - name
+      - system_type
+      - uuid
+    SystemEntityType:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        code:
+          type: string
+          maxLength: 100
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        domain:
+          type: string
+          maxLength: 100
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        fem_eligible:
+          type: boolean
+        is_root_allowed:
+          type: boolean
+        allows_children:
+          type: boolean
+        icon_key:
+          type: string
+          maxLength: 100
+        shape_key:
+          type: string
+          maxLength: 100
+        color_key:
+          type: string
+          maxLength: 100
+        render_variant:
+          type: string
+          maxLength: 100
+        is_active:
+          type: boolean
+        metadata:
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - code
+      - created_at
+      - domain
+      - name
+      - updated_at
+      - uuid
+    SystemEntityTypeSummary:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        code:
+          type: string
+          maxLength: 100
+        name:
+          type: string
+          maxLength: 255
+        domain:
+          type: string
+          maxLength: 100
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        fem_eligible:
+          type: boolean
+        is_root_allowed:
+          type: boolean
+        allows_children:
+          type: boolean
+        icon_key:
+          type: string
+          maxLength: 100
+        shape_key:
+          type: string
+          maxLength: 100
+        color_key:
+          type: string
+          maxLength: 100
+        render_variant:
+          type: string
+          maxLength: 100
+        is_active:
+          type: boolean
+      required:
+      - code
+      - domain
       - name
       - uuid
     TokenObtainPair:

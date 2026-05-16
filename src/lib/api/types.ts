@@ -6,54 +6,53 @@ export type { TokenResponse, LoginCredentials, UserProfile } from './types/auth'
 // ==========================================
 // OpenAPI schema root
 // ==========================================
-
 export type Schemas = components['schemas'];
 
 // ==========================================
 // Core project models
 // ==========================================
-
 export type Project = Schemas['Project'];
 export type PaginatedProjectList = Schemas['PaginatedProjectList'];
-
-/**
- * OpenAPI generator معمولاً ProjectRequest جدا تولید نمی‌کند.
- * برای سازگاری با فرانت فعلی، alias می‌دهیم.
- */
 export type ProjectRequest = Project;
 
 // ==========================================
 // Scenario models
 // ==========================================
-
 export type Scenario = Schemas['Scenario'];
 export type PaginatedScenarioList = Schemas['PaginatedScenarioList'];
-
-/**
- * OpenAPI generator معمولاً ScenarioRequest جدا تولید نمی‌کند.
- * برای سازگاری با فرانت فعلی، alias می‌دهیم.
- */
 export type ScenarioRequest = Scenario;
 
 // ==========================================
 // Entity models
-// نکته:
-/// اگر schema شما این مدل‌ها را داشته باشد از آن‌ها استفاده می‌کنیم.
-/// اگر نام واقعی در schema فرق دارد، باید با نام واقعی schema هماهنگ شود.
-/// ==========================================
-
+// ==========================================
 export type EntityNode = Schemas['EntityNode'];
 export type PaginatedEntityNodeList = Schemas['PaginatedEntityNodeList'];
 export type Assembly = Schemas['Assembly'];
 
-/**
- * چون در خطاها مشخص است schema فعلی شما تایپ‌هایی مثل
- * SystemEntity / ConnectionEdge / PaginatedSystemEntityList / PaginatedConnectionEdgeList
- * را export نکرده یا نامشان متفاوت است،
- * فعلاً برای پایداری فرانت این‌ها را دستی نگه می‌داریم.
- */
+// --- اضافه شده: مدل‌های مربوط به SystemEntityType ---
+export interface SystemEntityTypeSummary {
+  id: number;
+  uuid: string;
+  name: string;
+  code: string;
+  category: string;
+  fem_eligible: boolean;
+}
 
-export type EntityType = 'macro' | 'fem' | 'environment' | 'generic';
+export interface SystemEntityType extends SystemEntityTypeSummary {
+  description: string | null;
+  is_root_allowed: boolean;
+  can_have_children: boolean;
+  metadata_schema: Record<string, unknown> | null;
+}
+
+export interface PaginatedSystemEntityTypeList {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: SystemEntityType[];
+}
+// ---------------------------------------------------
 
 export type RelationType =
   | 'connected_to'
@@ -69,7 +68,8 @@ export interface SystemEntity {
   scenario?: string | null;
   name: string;
   code?: string | null;
-  entity_type: EntityType;
+  // entity_type حذف شد و system_type جایگزین شد (طبق بک‌اند)
+  system_type: SystemEntityTypeSummary; 
   pos_x: number;
   pos_y: number;
   pos_z: number;
@@ -102,7 +102,6 @@ export interface PaginatedConnectionEdgeList {
 // ==========================================
 // Request compatibility aliases
 // ==========================================
-
 export type SystemEntityRequest = SystemEntity;
 export type PatchedSystemEntityRequest = Partial<SystemEntity>;
 

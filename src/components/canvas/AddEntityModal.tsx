@@ -1,9 +1,13 @@
 // src/components/canvas/AddEntityModal.tsx
+
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
 import { Modal } from '@/components/common/Modal/Modal';
 import { useCreateSystemEntity } from '@/hooks/useCreateSystemEntity';
+import { useCanvasStore } from '@/store/useCanvasStore';
+import { useSystemEntityTypes } from '@/hooks/useSystemEntityTypes';
+import type { SystemEntityType } from '@/lib/api/types';
 
 type AddEntityModalProps = {
   isOpen: boolean;
@@ -22,7 +26,7 @@ export default function AddEntityModal({
   isOpen,
   onClose,
   projectUuid,
-  scenarioId, // فعلاً استفاده نمی‌شود چون serializer این فیلد را ندارد
+  scenarioId,
   initialParent = null,
   initialPosition = null,
 }: AddEntityModalProps) {
@@ -31,10 +35,13 @@ export default function AddEntityModal({
     scenarioId
   );
 
+  const existingEntities = useCanvasStore((state) => state.entities);
+  const { data: entityTypes, isLoading: isTypesLoading } = useSystemEntityTypes();
+
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
   const [description, setDescription] = useState('');
-  const [entityType, setEntityType] = useState('macro');
+  const [systemTypeUuid, setSystemTypeUuid] = useState('');
   const [parent, setParent] = useState(initialParent ?? '');
   const [x, setX] = useState<string>(
     initialPosition ? String(initialPosition.x) : '0'
@@ -47,27 +54,53 @@ export default function AddEntityModal({
   );
   const [error, setError] = useState<string | null>(null);
 
+  // 1. فیلتر کردن داینامیک نوع سیستم بر اساس وضعیت والد
+  const availableTypes = useMemo(() => {
+    if (!entityTypes) return [];
+    return entityTypes.filter((type: SystemEntityType) => {
+      // اگر والد انتخاب شده باشد، تمام انواع سیستم می‌توانند فرزند باشند
+      if (parent) return true;
+      // اگر والد انتخاب نشده باشد (موجودیت روت)، فقط مواردی که مجاز هستند نمایش داده شوند
+      return type.is_root_allowed;
+    });
+  }, [entityTypes, parent]);
+
+  // 2. انتخاب خودکار اولین نوع سیستم معتبر در لیست فیلتر شده
+  useEffect(() => {
+    if (availableTypes.length > 0) {
+      const isCurrentValueValid = availableTypes.some((t) => t.uuid === systemTypeUuid);
+      // اگر مقدار فعلی خالی است یا در لیست جدید (فیلتر شده) وجود ندارد، آن را تغییر بده
+      if (!systemTypeUuid || !isCurrentValueValid) {
+        setSystemTypeUuid(availableTypes[0].uuid);
+      }
+    } else {
+      setSystemTypeUuid('');
+    }
+  }, [availableTypes, systemTypeUuid]);
+
+  // ریست کردن فرم در زمان باز شدن مودال
   useEffect(() => {
     if (!isOpen) return;
 
     setName('');
     setCode('');
     setDescription('');
-    setEntityType('macro');
     setParent(initialParent ?? '');
     setX(initialPosition ? String(initialPosition.x) : '0');
     setY(initialPosition ? String(initialPosition.y) : '0');
     setZ(initialPosition?.z !== undefined ? String(initialPosition.z) : '0');
     setError(null);
+    // نکته: نیازی به تنظیم systemTypeUuid در اینجا نیست، چون useEffect بالا
+    // به محض تغییر parent (که اینجا تنظیم می‌شود) آن را هندل می‌کند.
   }, [isOpen, initialParent, initialPosition]);
 
   const isValid = useMemo(() => {
     return (
       name.trim().length > 0 &&
       code.trim().length > 0 &&
-      entityType.trim().length > 0
+      systemTypeUuid.trim().length > 0
     );
-  }, [name, code, entityType]);
+  }, [name, code, systemTypeUuid]);
 
   const handleClose = () => {
     if (isPending) return;
@@ -99,7 +132,7 @@ export default function AddEntityModal({
       project: projectUuid,
       name: name.trim(),
       code: code.trim(),
-      entity_type: entityType.trim(), // macro | fem | environment | generic
+      system_type_uuid: systemTypeUuid,
       pos_x: parsedX,
       pos_y: parsedY,
       pos_z: parsedZ,
@@ -115,7 +148,6 @@ export default function AddEntityModal({
       onClose();
     } catch (e: any) {
       const backendError = e?.response?.data;
-
       console.error('CREATE SYSTEM ERROR =>', backendError || e);
 
       if (typeof backendError === 'string') {
@@ -148,7 +180,11 @@ export default function AddEntityModal({
       title="افزودن سیستم جدید"
       size="md"
     >
-      <div className="space-y-4" dir="rtl">
+      <div 
+        className="space-y-4" 
+        dir="rtl"
+        onKeyDown={(e) => e.stopPropagation()}
+      >
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
             نام سیستم
@@ -163,7 +199,7 @@ export default function AddEntityModal({
           />
         </div>
 
-        <div>
+          <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
             کد
           </label>
@@ -177,21 +213,37 @@ export default function AddEntityModal({
           />
         </div>
 
+
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
             نوع موجودیت
           </label>
+
           <select
-            value={entityType}
-            onChange={(e) => setEntityType(e.target.value)}
+            value={systemTypeUuid}
+            onChange={(e) => setSystemTypeUuid(e.target.value)}
             className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-200"
-            disabled={isPending}
+            disabled={isPending || isTypesLoading || availableTypes.length === 0}
           >
-            <option value="macro">Macro</option>
-            <option value="fem">FEM</option>
-            <option value="environment">Environment</option>
-            <option value="generic">Generic</option>
+            {isTypesLoading ? (
+              <option value="">در حال دریافت اطلاعات...</option>
+            ) : availableTypes.length === 0 ? (
+              <option value="">نوع سیستم مجاز وجود ندارد</option>
+            ) : (
+              availableTypes.map((type: SystemEntityType) => (
+                <option key={type.uuid} value={type.uuid}>
+                  {type.name} {type.code ? `(${type.code})` : ''}
+                </option>
+              ))
+            )}
           </select>
+
+          {!isTypesLoading && availableTypes.length === 0 && (
+            <p className="mt-1 text-xs text-red-600">
+              برای حالت فعلی (بدون والد) هیچ نوع سیستمی که اجازه روت داشته باشد
+              تعریف نشده است.
+            </p>
+          )}
         </div>
 
         <div>
@@ -210,16 +262,21 @@ export default function AddEntityModal({
 
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
-            والد (UUID)
+            والد (انتخابی)
           </label>
-          <input
-            type="text"
+          <select
             value={parent}
             onChange={(e) => setParent(e.target.value)}
-            placeholder="اختیاری"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-200"
             disabled={isPending}
-          />
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-200"
+          >
+            <option value="">-- بدون والد --</option>
+            {existingEntities.map((entity: any) => (
+              <option key={entity.uuid} value={entity.uuid}>
+                {entity.name} {entity.code ? `(${entity.code})` : ''}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="grid grid-cols-3 gap-3">
@@ -285,7 +342,7 @@ export default function AddEntityModal({
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={!isValid || isPending}
+            disabled={!isValid || isPending || isTypesLoading || availableTypes.length === 0}
             className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isPending ? 'در حال ایجاد...' : 'ایجاد سیستم'}

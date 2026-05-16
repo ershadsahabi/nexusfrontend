@@ -6,6 +6,7 @@ import type {
   ApiProjectGraphResponse,
   ApiSystemEntity,
 } from '@/lib/types/api.types';
+import type { SystemEntityType } from '@/lib/api/types'; // ایمپورت تایپ جدید
 
 type ApiContext = {
   projectUuid: string;
@@ -15,7 +16,8 @@ type ApiContext = {
 export interface CreateSystemEntityPayload {
   name: string;
   code?: string;
-  entity_type: string;
+  // entity_type: string; حذف شد
+  system_type_uuid: string; // به جای entity_type اضافه شد
   pos_x?: number | null;
   pos_y?: number | null;
   pos_z?: number | null;
@@ -28,7 +30,8 @@ export interface CreateSystemEntityPayload {
 export interface UpdateSystemEntityPayload {
   name?: string;
   code?: string;
-  entity_type?: string;
+  // entity_type?: string; حذف شد
+  system_type_uuid?: string; // به جای entity_type اضافه شد
   pos_x?: number | null;
   pos_y?: number | null;
   pos_z?: number | null;
@@ -59,6 +62,13 @@ function buildProjectParams(projectUuid: string) {
     project: projectUuid,
   };
 }
+
+// --- تابع جدید برای دریافت لیست انواع سیستم (System Entity Types) ---
+export async function fetchSystemEntityTypes(): Promise<SystemEntityType[]> {
+  const { data } = await apiClient.get('/entities/system-entity-types/');
+  return data.results ?? data; // بسته به اینکه Pagination بک‌اند چگونه تنظیم شده است
+}
+// ----------------------------------------------------------------
 
 export async function fetchProjectGraph(
   projectUuid: string,

@@ -13,7 +13,8 @@ type Vec3 = [number, number, number];
 type UpdateEntityPayload = Partial<{
   name: string;
   code: string;
-  entityType: CanvasEntity['entityType'];
+  // entityType حذف و systemType جایگزین شد
+  systemType: CanvasEntity['systemType'];
   position: Vec3;
   metadata: Record<string, unknown>;
   sortOrder: number;
@@ -191,10 +192,10 @@ export const useCanvasStore =
                   ? { code: updates.code }
                   : {}),
 
-                ...(updates.entityType !== undefined
+                ...(updates.systemType !== undefined
                   ? {
-                      entityType:
-                        updates.entityType,
+                      systemType:
+                        updates.systemType,
                     }
                   : {}),
 
