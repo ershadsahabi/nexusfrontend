@@ -13,11 +13,25 @@ type Vec3 = [number, number, number];
 type UpdateEntityPayload = Partial<{
   name: string;
   code: string;
-  // entityType حذف و systemType جایگزین شد
+  description: string;
+
+  entityType: CanvasEntity['entityType'];
   systemType: CanvasEntity['systemType'];
+
+  parentId: string | null;
+  childIds: string[];
+
   position: Vec3;
+
   metadata: Record<string, unknown>;
+
   sortOrder: number;
+  isActive: boolean;
+
+  isRoot: boolean;
+  isLeaf: boolean;
+
+  updatedAt?: string;
 }>;
 
 interface CanvasStoreState {
@@ -32,9 +46,6 @@ interface CanvasStoreState {
 
   mouseWorld: Vec3;
 
-  /**
-   * Hierarchical workspace state.
-   */
   activeRootSystemUuid: string | null;
   viewDepth: number;
   focusEntityUuid: string | null;
@@ -73,9 +84,6 @@ interface CanvasStoreState {
 
   setMouseWorld: (position: Vec3) => void;
 
-  /**
-   * Workspace hierarchy actions.
-   */
   setActiveRootSystem: (
     uuid: string | null
   ) => void;
@@ -104,9 +112,6 @@ const initialState = {
 
   mouseWorld: DEFAULT_MOUSE_WORLD as Vec3,
 
-  /**
-   * Hierarchy defaults.
-   */
   activeRootSystemUuid: null as string | null,
   viewDepth: 2,
   focusEntityUuid: null as string | null,
@@ -123,7 +128,7 @@ export const useCanvasStore =
         );
 
         const connectionUuidSet = new Set(
-          connections.map((c) => c.uuid)
+          connections.map((connection) => connection.uuid)
         );
 
         return {
@@ -132,41 +137,31 @@ export const useCanvasStore =
 
           selectedEntity:
             state.selectedEntity &&
-            entityUuidSet.has(
-              state.selectedEntity
-            )
+            entityUuidSet.has(state.selectedEntity)
               ? state.selectedEntity
               : null,
 
           selectedConnection:
             state.selectedConnection &&
-            connectionUuidSet.has(
-              state.selectedConnection
-            )
+            connectionUuidSet.has(state.selectedConnection)
               ? state.selectedConnection
               : null,
 
           edgeCreationSourceUuid:
             state.edgeCreationSourceUuid &&
-            entityUuidSet.has(
-              state.edgeCreationSourceUuid
-            )
+            entityUuidSet.has(state.edgeCreationSourceUuid)
               ? state.edgeCreationSourceUuid
               : null,
 
           activeRootSystemUuid:
             state.activeRootSystemUuid &&
-            entityUuidSet.has(
-              state.activeRootSystemUuid
-            )
+            entityUuidSet.has(state.activeRootSystemUuid)
               ? state.activeRootSystemUuid
               : null,
 
           focusEntityUuid:
             state.focusEntityUuid &&
-            entityUuidSet.has(
-              state.focusEntityUuid
-            )
+            entityUuidSet.has(state.focusEntityUuid)
               ? state.focusEntityUuid
               : null,
         };
@@ -192,35 +187,52 @@ export const useCanvasStore =
                   ? { code: updates.code }
                   : {}),
 
+                ...(updates.description !== undefined
+                  ? { description: updates.description }
+                  : {}),
+
+                ...(updates.entityType !== undefined
+                  ? { entityType: updates.entityType }
+                  : {}),
+
                 ...(updates.systemType !== undefined
-                  ? {
-                      systemType:
-                        updates.systemType,
-                    }
+                  ? { systemType: updates.systemType }
                   : {}),
 
-                ...(updates.position !==
-                undefined
-                  ? {
-                      position:
-                        updates.position,
-                    }
+                ...(updates.parentId !== undefined
+                  ? { parentId: updates.parentId }
                   : {}),
 
-                ...(updates.metadata !==
-                undefined
-                  ? {
-                      metadata:
-                        updates.metadata,
-                    }
+                ...(updates.childIds !== undefined
+                  ? { childIds: updates.childIds }
                   : {}),
 
-                ...(updates.sortOrder !==
-                undefined
-                  ? {
-                      sortOrder:
-                        updates.sortOrder,
-                    }
+                ...(updates.position !== undefined
+                  ? { position: updates.position }
+                  : {}),
+
+                ...(updates.metadata !== undefined
+                  ? { metadata: updates.metadata }
+                  : {}),
+
+                ...(updates.sortOrder !== undefined
+                  ? { sortOrder: updates.sortOrder }
+                  : {}),
+
+                ...(updates.isActive !== undefined
+                  ? { isActive: updates.isActive }
+                  : {}),
+
+                ...(updates.isRoot !== undefined
+                  ? { isRoot: updates.isRoot }
+                  : {}),
+
+                ...(updates.isLeaf !== undefined
+                  ? { isLeaf: updates.isLeaf }
+                  : {}),
+
+                ...(updates.updatedAt !== undefined
+                  ? { updatedAt: updates.updatedAt }
                   : {}),
               }
             : entity
@@ -231,17 +243,14 @@ export const useCanvasStore =
       set((state) => {
         const remainingEntities =
           state.entities.filter(
-            (entity) =>
-              entity.uuid !== uuid
+            (entity) => entity.uuid !== uuid
           );
 
         const remainingConnections =
           state.connections.filter(
             (connection) =>
-              connection.sourceUuid !==
-                uuid &&
-              connection.targetUuid !==
-                uuid
+              connection.sourceUuid !== uuid &&
+              connection.targetUuid !== uuid
           );
 
         return {
@@ -256,16 +265,14 @@ export const useCanvasStore =
 
           selectedConnection:
             remainingConnections.some(
-              (c) =>
-                c.uuid ===
-                state.selectedConnection
+              (connection) =>
+                connection.uuid === state.selectedConnection
             )
               ? state.selectedConnection
               : null,
 
           edgeCreationSourceUuid:
-            state.edgeCreationSourceUuid ===
-            uuid
+            state.edgeCreationSourceUuid === uuid
               ? null
               : state.edgeCreationSourceUuid,
 
@@ -275,8 +282,7 @@ export const useCanvasStore =
               : state.focusEntityUuid,
 
           activeRootSystemUuid:
-            state.activeRootSystemUuid ===
-            uuid
+            state.activeRootSystemUuid === uuid
               ? null
               : state.activeRootSystemUuid,
         };
@@ -345,9 +351,6 @@ export const useCanvasStore =
         mouseWorld: position,
       })),
 
-    /**
-     * Workspace hierarchy controls.
-     */
     setActiveRootSystem: (uuid) =>
       set(() => ({
         activeRootSystemUuid: uuid,

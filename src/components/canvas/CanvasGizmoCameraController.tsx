@@ -1,5 +1,4 @@
 // src/components/canvas/CanvasGizmoCameraController.tsx
-
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -31,17 +30,20 @@ export default function CanvasGizmoCameraController() {
       if (!controls?.target) return;
 
       const target = controls.target.clone();
-      const distance = Math.max(6, Math.min(40, camera.position.distanceTo(target) || 12));
+      const distance = Math.max(8, Math.min(50, camera.position.distanceTo(target) || 16));
 
+      // محاسبه موقعیت جدید با اعمال زاویه ایزومتریک ملایم
+      // Z محور ارتفاع شده است
       switch (axis) {
-        case 'x':
-          desiredCameraPos.current.set(target.x + distance, target.y + distance * 0.18, target.z);
+        case 'x': // نمای جانبی راست
+          desiredCameraPos.current.set(target.x + distance, target.y, target.z);
           break;
-        case 'y':
-          desiredCameraPos.current.set(target.x, target.y + distance, target.z + 0.001);
+        case 'y': // نمای جانبی جلو
+          desiredCameraPos.current.set(target.x, target.y - distance, target.z);
           break;
-        case 'z':
-          desiredCameraPos.current.set(target.x, target.y + distance * 0.18, target.z + distance);
+        case 'z': // نمای بالا (Z محور ارتفاع)
+          // استفاده از انحراف در Y برای جلوگیری از قفل شدن گیمبال/وارونه شدن تصویر
+          desiredCameraPos.current.set(target.x, target.y - 0.001, target.z + distance);
           break;
       }
 
@@ -49,7 +51,6 @@ export default function CanvasGizmoCameraController() {
     };
 
     window.addEventListener('canvas-gizmo-rotate', handler as EventListener);
-
     return () => {
       window.removeEventListener('canvas-gizmo-rotate', handler as EventListener);
     };
@@ -60,7 +61,7 @@ export default function CanvasGizmoCameraController() {
 
     const distanceLeft = camera.position.distanceTo(desiredCameraPos.current);
 
-    if (distanceLeft < 0.02) {
+    if (distanceLeft < 0.05) {
       camera.position.copy(desiredCameraPos.current);
       camera.lookAt(controls.target);
       controls.update();
@@ -68,8 +69,8 @@ export default function CanvasGizmoCameraController() {
       return;
     }
 
-    const alpha = 1 - Math.exp(-10 * dt);
-    camera.position.lerp(desiredCameraPos.current, alpha);
+    const damping = 1 - Math.exp(-8 * dt);
+    camera.position.lerp(desiredCameraPos.current, damping);
     camera.lookAt(controls.target);
     controls.update();
   });

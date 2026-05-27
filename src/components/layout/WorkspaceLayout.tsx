@@ -1,10 +1,10 @@
 // src/components/layout/WorkspaceLayout.tsx
 
 import { ReactNode } from 'react';
-import { Header } from './Header';
+import { Header } from './shared/Header';
 import { PropertiesPanel } from './PropertiesPanel';
-import { RightSidebar } from './RightSidebar';
-import styles from './layout.module.css';
+import { RightSidebar } from './shared/RightSidebar';
+import styles from './WorkspaceLayout.module.css';
 
 interface WorkspaceLayoutProps {
   children: ReactNode;

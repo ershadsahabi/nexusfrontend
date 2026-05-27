@@ -18,6 +18,7 @@ export default function CanvasCameraSync() {
 
   const setCameraState = useCameraGizmoStore((s) => s.setCameraState);
 
+  // در هر فریم وضعیت دوربین به استور فرستاده می‌شود تا Gizmo آپدیت شود
   useFrame(() => {
     setCameraState({
       quaternion: {

@@ -1387,74 +1387,143 @@ FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Modal
 ==============================
 
 /* src/components/common/Modal/Modal.module.css */
-.backdrop {
+
+.overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.75);
+  inset: 0;
+  z-index: 4000;
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(2px);
+  justify-content: center;
+  padding: 24px;
+  background: rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-.content {
-  background: var(--panel-bg);
-  padding: 0;
-  border-radius: 12px;
-  min-width: 600px;
-  max-width: 90%;
-  max-height: 85vh;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+.modal {
+  width: 100%;
+  max-height: 88vh;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--border-color);
+  overflow: hidden;
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.96));
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+}
+
+.sm {
+  max-width: 480px;
+}
+
+.md {
+  max-width: 640px;
+}
+
+.lg {
+  max-width: 900px;
+}
+
+.xl {
+  max-width: 1180px;
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
-  padding: 20px 24px;
-  background: var(--bg-dark);
-  border-radius: 12px 12px 0 0;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 68px;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(2, 6, 23, 0.35);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
 
 .title {
-  font-size: 1.25rem;
-  font-weight: 600;
   margin: 0;
   color: var(--text-main);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
 }
 
 .closeButton {
-  background: none;
-  border: none;
-  font-size: 2rem;
-  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.9);
   color: var(--text-muted);
+  font-size: 1.4rem;
   line-height: 1;
-  transition: color 0.2s ease;
-  padding: 0;
-  width: 32px;
-  height: 32px;
-  display: flex;
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .closeButton:hover {
-  color: var(--accent-red);
+  background: rgba(30, 41, 59, 0.96);
+  border-color: rgba(56, 189, 248, 0.28);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.closeButton:active {
+  transform: translateY(0);
 }
 
 .body {
-  padding: 24px;
-  overflow-y: auto;
   flex: 1;
+  overflow: auto;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .overlay {
+    padding: 12px;
+  }
+
+  .modal {
+    max-height: 92vh;
+    border-radius: 16px;
+  }
+
+  .header {
+    min-height: 60px;
+    padding: 0 14px;
+  }
+
+  .title {
+    font-size: 0.98rem;
+  }
+
+  .closeButton {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+  }
+
+  .body {
+    padding: 14px;
+  }
 }
 
 ==============================
@@ -1462,33 +1531,88 @@ FILE: D:\Ordibehesht1405\NexusProject\nexus-frontend\src\components\common\Modal
 ==============================
 
 // src/components/common/Modal/Modal.tsx
-import React from 'react';
+
+'use client';
+
+import React, { useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import styles from './Modal.module.css';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title: string;
+  title?: string;
   children: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  closeOnBackdrop?: boolean;
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
-  if (!isOpen) return null;
+export const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+  size = 'lg',
+  closeOnBackdrop = true,
+}) => {
+  useEffect(() => {
+    if (!isOpen) return;
 
-  return (
-    <div className={styles.backdrop} onClick={onClose}>
-      <div className={styles.content} onClick={(e) => e.stopPropagation()}>
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen || typeof window === 'undefined') return null;
+
+  const handleBackdropClick = () => {
+    if (closeOnBackdrop) onClose();
+  };
+
+  return ReactDOM.createPortal(
+    <div
+      className={styles.overlay}
+      onClick={handleBackdropClick}
+      role="presentation"
+    >
+      <div
+        className={`${styles.modal} ${styles[size]}`}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title || 'Modal'}
+      >
         <div className={styles.header}>
-          <h2 className={styles.title}>{title}</h2>
-          <button className={styles.closeButton} onClick={onClose}>
-            &times;
+          <div className={styles.headerContent}>
+            {title && <h2 className={styles.title}>{title}</h2>}
+          </div>
+
+          <button
+            type="button"
+            className={styles.closeButton}
+            onClick={onClose}
+            aria-label="بستن"
+          >
+            ×
           </button>
         </div>
-        <div className={styles.body}>
-          {children}
-        </div>
+
+        <div className={styles.body}>{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

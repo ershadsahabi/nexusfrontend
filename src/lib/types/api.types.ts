@@ -1,19 +1,53 @@
 // src/lib/types/api.types.ts
 
-export type ApiEntityType = 'macro' | 'fem' | 'environment' | 'generic' | string;
+export type ApiEntityType =
+  | 'macro'
+  | 'fem'
+  | 'environment'
+  | 'generic'
+  | string;
+
+export interface ApiSystemEntityTypeSummary {
+  uuid: string;
+  code: string;
+  name: string;
+  domain: string;
+  category: string;
+  fem_eligible: boolean;
+  is_root_allowed: boolean;
+  allows_children: boolean;
+  icon_key?: string;
+  shape_key?: string;
+  color_key?: string;
+  render_variant?: string;
+  is_active: boolean;
+}
+
+export interface ApiSystemEntityTreeChild {
+  id: number;
+  uuid: string;
+  code: string;
+  name: string;
+  entity_type: ApiEntityType;
+  system_type: ApiSystemEntityTypeSummary | null;
+  sort_order: number;
+}
 
 export interface ApiSystemEntity {
   id: number;
   uuid: string;
 
-  parent: string | null;
-  children: string[];
+  project?: string;
 
+  parent: string | null;
+  children: ApiSystemEntityTreeChild[];
 
   code: string;
   name: string;
+  description?: string;
 
   entity_type: ApiEntityType;
+  system_type: ApiSystemEntityTypeSummary | null;
 
   pos_x: number;
   pos_y: number;
@@ -21,7 +55,8 @@ export interface ApiSystemEntity {
 
   sort_order: number;
 
-  metadata?: Record<string, unknown>;
+  is_active: boolean;
+  metadata?: Record<string, unknown> | null;
 
   is_root?: boolean;
   is_leaf?: boolean;
@@ -40,7 +75,8 @@ export interface ApiConnectionEdge {
   connection_type?: string;
   relation_type?: string;
 
-  metadata?: Record<string, unknown>;
+  weight?: number;
+  metadata?: Record<string, unknown> | null;
 
   created_at?: string;
   updated_at?: string;

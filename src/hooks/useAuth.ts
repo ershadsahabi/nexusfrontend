@@ -1,3 +1,4 @@
+// src/hooks/useAuth.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { authService } from '@/lib/api/services/auth.service';
 import { LoginCredentials } from '@/lib/api/types';
@@ -18,7 +19,7 @@ export const useLogin = () => {
       queryClient.clear();
       
       // هدایت به داشبورد
-      router.push('/projects');
+      router.push('/dashboard');
     },
   });
 };

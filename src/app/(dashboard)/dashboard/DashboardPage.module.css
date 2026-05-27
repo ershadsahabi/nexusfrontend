@@ -1,0 +1,39 @@
+/* src/app/(dashboard)/dashboard/DashboardPage.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl, 2rem);
+  width: 100%;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg, 1.5rem);
+}
+
+.statContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--spacing-sm, 0.5rem);
+}
+
+.statValue {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.recentSection {
+  margin-top: var(--spacing-lg, 1.5rem);
+}
+
+.emptyText {
+  color: var(--color-text-soft);
+  font-size: var(--font-size-sm, 0.875rem);
+  text-align: center;
+  padding: var(--spacing-2xl, 2rem) 0;
+}

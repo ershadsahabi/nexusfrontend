@@ -1,0 +1,26 @@
+/* src/components/layout/DashboardLayout/DashboardLayout.module.css */
+
+.layoutContainer {
+  display: flex;
+  flex-direction: column; /* تغییر به ستونی برای قرار گرفتن هدر در بالا */
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--color-bg-deep);
+  overflow: hidden;
+  font-family: var(--font-family-base);
+}
+
+.mainContent {
+  display: flex;
+  flex: 1; /* پر کردن فضای زیر هدر */
+  flex-direction: row; /* قرار گرفتن سایدبار و محتوا در کنار هم */
+  overflow: hidden;
+}
+
+.content {
+  flex: 1; /* پر کردن عرض باقی‌مانده کنار سایدبار */
+  padding: var(--spacing-2xl);
+  overflow-y: auto;
+  background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.03), transparent 40%),
+              var(--color-bg-base);
+}

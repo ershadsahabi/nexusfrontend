@@ -26,12 +26,11 @@ export default function CanvasToolbar({ projectUuid, scenarioId }: Props) {
   const clearSelection = useCanvasStore((s) => s.clearSelection);
 
   const handleToggleEdgeMode = () => {
+    clearSelection();
     if (mode === 'create-edge') {
       cancelEdgeCreation();
-      clearSelection();
       setMode('select');
     } else {
-      clearSelection();
       setMode('create-edge');
     }
   };
@@ -42,31 +41,32 @@ export default function CanvasToolbar({ projectUuid, scenarioId }: Props) {
     setMode('select');
   };
 
-  const hint =
-    mode === 'create-edge'
-      ? edgeCreationSourceUuid
-        ? 'مبدأ انتخاب شده؛ مقصد را انتخاب کنید.'
-        : 'ابتدا موجودیت مبدأ را انتخاب کنید.'
-      : 'حالت انتخاب فعال است.';
+  // تولید متن راهنما بر اساس وضعیت
+  const getHintText = () => {
+    if (mode === 'create-edge') {
+      return edgeCreationSourceUuid
+        ? 'مبدأ انتخاب شد؛ حالا مقصد را کلیک کنید.'
+        : 'ابتدا روی موجودیت مبدأ کلیک کنید.';
+    }
+    return 'حالت انتخابگر فعال است.';
+  };
 
   return (
     <>
-      {/* Toggle Button */}
       <div className={styles.toolbarContainer} dir="rtl">
         <Button
-          variant="secondary"
+          variant={openMenu ? 'primary' : 'secondary'}
           size="sm"
-          onClick={() => setOpenMenu((prev) => !prev)}
+          onClick={() => setOpenMenu(!openMenu)}
           className={styles.toolbarToggle}
         >
-          🎛 ابزارها
+          {openMenu ? '✕ بستن ابزارها' : '🎛 ابزارها'}
         </Button>
 
-        {/* Dropdown Menu */}
         {openMenu && (
           <Card className={styles.toolbarMenu}>
-            <Button size="sm" onClick={() => setOpenModal(true)}>
-              افزودن سیستم جدید
+            <Button size="sm" variant="secondary" onClick={() => setOpenModal(true)}>
+              + افزودن سیستم جدید
             </Button>
 
             <Button
@@ -82,14 +82,15 @@ export default function CanvasToolbar({ projectUuid, scenarioId }: Props) {
               variant={mode === 'select' ? 'primary' : 'secondary'}
               onClick={handleSelectMode}
             >
-              انتخاب
+              انتخاب / جابجایی
             </Button>
 
-            <div className={styles.hint}>{hint}</div>
+            <div className={styles.hint}>{getHintText()}</div>
           </Card>
         )}
       </div>
 
+      {/* مودال افزودن موجودیت (بدون تغییر) */}
       <AddEntityModal
         isOpen={openModal}
         onClose={() => setOpenModal(false)}

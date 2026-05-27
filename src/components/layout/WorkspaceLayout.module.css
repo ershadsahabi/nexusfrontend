@@ -1,0 +1,39 @@
+/* src/components/layout/layout.module.css */
+
+.workspaceContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-bg-deep);
+  color: var(--color-text-main);
+  overflow: hidden;
+  font-family: var(--font-family-base);
+}
+
+.mainContent {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ================= Canvas ================= */
+.canvasArea {
+  flex: 1;
+  position: relative;
+  background-color: var(--color-bg-canvas);
+  background-image:
+    radial-gradient(var(--color-grid-dot) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ================= Left Sidebar (Properties) ================= */
+.leftSidebar {
+  width: var(--layout-properties-width);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  border-right: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  z-index: var(--z-sidebar);
+}

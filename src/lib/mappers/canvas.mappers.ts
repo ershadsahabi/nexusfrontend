@@ -5,6 +5,7 @@ import type {
   ApiProjectGraphResponse,
   ApiSystemEntity,
 } from '@/lib/types/api.types';
+
 import type {
   CanvasConnection,
   CanvasEntity,
@@ -20,19 +21,30 @@ function buildConnectionUuid(edge: ApiConnectionEdge): string {
   return `connection-${edge.id}`;
 }
 
+function normalizeMetadata(
+  metadata: Record<string, unknown> | null | undefined
+): Record<string, unknown> {
+  if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
+    return {};
+  }
+
+  return metadata;
+}
+
 export function mapApiEntityToCanvas(entity: ApiSystemEntity): CanvasEntity {
   return {
     id: entity.id,
     uuid: entity.uuid,
 
     parentId: entity.parent ?? null,
-    childIds: entity.children ?? [],
+    childIds: (entity.children ?? []).map((child) => child.uuid),
 
     name: entity.name ?? '',
     code: entity.code ?? '',
+    description: entity.description ?? '',
 
-    // entityType جای خود را به systemType داد
-    systemType: entity.system_type,
+    entityType: entity.entity_type ?? 'generic',
+    systemType: entity.system_type ?? null,
 
     position: [
       Number(entity.pos_x ?? 0),
@@ -42,7 +54,9 @@ export function mapApiEntityToCanvas(entity: ApiSystemEntity): CanvasEntity {
 
     sortOrder: Number(entity.sort_order ?? 0),
 
-    metadata: entity.metadata ?? {},
+    isActive: Boolean(entity.is_active),
+
+    metadata: normalizeMetadata(entity.metadata),
 
     isRoot: Boolean(entity.is_root),
     isLeaf: Boolean(entity.is_leaf),
@@ -75,7 +89,7 @@ export function mapApiConnectionToCanvas(
 
     relationType: normalizeRelationType(edge),
 
-    metadata: edge.metadata ?? {},
+    metadata: normalizeMetadata(edge.metadata),
 
     createdAt: edge.created_at,
     updatedAt: edge.updated_at,

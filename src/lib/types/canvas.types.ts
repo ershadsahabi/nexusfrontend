@@ -1,7 +1,9 @@
 // src/lib/types/canvas.types.ts
 
-// اضافه کردن ایمپورت برای تایپ خلاصه سیستم
-import type { SystemEntityTypeSummary } from '@/lib/api/types';
+import type {
+  ApiEntityType,
+  ApiSystemEntityTypeSummary,
+} from '@/lib/types/api.types';
 
 export type CanvasMode = 'select' | 'create-edge';
 
@@ -13,22 +15,43 @@ export type RelationType =
   | 'adjacent_to'
   | string;
 
+export type SystemEntityTypeSummary = ApiSystemEntityTypeSummary;
+
 export interface CanvasEntity {
   id: number;
   uuid: string;
 
-  parentId: number | null;
-  childIds: number[];
+  /**
+   * parentId در این پروژه در واقع UUID والد است.
+   * اسم را فعلاً برای کم‌تغییر بودن کد نگه می‌داریم.
+   */
+  parentId: string | null;
+
+  /**
+   * UUID فرزندان.
+   */
+  childIds: string[];
 
   name: string;
   code: string;
+  description: string;
 
-  // entityType حذف شد و با systemType جایگزین شد
-  systemType: SystemEntityTypeSummary;
+  /**
+   * Presentation/representation type:
+   * macro / fem / environment / generic
+   */
+  entityType: ApiEntityType;
+
+  /**
+   * Semantic/domain type from SystemEntityType catalog.
+   */
+  systemType: SystemEntityTypeSummary | null;
 
   position: [number, number, number];
 
   sortOrder: number;
+
+  isActive: boolean;
 
   metadata: Record<string, unknown>;
 

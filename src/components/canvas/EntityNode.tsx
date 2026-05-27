@@ -7,7 +7,8 @@ import type { ThreeEvent } from '@react-three/fiber';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 
-import styles from './canvas.module.css';
+// استفاده از استایل ماژولار جدید اختصاصی این کامپوننت
+import styles from './EntityNode.module.css';
 import type { CanvasEntity } from '@/lib/types/canvas.types';
 
 type Props = {
@@ -24,7 +25,6 @@ type Props = {
 };
 
 function getEntityVisualConfig(systemTypeName?: string) {
-  // نام نوع سیستم را برای مقایسه یکپارچه کوچک می‌کنیم
   const normalizedType = systemTypeName?.toLowerCase() || 'generic';
 
   switch (normalizedType) {
@@ -88,16 +88,16 @@ export default function EntityNode({
     }
   }, [entity.position, dragging]);
 
-  // استفاده از systemType.name به جای entityType
   const visual = useMemo(
     () => getEntityVisualConfig(entity.systemType?.name),
     [entity.systemType?.name]
   );
 
+  // تغییر صفحه درگ به محور Z
   const dragPlane = useMemo(() => {
     return new THREE.Plane(
-      new THREE.Vector3(0, 1, 0),
-      -localPosition[1]
+      new THREE.Vector3(0, 0, 1),
+      -localPosition[2]
     );
   }, [localPosition]);
 
@@ -173,14 +173,21 @@ export default function EntityNode({
     const hit = e.ray.intersectPlane(dragPlane, tempPoint);
     if (!hit) return;
 
+    // در Z-up، جابجایی روی X و Y است و Z ثابت می ماند
     const nextPosition: [number, number, number] = [
       Number(hit.x.toFixed(2)),
-      entity.position[1],
-      Number(hit.z.toFixed(2)),
+      Number(hit.y.toFixed(2)),
+      entity.position[2],
     ];
 
     setLocalPosition(nextPosition);
   };
+
+  const labelClasses = [
+    styles.nodeLabel,
+    isSelected && styles.nodeLabelSelected,
+    isEdgeSource && styles.nodeLabelEdgeSource,
+  ].filter(Boolean).join(' ');
 
   return (
     <group position={localPosition}>
@@ -206,32 +213,24 @@ export default function EntityNode({
         />
       </mesh>
 
+      {/* قرارگیری Html با استفاده از ایندکس سوم هندسه (Z به عنوان ارتفاع) */}
       <Html
-        position={[0, visual.geometry[1] / 2 + 0.35, 0]}
+        position={[0, 0, visual.geometry[2] / 2 + 0.35]}
         center
         distanceFactor={10}
         transform={false}
         occlude={false}
       >
-        <div
-          className={[
-            styles.nodeLabel,
-            isSelected ? styles.nodeLabelSelected : '',
-            isEdgeSource ? styles.nodeLabelEdgeSource : '',
-          ]
-            .filter(Boolean)
-            .join(' ')}
-          dir="rtl"
-        >
+        <div className={labelClasses} dir="rtl">
           <span className={styles.nodeLabelBadge}>{visual.badge}</span>
           <span className={styles.nodeLabelText} title={entity.name}>
             {entity.name}
           </span>
-          {entity.code ? (
+          {entity.code && (
             <span className={styles.nodeLabelCode} title={entity.code}>
               {entity.code}
             </span>
-          ) : null}
+          )}
         </div>
       </Html>
     </group>

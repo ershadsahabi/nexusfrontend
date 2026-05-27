@@ -1,27 +1,73 @@
-/*  src\components\canvas\canvasToolbar.module.css */
+/* src/components/canvas/canvasToolbar.module.css */
 
 .toolbarContainer {
   position: relative;
-}
-
-.toolbarToggle {
-  min-width: 90px;
-}
-
-.toolbarMenu {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: var(--z-dropdown);
-  padding: var(--spacing-md);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  align-items: flex-start;
+  gap: 8px;
+  /* افزایش z-index برای قرارگیری روی سایدبار */
+  z-index: 9999; 
 }
 
+/* دکمه اصلی (Toggle) */
+.toolbarToggle {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease-in-out;
+}
+
+.toolbarToggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* منوی دراپ‌داون (بر پایه Card) */
+.toolbarMenu {
+  position: absolute;
+  top: 100%;
+  /* تغییر از right: 0 به left: 0 تا منو به سمت داخل کانواس باز شود نه زیر سایدبار */
+  left: 0; 
+  margin-top: 8px;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  
+  /* افکت شیشه‌ای حرفه‌ای */
+  background: rgba(15, 23, 42, 0.85) !important; 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(148, 163, 184, 0.15) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3) !important;
+  border-radius: 12px !important;
+
+  /* انیمیشن ورود */
+  animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  /* تغییر مبدأ انیمیشن به بالا سمت چپ */
+  transform-origin: top left; 
+}
+
+/* متن راهنما */
 .hint {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  padding-top: var(--spacing-xs);
-  border-top: 1px solid var(--color-border-soft);
+  font-size: 11px;
+  color: #94a3b8;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-align: center;
+  line-height: 1.5;
+  border: 1px dashed rgba(148, 163, 184, 0.2);
+  margin-top: 4px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

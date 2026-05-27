@@ -1,0 +1,379 @@
+/* src/components/layout/PropertiesPanel.module.css */
+
+.propertiesPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: transparent;
+  color: var(--color-text-main);
+}
+
+.panelHeader {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+.panelEyebrow {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-2xs);
+  font-family: var(--font-family-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.panelTitle {
+  margin-top: var(--spacing-2xs);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-main);
+}
+
+.panelStateActive,
+.panelStateIdle {
+  font-size: var(--font-size-2xs);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-family-mono);
+  white-space: nowrap;
+}
+
+.panelStateActive {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-border);
+}
+
+.panelStateIdle {
+  background: var(--color-surface-soft);
+  color: var(--color-text-subtle);
+  border: 1px solid var(--color-border-soft);
+}
+
+.emptyState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-2xl);
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 1.5rem;
+  color: var(--color-text-subtle);
+  margin-bottom: var(--spacing-sm);
+}
+
+.emptyState p {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.emptyState span {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-subtle);
+  max-width: 220px;
+}
+
+.propertiesForm {
+  padding: var(--spacing-lg);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.uuidBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  background: rgba(2, 6, 23, 0.38);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--color-border-medium);
+}
+
+.uuidBox code {
+  color: var(--color-primary);
+  font-size: var(--font-size-2xs);
+  word-break: break-all;
+  line-height: var(--line-height-normal);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.formGroupInline {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-md);
+}
+
+.formGroupInline > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
+}
+
+.propertyLabel {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-muted);
+  font-family: var(--font-family-mono);
+}
+
+.input,
+.textarea,
+.selectLike {
+  width: 100%;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-medium);
+  color: var(--color-text-main);
+  padding: 0.55rem 0.7rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.input:hover,
+.textarea:hover,
+.selectLike:hover {
+  border-color: var(--color-border-strong);
+}
+
+.input:focus,
+.textarea:focus,
+.selectLike:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary-border);
+  outline: none;
+}
+
+.textarea {
+  min-height: 88px;
+  resize: vertical;
+  line-height: var(--line-height-normal);
+}
+
+.inputError {
+  border-color: var(--color-danger) !important;
+  box-shadow: 0 0 0 1px var(--color-danger-border);
+}
+
+.fieldError {
+  font-size: var(--font-size-2xs);
+  color: var(--color-danger);
+  line-height: var(--line-height-tight);
+}
+
+.fieldHint {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-subtle);
+  line-height: var(--line-height-normal);
+}
+
+.errorBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+  background: var(--color-danger-soft);
+  border: 1px solid var(--color-danger-border);
+  color: var(--color-danger);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-normal);
+}
+
+.sectionDivider {
+  height: 1px;
+  background: var(--color-border-soft);
+}
+
+.coordinateSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.sectionTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+}
+
+.sectionHint {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-subtle);
+  font-family: var(--font-family-mono);
+}
+
+.coordinatesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.coordInputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.coordInputGroup label {
+  font-size: var(--font-size-2xs);
+  color: var(--color-primary);
+  font-family: var(--font-family-mono);
+}
+
+.toggleRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
+}
+
+.toggleRow input[type='checkbox'] {
+  margin-top: 0.15rem;
+  accent-color: var(--color-primary);
+}
+
+.metadataBox {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+  background: rgba(2, 6, 23, 0.42);
+  border: 1px solid var(--color-border-soft);
+  color: var(--color-text-soft);
+  font-size: var(--font-size-2xs);
+  line-height: var(--line-height-normal);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.timestamps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border-soft);
+}
+
+.timestamps > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+}
+
+.timestamps span {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-subtle);
+}
+
+.timestamps code {
+  font-size: var(--font-size-2xs);
+  color: var(--color-text-soft);
+  word-break: break-all;
+}
+
+.actionsRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.applyBtn,
+.deleteBtn {
+  width: 100%;
+  border: none;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.applyBtn {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.applyBtn:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  box-shadow: var(--shadow-primary-glow);
+  transform: translateY(-1px);
+}
+
+.applyBtn:active:not(:disabled) {
+  background: var(--color-primary-active);
+  transform: translateY(0);
+}
+
+.deleteBtn {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger-border);
+}
+
+.deleteBtn:hover:not(:disabled) {
+  background: rgba(251, 113, 133, 0.18);
+  box-shadow: var(--shadow-danger-glow);
+  transform: translateY(-1px);
+}
+
+.deleteBtn:active:not(:disabled) {
+  background: rgba(251, 113, 133, 0.24);
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .propertiesForm {
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
+  }
+
+  .panelHeader {
+    padding: var(--spacing-md);
+  }
+
+  .coordinatesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formGroupInline {
+    grid-template-columns: 1fr;
+  }
+}

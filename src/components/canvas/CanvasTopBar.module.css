@@ -1,0 +1,92 @@
+/* src/components/canvas/CanvasTopBar.module.css */
+
+.topBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 3000;
+  pointer-events: none;
+  padding: 12px 18px 0 18px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+.rail {
+  position: relative;
+  z-index: 3001;
+  pointer-events: auto;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 56px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(8, 15, 30, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.3);
+  border-radius: 16px;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.railScroller {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  min-height: 56px;
+  padding: 8px 16px;
+  box-sizing: border-box;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.28) transparent;
+}
+
+.railScroller::-webkit-scrollbar {
+  height: 8px;
+}
+
+.railScroller::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.28);
+  border-radius: 999px;
+}
+
+.railScroller::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.group {
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  min-width: max-content;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  box-sizing: border-box;
+}
+
+.pushRight {
+  margin-left: auto;
+}
+
+.separator {
+  width: 1px;
+  height: 24px;
+  background: rgba(148, 163, 184, 0.2);
+  flex: 0 0 auto;
+  flex-shrink: 0;
+}

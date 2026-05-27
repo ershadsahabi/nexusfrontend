@@ -1,0 +1,93 @@
+/* src/components/canvas/EntityNode.module.css */
+
+.nodeLabel {
+  --label-bg: rgba(15, 23, 42, 0.85);
+  --label-border: rgba(148, 163, 184, 0.15);
+  --label-text: #f8fafc;
+  --label-text-muted: #94a3b8;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  
+  background: var(--label-bg);
+  border: 1px solid var(--label-border);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+
+  pointer-events: none; /* تا کلیک‌ها به 3D Mesh منتقل شوند */
+  user-select: none;
+  white-space: nowrap;
+  
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0);
+}
+
+/* حالت انتخاب شده (Selected) */
+.nodeLabelSelected {
+  --label-bg: rgba(30, 41, 59, 0.9);
+  --label-border: rgba(250, 204, 21, 0.5); /* زرد طلایی */
+  box-shadow: 
+    0 0 16px rgba(250, 204, 21, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* حالت مبدأ اتصال (Edge Source) */
+.nodeLabelEdgeSource {
+  --label-bg: rgba(30, 41, 59, 0.9);
+  --label-border: rgba(168, 85, 247, 0.6); /* بنفش */
+  box-shadow: 
+    0 0 16px rgba(168, 85, 247, 0.25),
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* نشان (Badge) نوع سیستم */
+.nodeLabelBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 6px;
+  border-radius: 6px;
+  
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #e2e8f0;
+}
+
+/* نام موجودیت */
+.nodeLabelText {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--label-text);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: rtl; /* برای متون فارسی */
+}
+
+/* کد موجودیت */
+.nodeLabelCode {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--label-text-muted);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 2px;
+}

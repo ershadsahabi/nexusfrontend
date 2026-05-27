@@ -1,16 +1,20 @@
 // src/components/canvas/CameraDock.tsx
-"use client";
 
-import React, { useMemo, useState } from "react";
-import styles from "./CameraDock.module.css";
+'use client';
 
-export type CameraPreset =
-  | "iso"
-  | "front"
-  | "back"
-  | "left"
-  | "right"
-  | "top";
+import React, { useMemo, useState } from 'react';
+import {
+  Camera,
+  ChevronDown,
+  Crosshair,
+  Orbit,
+  RotateCcw,
+  ZoomIn,
+  ZoomOut,
+} from 'lucide-react';
+import styles from './CameraDock.module.css';
+
+export type CameraPreset = 'iso' | 'front' | 'back' | 'left' | 'right' | 'top';
 
 type CameraDockProps = {
   orbitEnabled: boolean;
@@ -23,21 +27,17 @@ type CameraDockProps = {
   className?: string;
 };
 
-const presetItems: Array<{
-  key: CameraPreset;
-  label: string;
-  title: string;
-}> = [
-  { key: "iso", label: "ISO", title: "نمای ایزومتریک" },
-  { key: "front", label: "F", title: "نمای روبرو" },
-  { key: "back", label: "B", title: "نمای پشت" },
-  { key: "left", label: "L", title: "نمای چپ" },
-  { key: "right", label: "R", title: "نمای راست" },
-  { key: "top", label: "T", title: "نمای بالا" },
+const presetItems: Array<{ key: CameraPreset; label: string; title: string }> = [
+  { key: 'iso', label: 'ISO', title: 'نمای ایزومتریک' },
+  { key: 'top', label: 'Top', title: 'نمای بالا' },
+  { key: 'front', label: 'Front', title: 'نمای روبرو' },
+  { key: 'back', label: 'Back', title: 'نمای پشت' },
+  { key: 'left', label: 'Left', title: 'نمای چپ' },
+  { key: 'right', label: 'Right', title: 'نمای راست' },
 ];
 
 function formatCoord(value: number) {
-  if (Object.is(value, -0)) return "0.00";
+  if (Object.is(value, -0)) return '0.00';
   return value.toFixed(2);
 }
 
@@ -51,154 +51,118 @@ export default function CameraDock({
   onPreset,
   className,
 }: CameraDockProps) {
-  const [open, setOpen] = useState(false);
+  const [viewsOpen, setViewsOpen] = useState(false);
 
-  const orbitLabel = useMemo(() => {
-    return orbitEnabled ? "چرخش روشن" : "چرخش خاموش";
-  }, [orbitEnabled]);
+  const orbitLabel = useMemo(
+    () => (orbitEnabled ? 'چرخش روشن' : 'چرخش خاموش'),
+    [orbitEnabled]
+  );
 
   const [x, y, z] = coordinates;
 
   return (
-    <div className={`${styles.root} ${className ?? ""}`} dir="rtl">
-      <button
-        type="button"
-        className={`${styles.fab} ${open ? styles.fabOpen : ""}`}
-        onClick={() => setOpen((prev) => !prev)}
-        aria-label={open ? "بستن پنل دوربین" : "باز کردن پنل دوربین"}
-        aria-expanded={open}
-        aria-controls="camera-dock-panel"
-        title={open ? "بستن پنل دوربین" : "کنترل دوربین"}
-      >
-        <span className={styles.fabIcon}>📷</span>
-      </button>
+    <div className={`${styles.root} ${className ?? ''}`} dir="rtl">
+      <div className={styles.inlineRail}>
+        <div className={styles.title}>
+          <Camera size={14} />
+          <span>دوربین</span>
+        </div>
 
-      <section
-        id="camera-dock-panel"
-        className={`${styles.panel} ${
-          open ? styles.panelOpen : styles.panelClosed
-        }`}
-        aria-label="کنترل دوربین"
-      >
-        <div className={styles.panelHeader}>
-          <div className={styles.headerBlock}>
-            <div className={styles.headerTitle}>کنترل دوربین</div>
-            <div className={styles.headerSubtitle}>Camera / View / Cursor</div>
-          </div>
+        <div className={styles.coords} title="مختصات دوربین">
+          <span className={styles.coordChip}>
+            <span className={`${styles.axis} ${styles.axisX}`}>X</span>
+            <span className={styles.coordValue}>{formatCoord(x)}</span>
+          </span>
+          <span className={styles.coordChip}>
+            <span className={`${styles.axis} ${styles.axisY}`}>Y</span>
+            <span className={styles.coordValue}>{formatCoord(y)}</span>
+          </span>
+          <span className={styles.coordChip}>
+            <span className={`${styles.axis} ${styles.axisZ}`}>Z</span>
+            <span className={styles.coordValue}>{formatCoord(z)}</span>
+          </span>
+        </div>
+
+        <div className={styles.actions}>
+          <button
+            type="button"
+            className={styles.iconButton}
+            onClick={onZoomIn}
+            title="زوم این"
+            aria-label="زوم این"
+          >
+            <ZoomIn size={16} />
+          </button>
 
           <button
             type="button"
-            className={`${styles.statusChip} ${
-              orbitEnabled ? styles.statusOn : styles.statusOff
-            }`}
-            onClick={onToggleOrbit}
-            aria-pressed={orbitEnabled}
-            title={orbitLabel}
+            className={styles.iconButton}
+            onClick={onZoomOut}
+            title="زوم اوت"
+            aria-label="زوم اوت"
           >
-            <span className={styles.statusDot} />
-            {orbitLabel}
+            <ZoomOut size={16} />
           </button>
-        </div>
 
-        <div className={styles.section}>
-          <div className={styles.sectionTitle}>عملیات سریع</div>
+          <button
+            type="button"
+            className={styles.iconButton}
+            onClick={onReset}
+            title="بازنشانی دوربین"
+            aria-label="بازنشانی دوربین"
+          >
+            <RotateCcw size={16} />
+          </button>
 
-          <div className={styles.mainActions}>
+          <button
+            type="button"
+            className={`${styles.iconButton} ${orbitEnabled ? styles.iconButtonActive : ''}`}
+            onClick={onToggleOrbit}
+            title={orbitLabel}
+            aria-label={orbitLabel}
+          >
+            <Orbit size={16} />
+          </button>
+
+          <div className={styles.dropdownWrap}>
             <button
               type="button"
-              className={styles.iconButton}
-              onClick={onZoomIn}
-              title="زوم این"
-              aria-label="زوم این"
+              className={`${styles.secondaryButton} ${viewsOpen ? styles.secondaryButtonOpen : ''}`}
+              onClick={() => setViewsOpen((prev) => !prev)}
+              aria-expanded={viewsOpen}
+              aria-haspopup="menu"
+              title="نماهای پیش‌فرض"
             >
-              +
+              <Crosshair size={14} />
+              <span>نماها</span>
+              <ChevronDown
+                size={14}
+                className={`${styles.chevron} ${viewsOpen ? styles.chevronOpen : ''}`}
+              />
             </button>
 
-            <button
-              type="button"
-              className={styles.iconButton}
-              onClick={onZoomOut}
-              title="زوم اوت"
-              aria-label="زوم اوت"
-            >
-              −
-            </button>
-
-            <button
-              type="button"
-              className={styles.iconButton}
-              onClick={onReset}
-              title="بازنشانی دوربین"
-              aria-label="بازنشانی دوربین"
-            >
-              ⟳
-            </button>
-
-            <button
-              type="button"
-              className={`${styles.iconButton} ${
-                orbitEnabled ? styles.iconButtonActive : ""
-              }`}
-              onClick={onToggleOrbit}
-              title={orbitLabel}
-              aria-label={orbitLabel}
-              aria-pressed={orbitEnabled}
-            >
-              🌀
-            </button>
+            {viewsOpen && (
+              <div className={styles.viewsMenu} role="menu">
+                {presetItems.map((item) => (
+                  <button
+                    key={item.key}
+                    type="button"
+                    className={`${styles.viewButton} ${item.key === 'iso' ? styles.viewButtonPrimary : ''}`}
+                    onClick={() => {
+                      onPreset(item.key);
+                      setViewsOpen(false);
+                    }}
+                    title={item.title}
+                    role="menuitem"
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
-
-        <div className={styles.divider} />
-
-        <div className={styles.section}>
-          <div className={styles.sectionTitle}>مختصات نشانگر</div>
-
-          <div className={styles.coordsCard}>
-            <div className={styles.coordItem}>
-              <div className={styles.coordKey}>X</div>
-              <div className={styles.coordValue}>{formatCoord(x)}</div>
-            </div>
-
-            <div className={styles.coordItem}>
-              <div className={styles.coordKey}>Y</div>
-              <div className={styles.coordValue}>{formatCoord(y)}</div>
-            </div>
-
-            <div className={styles.coordItem}>
-              <div className={styles.coordKey}>Z</div>
-              <div className={styles.coordValue}>{formatCoord(z)}</div>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.divider} />
-
-        <div className={styles.section}>
-          <div className={styles.sectionTitle}>نمای سریع</div>
-
-          <div className={styles.presetsGrid}>
-            {presetItems.map((item) => (
-              <button
-                key={item.key}
-                type="button"
-                className={styles.presetButton}
-                onClick={() => onPreset(item.key)}
-                title={item.title}
-                aria-label={item.title}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.hint}>
-          {orbitEnabled
-            ? "چرخش دوربین فعال است. با کلیک و درگ می‌توانید دید را بچرخانید."
-            : "چرخش دوربین غیرفعال است تا تعامل با نودها و اتصالات دقیق‌تر و کم‌مزاحمت‌تر باشد."}
-        </div>
-      </section>
+      </div>
     </div>
   );
 }
