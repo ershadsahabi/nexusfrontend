@@ -174,11 +174,6 @@
 }
 
 .viewsMenu {
-  position: absolute;
-  top: calc(100% + 10px);
-  inset-inline-start: 0;
-  z-index: 1300;
-
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;

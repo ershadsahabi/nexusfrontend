@@ -3,9 +3,10 @@
 'use client';
 
 import { useState } from 'react';
+
 import Button from '@/components/common/Button/Button';
-import Card from '@/components/common/Card/Card';
 import { useCanvasStore } from '@/store/useCanvasStore';
+
 import AddEntityModal from './AddEntityModal';
 
 import styles from './canvasToolbar.module.css';
@@ -16,7 +17,6 @@ type Props = {
 };
 
 export default function CanvasToolbar({ projectUuid, scenarioId }: Props) {
-  const [openMenu, setOpenMenu] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
   const mode = useCanvasStore((s) => s.mode);
@@ -27,6 +27,7 @@ export default function CanvasToolbar({ projectUuid, scenarioId }: Props) {
 
   const handleToggleEdgeMode = () => {
     clearSelection();
+
     if (mode === 'create-edge') {
       cancelEdgeCreation();
       setMode('select');
@@ -41,13 +42,13 @@ export default function CanvasToolbar({ projectUuid, scenarioId }: Props) {
     setMode('select');
   };
 
-  // تولید متن راهنما بر اساس وضعیت
   const getHintText = () => {
     if (mode === 'create-edge') {
       return edgeCreationSourceUuid
         ? 'مبدأ انتخاب شد؛ حالا مقصد را کلیک کنید.'
         : 'ابتدا روی موجودیت مبدأ کلیک کنید.';
     }
+
     return 'حالت انتخابگر فعال است.';
   };
 
@@ -55,42 +56,42 @@ export default function CanvasToolbar({ projectUuid, scenarioId }: Props) {
     <>
       <div className={styles.toolbarContainer} dir="rtl">
         <Button
-          variant={openMenu ? 'primary' : 'secondary'}
           size="sm"
-          onClick={() => setOpenMenu(!openMenu)}
-          className={styles.toolbarToggle}
+          variant="secondary"
+          className={styles.toolbarButton}
+          onClick={() => setOpenModal(true)}
         >
-          {openMenu ? '✕ بستن ابزارها' : '🎛 ابزارها'}
+          + افزودن سیستم جدید
         </Button>
 
-        {openMenu && (
-          <Card className={styles.toolbarMenu}>
-            <Button size="sm" variant="secondary" onClick={() => setOpenModal(true)}>
-              + افزودن سیستم جدید
-            </Button>
+        <Button
+          size="sm"
+          variant={mode === 'create-edge' ? 'primary' : 'secondary'}
+          className={styles.toolbarButton}
+          onClick={handleToggleEdgeMode}
+        >
+          {mode === 'create-edge' ? 'لغو ایجاد اتصال' : 'ایجاد اتصال'}
+        </Button>
 
-            <Button
-              size="sm"
-              variant={mode === 'create-edge' ? 'primary' : 'secondary'}
-              onClick={handleToggleEdgeMode}
-            >
-              {mode === 'create-edge' ? 'لغو ایجاد اتصال' : 'ایجاد اتصال'}
-            </Button>
+        <Button
+          size="sm"
+          variant={mode === 'select' ? 'primary' : 'secondary'}
+          className={styles.toolbarButton}
+          onClick={handleSelectMode}
+        >
+          انتخاب / جابجایی
+        </Button>
 
-            <Button
-              size="sm"
-              variant={mode === 'select' ? 'primary' : 'secondary'}
-              onClick={handleSelectMode}
-            >
-              انتخاب / جابجایی
-            </Button>
-
-            <div className={styles.hint}>{getHintText()}</div>
-          </Card>
-        )}
+        <div
+          className={[
+            styles.hint,
+            mode === 'create-edge' ? styles.hintActive : '',
+          ].join(' ')}
+        >
+          {getHintText()}
+        </div>
       </div>
 
-      {/* مودال افزودن موجودیت (بدون تغییر) */}
       <AddEntityModal
         isOpen={openModal}
         onClose={() => setOpenModal(false)}

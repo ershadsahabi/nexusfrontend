@@ -25,12 +25,6 @@ export function useDeleteSystemEntity(projectUuid: string, scenarioId?: string) 
     },
 
     onSuccess: async () => {
-      /**
-       * مهم:
-       * بعد از حذف Entity، فقط خود Entity مهم نیست؛
-       * connectionها، parent/children و graph state هم باید دوباره از سرور sync شوند.
-       * این کار جلوی باگ‌هایی مثل رسم connection عجیب بعد از حذف را می‌گیرد.
-       */
       await queryClient.invalidateQueries({
         queryKey: getProjectGraphQueryKey(projectUuid, scenarioId),
       });

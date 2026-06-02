@@ -1,0 +1,107 @@
+/* src/components/metadata/MetadataForm.module.css */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #cbd5e1;
+  letter-spacing: 0.04em;
+}
+
+.groupCard {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.58));
+  padding: 14px;
+}
+
+.groupHeader {
+  margin-bottom: 12px;
+}
+
+.groupHeader h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: #e2e8f0;
+}
+
+.groupGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.labelInline {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.unit {
+  font-size: 11px;
+  color: #94a3b8;
+  background: rgba(148, 163, 184, 0.12);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.input,
+.select {
+  width: 100%;
+  min-height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.82);
+  color: #f8fafc;
+  padding: 10px 12px;
+  outline: none;
+}
+
+.input:focus,
+.select:focus {
+  border-color: rgba(96, 165, 250, 0.8);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.description {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #94a3b8;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.emptyState {
+  border-radius: 14px;
+  border: 1px dashed rgba(148, 163, 184, 0.25);
+  padding: 14px;
+  color: #94a3b8;
+  font-size: 13px;
+}

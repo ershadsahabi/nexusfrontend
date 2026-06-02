@@ -12,6 +12,8 @@ import {
   ZoomIn,
   ZoomOut,
 } from 'lucide-react';
+import FloatingPanel from '@/components/common/FloatingPanel/FloatingPanel';
+import floatingStyles from '@/components/common/FloatingPanel/FloatingPanel.module.css';
 import styles from './CameraDock.module.css';
 
 export type CameraPreset = 'iso' | 'front' | 'back' | 'left' | 'right' | 'top';
@@ -77,7 +79,7 @@ export default function CameraDock({
             <span className={`${styles.axis} ${styles.axisY}`}>Y</span>
             <span className={styles.coordValue}>{formatCoord(y)}</span>
           </span>
-          <span className={styles.coordChip}>
+          <span className={`${styles.coordChip}`}>
             <span className={`${styles.axis} ${styles.axisZ}`}>Z</span>
             <span className={styles.coordValue}>{formatCoord(z)}</span>
           </span>
@@ -124,43 +126,45 @@ export default function CameraDock({
             <Orbit size={16} />
           </button>
 
-          <div className={styles.dropdownWrap}>
-            <button
-              type="button"
-              className={`${styles.secondaryButton} ${viewsOpen ? styles.secondaryButtonOpen : ''}`}
-              onClick={() => setViewsOpen((prev) => !prev)}
-              aria-expanded={viewsOpen}
-              aria-haspopup="menu"
-              title="نماهای پیش‌فرض"
-            >
-              <Crosshair size={14} />
-              <span>نماها</span>
-              <ChevronDown
-                size={14}
-                className={`${styles.chevron} ${viewsOpen ? styles.chevronOpen : ''}`}
-              />
-            </button>
-
-            {viewsOpen && (
-              <div className={styles.viewsMenu} role="menu">
-                {presetItems.map((item) => (
-                  <button
-                    key={item.key}
-                    type="button"
-                    className={`${styles.viewButton} ${item.key === 'iso' ? styles.viewButtonPrimary : ''}`}
-                    onClick={() => {
-                      onPreset(item.key);
-                      setViewsOpen(false);
-                    }}
-                    title={item.title}
-                    role="menuitem"
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          <FloatingPanel
+            open={viewsOpen}
+            onOpenChange={setViewsOpen}
+            placement="bottom-start"
+            offsetValue={10}
+            className={`${styles.viewsMenu} ${floatingStyles.panel}`}
+            trigger={
+              <button
+                type="button"
+                className={`${styles.secondaryButton} ${viewsOpen ? styles.secondaryButtonOpen : ''}`}
+                title="نماهای پیش‌فرض"
+              >
+                <Crosshair size={14} />
+                <span>نماها</span>
+                <ChevronDown
+                  size={14}
+                  className={`${styles.chevron} ${viewsOpen ? styles.chevronOpen : ''}`}
+                />
+              </button>
+            }
+          >
+            <>
+              {presetItems.map((item) => (
+                <button
+                  key={item.key}
+                  type="button"
+                  className={`${styles.viewButton} ${item.key === 'iso' ? styles.viewButtonPrimary : ''}`}
+                  onClick={() => {
+                    onPreset(item.key);
+                    setViewsOpen(false);
+                  }}
+                  title={item.title}
+                  role="menuitem"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </>
+          </FloatingPanel>
         </div>
       </div>
     </div>

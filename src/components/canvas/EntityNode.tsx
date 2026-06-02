@@ -4,12 +4,12 @@
 
 import { Html } from '@react-three/drei';
 import type { ThreeEvent } from '@react-three/fiber';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import * as THREE from 'three';
 
-// استفاده از استایل ماژولار جدید اختصاصی این کامپوننت
 import styles from './EntityNode.module.css';
 import type { CanvasEntity } from '@/lib/types/canvas.types';
+import { EntityShapeRenderer } from './shapes/ShapeRegistry';
 
 type Props = {
   entity: CanvasEntity;
@@ -24,46 +24,13 @@ type Props = {
   ) => void;
 };
 
-function getEntityVisualConfig(systemTypeName?: string) {
-  const normalizedType = systemTypeName?.toLowerCase() || 'generic';
+function getLabelHeight(entity: CanvasEntity) {
+  const metadata = (entity.metadata ?? {}) as Record<string, unknown>;
 
-  switch (normalizedType) {
-    case 'macro':
-      return {
-        color: '#3b82f6',
-        emissive: '#1d4ed8',
-        geometry: [1.7, 0.9, 1.2] as [number, number, number],
-        opacity: 1,
-        badge: 'MACRO',
-      };
+  if (typeof metadata.labelHeight === 'number') return metadata.labelHeight;
+  if (typeof metadata.height === 'number') return metadata.height + 0.5;
 
-    case 'fem':
-      return {
-        color: '#10b981',
-        emissive: '#047857',
-        geometry: [1.45, 1.0, 1.0] as [number, number, number],
-        opacity: 0.84,
-        badge: 'FEM',
-      };
-
-    case 'environment':
-      return {
-        color: '#f59e0b',
-        emissive: '#b45309',
-        geometry: [2.1, 0.35, 2.1] as [number, number, number],
-        opacity: 0.64,
-        badge: 'ENV',
-      };
-
-    default:
-      return {
-        color: '#94a3b8',
-        emissive: '#475569',
-        geometry: [1.1, 1.1, 1.1] as [number, number, number],
-        opacity: 0.95,
-        badge: 'GEN',
-      };
-  }
+  return 1.2;
 }
 
 export default function EntityNode({
@@ -75,8 +42,6 @@ export default function EntityNode({
   onCreateEdgeClick,
   onPositionCommit,
 }: Props) {
-  const meshRef = useRef<THREE.Mesh>(null);
-
   const [dragging, setDragging] = useState(false);
   const [localPosition, setLocalPosition] = useState<[number, number, number]>(
     entity.position
@@ -88,68 +53,33 @@ export default function EntityNode({
     }
   }, [entity.position, dragging]);
 
-  const visual = useMemo(
-    () => getEntityVisualConfig(entity.systemType?.name),
-    [entity.systemType?.name]
-  );
-
-  // تغییر صفحه درگ به محور Z
   const dragPlane = useMemo(() => {
-    return new THREE.Plane(
-      new THREE.Vector3(0, 0, 1),
-      -localPosition[2]
-    );
-  }, [localPosition]);
+    return new THREE.Plane(new THREE.Vector3(0, 0, 1), -localPosition[2]);
+  }, [localPosition[2]]);
 
   const tempPoint = useMemo(() => new THREE.Vector3(), []);
-
-  const meshColor = useMemo(() => {
-    if (dragging) return '#ef4444';
-    if (isSelected) return '#facc15';
-    if (isEdgeSource) return '#a855f7';
-    return visual.color;
-  }, [dragging, isSelected, isEdgeSource, visual.color]);
-
-  const meshEmissive = useMemo(() => {
-    if (isSelected) return '#facc15';
-    if (isEdgeSource) return '#7e22ce';
-    return visual.emissive;
-  }, [isSelected, isEdgeSource, visual.emissive]);
-
-  const handleClick = (e: ThreeEvent<MouseEvent>) => {
-    e.stopPropagation();
-
-    if (mode === 'select') {
-      onSelect(entity.uuid);
-      return;
-    }
-
-    onCreateEdgeClick(entity.uuid);
-  };
+  const labelHeight = useMemo(() => getLabelHeight(entity), [entity]);
 
   const handlePointerDown = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
 
-    if (mode === 'select') {
-      onSelect(entity.uuid);
-      setDragging(true);
-
-      try {
-        e.target.setPointerCapture(e.pointerId);
-      } catch {
-        // no-op
-      }
-
+    if (mode === 'create-edge') {
+      onCreateEdgeClick(entity.uuid);
       return;
     }
 
-    onCreateEdgeClick(entity.uuid);
+    onSelect(entity.uuid);
+    setDragging(true);
+
+    try {
+      e.target.setPointerCapture?.(e.pointerId);
+    } catch {
+      // noop
+    }
   };
 
   const handlePointerUp = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
-
-    if (mode !== 'select') return;
 
     if (dragging) {
       setDragging(false);
@@ -157,80 +87,52 @@ export default function EntityNode({
     }
 
     try {
-      e.target.releasePointerCapture(e.pointerId);
+      e.target.releasePointerCapture?.(e.pointerId);
     } catch {
-      // no-op
+      // noop
     }
   };
 
   const handlePointerMove = (e: ThreeEvent<PointerEvent>) => {
-    if (!dragging || mode !== 'select') return;
+    if (!dragging || mode !== 'select' || !e.ray) return;
 
     e.stopPropagation();
-
-    if (!e.ray) return;
 
     const hit = e.ray.intersectPlane(dragPlane, tempPoint);
     if (!hit) return;
 
-    // در Z-up، جابجایی روی X و Y است و Z ثابت می ماند
-    const nextPosition: [number, number, number] = [
+    setLocalPosition([
       Number(hit.x.toFixed(2)),
       Number(hit.y.toFixed(2)),
       entity.position[2],
-    ];
-
-    setLocalPosition(nextPosition);
+    ]);
   };
 
-  const labelClasses = [
-    styles.nodeLabel,
-    isSelected && styles.nodeLabelSelected,
-    isEdgeSource && styles.nodeLabelEdgeSource,
-  ].filter(Boolean).join(' ');
-
   return (
-    <group position={localPosition}>
-      <mesh
-        ref={meshRef}
-        castShadow
-        receiveShadow
-        onClick={handleClick}
-        onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        onPointerMove={handlePointerMove}
-      >
-        <boxGeometry args={visual.geometry} />
+    <group
+      position={localPosition}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerMove={handlePointerMove}
+    >
+      <EntityShapeRenderer
+        shapeKey={entity.systemType?.shape_key}
+        entity={entity}
+        isSelected={isSelected}
+        isEdgeSource={isEdgeSource}
+      />
 
-        <meshStandardMaterial
-          color={meshColor}
-          emissive={meshEmissive}
-          emissiveIntensity={isSelected || isEdgeSource ? 0.24 : 0.06}
-          metalness={0.18}
-          roughness={0.58}
-          transparent={visual.opacity < 1}
-          opacity={visual.opacity}
-        />
-      </mesh>
-
-      {/* قرارگیری Html با استفاده از ایندکس سوم هندسه (Z به عنوان ارتفاع) */}
-      <Html
-        position={[0, 0, visual.geometry[2] / 2 + 0.35]}
-        center
-        distanceFactor={10}
-        transform={false}
-        occlude={false}
-      >
-        <div className={labelClasses} dir="rtl">
-          <span className={styles.nodeLabelBadge}>{visual.badge}</span>
-          <span className={styles.nodeLabelText} title={entity.name}>
-            {entity.name}
+      <Html position={[0, 0, labelHeight]} center distanceFactor={10}>
+        <div
+          className={`${styles.nodeLabel} ${
+            isSelected ? styles.nodeLabelSelected : ''
+          }`}
+          dir="rtl"
+        >
+          <span className={styles.nodeLabelBadge}>
+            {entity.systemType?.name?.substring(0, 3).toUpperCase() ?? 'SYS'}
           </span>
-          {entity.code && (
-            <span className={styles.nodeLabelCode} title={entity.code}>
-              {entity.code}
-            </span>
-          )}
+          <span className={styles.nodeLabelText}>{entity.name}</span>
         </div>
       </Html>
     </group>

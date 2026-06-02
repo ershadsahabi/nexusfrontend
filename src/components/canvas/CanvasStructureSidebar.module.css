@@ -1,0 +1,261 @@
+/* src/components/canvas/CanvasStructureSidebar.module.css */
+
+.sidebar {
+  position: absolute;
+  z-index: 9999;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  min-width: 58px;
+  max-width: min(560px, calc(100vw - 36px));
+  max-height: calc(100% - 104px);
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 16%), rgba(8, 15, 30, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 22px 60px rgba(2, 6, 23, 0.48), 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  overflow: hidden;
+  transition: 
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    top 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+    right 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+    border-color 0.2s ease;
+}
+
+.sidebarDragging {
+  transition: none;
+  box-shadow: 0 30px 80px rgba(2, 6, 23, 0.6);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.sidebarCollapsed {
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  overflow: visible;
+}
+
+.resizeHandle {
+  width: 8px;
+  cursor: col-resize;
+  background: transparent;
+  position: relative;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.resizeHandle:hover {
+  background: rgba(56, 189, 248, 0.2);
+}
+
+.sidebarInner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0; /* مهم برای اسکرول داخلی */
+}
+
+.header {
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(15, 23, 42, 0.3);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  cursor: move;
+  flex-shrink: 0; /* هدر ثابت بماند */
+}
+
+.headerMain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerIcon {
+  width: 34px;
+  height: 34px;
+  background: rgba(14, 165, 233, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #38bdf8;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.subtitle {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+.headerButton {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(30, 41, 59, 0.5);
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.headerButton:hover {
+  background: #334155;
+  color: #fff;
+  border-color: #38bdf8;
+}
+
+.content {
+  flex: 1;
+  min-height: 0; /* مهم */
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.35) transparent;
+}
+
+.content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.28);
+  border-radius: 999px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.45);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionMeta {
+  display: flex;
+  align-items: center;
+}
+
+.sectionBadge {
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.sectionLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin-right: 8px;
+}
+
+.selectorWrap {
+  min-width: 0;
+}
+
+.hierarchySection {
+  flex: 1;
+  min-height: 200px;
+}
+
+.hierarchyWrap {
+  flex: 1;
+  min-height: 200px;
+  min-width: 0;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  background: rgba(15, 23, 42, 0.4);
+  overflow: hidden;
+}
+
+/* FAB Styling */
+.structureFab {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.2), transparent), #0f172a;
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.5), 0 0 20px rgba(56, 189, 248, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.structureFab:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 15px 40px rgba(2, 6, 23, 0.6), 0 0 25px rgba(56, 189, 248, 0.25);
+  border-color: #38bdf8;
+}
+
+.structureFabIcon {
+  color: #38bdf8;
+  z-index: 2;
+}
+
+.structureFabGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.3), transparent 70%);
+  filter: blur(5px);
+}
+
+.structureFabDot {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #22c55e;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    right: 12px !important;
+    top: 74px !important;
+  }
+}

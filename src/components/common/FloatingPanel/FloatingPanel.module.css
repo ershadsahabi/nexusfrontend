@@ -1,0 +1,35 @@
+/* src/components/common/FloatingPanel/FloatingPanel.module.css */
+
+.panelInner {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.985);
+  transform-origin: top center;
+  will-change: transform, opacity;
+}
+
+.panelInnerReady {
+  animation: floatingPanelIn 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@keyframes floatingPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panelInner,
+  .panelInnerReady {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+}

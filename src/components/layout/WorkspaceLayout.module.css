@@ -1,39 +1,502 @@
-/* src/components/layout/layout.module.css */
+/* src/components/layout/WorkspaceLayout.module.css */
 
 .workspaceContainer {
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  background-color: var(--color-bg-deep);
-  color: var(--color-text-main);
+  background: var(--color-bg-main);
   overflow: hidden;
-  font-family: var(--font-family-base);
 }
 
 .mainContent {
-  display: flex;
   flex: 1;
+  display: flex;
+  position: relative;
   overflow: hidden;
 }
 
-/* ================= Canvas ================= */
 .canvasArea {
   flex: 1;
+  min-width: 0;
   position: relative;
-  background-color: var(--color-bg-canvas);
-  background-image:
-    radial-gradient(var(--color-grid-dot) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(56, 189, 248, 0.035),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(14, 165, 233, 0.028),
+      transparent 34%
+    );
+  overflow: hidden;
 }
 
-/* ================= Left Sidebar (Properties) ================= */
+/* =========================
+   Sidebar Shell / Inspector
+   ========================= */
+
 .leftSidebar {
-  width: var(--layout-properties-width);
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  border-right: 1px solid var(--glass-border);
+  position: relative;
+  flex: 0 0 auto;
+  height: 100%;
+  min-width: 60px;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
-  z-index: var(--z-sidebar);
+  overflow: visible;
+  z-index: 50;
+
+  background:
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(56, 189, 248, 0.105),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.92),
+      rgba(2, 6, 23, 0.88)
+    );
+
+  border-right: 1px solid rgba(148, 163, 184, 0.13);
+
+  box-shadow:
+    10px 0 34px rgba(0, 0, 0, 0.22),
+    1px 0 0 rgba(255, 255, 255, 0.025) inset;
+
+  backdrop-filter: blur(24px) saturate(1.08);
+  -webkit-backdrop-filter: blur(24px) saturate(1.08);
+
+  opacity: 1;
+  transform: translateZ(0);
+  will-change: width;
+
+  transition:
+    width 0.36s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.24s ease,
+    border-color 0.24s ease,
+    box-shadow 0.24s ease,
+    opacity 0.18s ease;
+}
+
+.leftSidebar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.035),
+      transparent 22%
+    );
+  opacity: 0.55;
+}
+
+.leftSidebar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -1px;
+  width: 1px;
+  height: 100%;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      rgba(56, 189, 248, 0.28),
+      transparent
+    );
+  opacity: 0.35;
+}
+
+/*
+  مهم برای حل پرش ریلود:
+  تا وقتی وضعیت از localStorage تعیین نشده، transition نداریم
+  و محتوای داخلی هم دیده نمی‌شود.
+*/
+.isInitialLoad {
+  transition: none !important;
+}
+
+.isInitialLoad .panelContentWrapper {
+  opacity: 0;
+}
+
+.isInitialLoad .fullView,
+.isInitialLoad .railView {
+  animation: none !important;
+  opacity: 0 !important;
+  transform: none !important;
+}
+
+.leftSidebarCollapsed {
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(56, 189, 248, 0.09),
+      transparent 42%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.98),
+      rgba(2, 6, 23, 0.94)
+    );
+
+  box-shadow:
+    8px 0 26px rgba(0, 0, 0, 0.18),
+    1px 0 0 rgba(255, 255, 255, 0.025) inset;
+}
+
+/*
+  وقتی collapsed است، مطمئن می‌شویم هیچ محتوای فرم
+  حتی در فریم‌های اولیه بیرون نزند.
+*/
+.leftSidebarCollapsed .fullView {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.leftSidebarResizing {
+  transition: none !important;
+  border-right-color: rgba(56, 189, 248, 0.62);
+  box-shadow:
+    12px 0 38px rgba(0, 0, 0, 0.26),
+    0 0 0 1px rgba(56, 189, 248, 0.09) inset;
+}
+
+.leftSidebarResizing .fullView {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+.leftSidebarResizing .railView {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* =========================
+   Resize Handle
+   ========================= */
+
+.resizeHandle {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 100;
+  touch-action: none;
+}
+
+.resizeHandle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 3px;
+  width: 1px;
+  height: 100%;
+  background: rgba(56, 189, 248, 0);
+  transition:
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.resizeHandle::after {
+  content: '';
+  position: absolute;
+  right: 2px;
+  top: 12%;
+  width: 3px;
+  height: 76%;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0);
+  transition:
+    background 0.18s ease,
+    box-shadow 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.resizeHandle:hover::before,
+.leftSidebarResizing .resizeHandle::before {
+  background: rgba(56, 189, 248, 0.42);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.22);
+}
+
+.resizeHandle:hover::after,
+.leftSidebarResizing .resizeHandle::after {
+  background: rgba(56, 189, 248, 0.18);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.16);
+}
+
+.leftSidebarResizing .panelContentWrapper {
+  opacity: 1;
+  background: transparent;
+}
+
+/* =========================
+   Toggle Button
+   ========================= */
+
+.toggleBtn {
+  position: absolute;
+  top: 20px;
+  right: -14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+
+  display: grid;
+  place-items: center;
+
+  z-index: 110;
+  cursor: pointer;
+
+  background:
+    radial-gradient(
+      circle at 35% 20%,
+      rgba(56, 189, 248, 0.16),
+      transparent 55%
+    ),
+    linear-gradient(180deg, #111827, #020617);
+
+  border: 1px solid rgba(56, 189, 248, 0.32);
+  color: #7dd3fc;
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(255, 255, 255, 0.025) inset;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.toggleBtn:hover {
+  transform: scale(1.06);
+  background:
+    radial-gradient(
+      circle at 35% 20%,
+      rgba(56, 189, 248, 0.24),
+      transparent 56%
+    ),
+    linear-gradient(180deg, #1e293b, #020617);
+  border-color: rgba(56, 189, 248, 0.68);
+  color: #e0f2fe;
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.4),
+    0 0 22px rgba(56, 189, 248, 0.16);
+}
+
+.toggleBtn:active {
+  transform: scale(0.98);
+}
+
+.toggleBtn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(56, 189, 248, 0.22),
+    0 8px 18px rgba(0, 0, 0, 0.34);
+}
+
+.toggleIcon {
+  display: block;
+  font-size: 1.15rem;
+  line-height: 1;
+  transform: translateY(-1px);
+  user-select: none;
+}
+
+/* =========================
+   Content Wrapper
+   ========================= */
+
+.panelContentWrapper {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.16s ease;
+}
+
+/*
+  نمای کامل:
+  با تأخیر کوتاه ظاهر می‌شود تا اول width پنل به حالت نهایی برسد
+  و بعد محتوای فرم دیده شود.
+*/
+.fullView {
+  width: 100%;
+  height: 100%;
+  min-width: 320px;
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(10px);
+  pointer-events: auto;
+  animation: inspectorContentIn 0.28s ease-out 0.12s forwards;
+  contain: layout paint;
+}
+
+@keyframes inspectorContentIn {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+    filter: blur(1px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+/* =========================
+   Collapsed Rail View
+   ========================= */
+
+.railView {
+  position: relative;
+  width: 60px;
+  height: 100%;
+  min-width: 60px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding-top: 82px;
+  padding-bottom: 18px;
+  gap: 20px;
+
+  overflow: hidden;
+  opacity: 0;
+  animation: railViewIn 0.22s ease-out 0.04s forwards;
+}
+
+.railView::before {
+  content: '';
+  position: absolute;
+  top: 70px;
+  bottom: 18px;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      rgba(148, 163, 184, 0.13),
+      transparent
+    );
+  pointer-events: none;
+}
+
+@keyframes railViewIn {
+  from {
+    opacity: 0;
+    transform: translateX(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.railLabel {
+  position: relative;
+  z-index: 1;
+
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+
+  font-family: var(--font-family-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  line-height: 1;
+
+  color: rgba(148, 163, 184, 0.66);
+  text-transform: uppercase;
+
+  user-select: none;
+}
+
+.railCode {
+  position: relative;
+  z-index: 1;
+
+  padding: 0.24rem 0.28rem;
+  border-radius: 7px;
+
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      rgba(56, 189, 248, 0.18),
+      transparent 58%
+    ),
+    rgba(56, 189, 248, 0.08);
+
+  border: 1px solid rgba(56, 189, 248, 0.14);
+
+  color: #38bdf8;
+  font-size: 0.5rem;
+  font-family: var(--font-family-mono);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+
+  box-shadow:
+    0 0 18px rgba(56, 189, 248, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.035) inset;
+
+  user-select: none;
+}
+
+/* =========================
+   Responsive / Safety
+   ========================= */
+
+@media (max-width: 768px) {
+  .leftSidebar {
+    max-width: min(86vw, 380px);
+  }
+
+  .fullView {
+    min-width: 300px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leftSidebar,
+  .panelContentWrapper,
+  .toggleBtn,
+  .resizeHandle::before,
+  .resizeHandle::after {
+    transition: none !important;
+  }
+
+  .fullView,
+  .railView {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
 }

@@ -28,6 +28,7 @@ import CanvasCameraSync from './CanvasCameraSync';
 import CanvasGizmoCameraController from './CanvasGizmoCameraController';
 import CanvasAxesGizmoOverlay from './CanvasAxesGizmoOverlay';
 import CameraController from './CameraController';
+import CanvasEnvironment from './CanvasEnvironment';
 
 import type { CameraApi } from './CameraController';
 
@@ -84,9 +85,7 @@ export default function CanvasScene({
     setMouseWorld,
   } = useCanvasStore();
 
-  // === Refs & Memos ===
-
-  // سطح زمین روی صفحه X-Y با نرمال Z قرار می‌گیرد
+  // === Memo / Helpers ===
   const groundPlane = useMemo(
     () => new THREE.Plane(new THREE.Vector3(0, 0, 1), 0),
     []
@@ -94,7 +93,6 @@ export default function CanvasScene({
 
   const tempPoint = useMemo(() => new THREE.Vector3(), []);
 
-  // همگام‌سازی گراف با Store
   useEffect(() => {
     if (data) {
       setGraph(data.entities, data.connections);
@@ -125,6 +123,16 @@ export default function CanvasScene({
     return new Map(visibleGraph.entities.map((entity) => [entity.uuid, entity]));
   }, [visibleGraph.entities]);
 
+  const floatingSource = useMemo(() => {
+    if (!edgeCreationSourceUuid) return null;
+
+    return (
+      visibleEntityMap.get(edgeCreationSourceUuid) ??
+      entityMap.get(edgeCreationSourceUuid) ??
+      null
+    );
+  }, [edgeCreationSourceUuid, visibleEntityMap, entityMap]);
+
   // === Handlers ===
   const handleEntityClickForEdge = async (clickedUuid: string) => {
     if (!edgeCreationSourceUuid) {
@@ -142,20 +150,23 @@ export default function CanvasScene({
       entityMap.get(edgeCreationSourceUuid);
 
     const target =
-      visibleEntityMap.get(clickedUuid) ??
-      entityMap.get(clickedUuid);
+      visibleEntityMap.get(clickedUuid) ?? entityMap.get(clickedUuid);
 
     if (!source || !target) return;
 
-    await createConnection.mutateAsync({
-      source_entity_uuid: source.uuid,
-      target_entity_uuid: target.uuid,
-      relation_type: 'connected_to',
-    });
+    try {
+      await createConnection.mutateAsync({
+        source_entity_uuid: source.uuid,
+        target_entity_uuid: target.uuid,
+        relation_type: 'connected_to',
+      });
 
-    cancelEdgeCreation();
-    setMode('select');
-    clearSelection();
+      cancelEdgeCreation();
+      setMode('select');
+      clearSelection();
+    } catch (error) {
+      console.error('Connection creation failed:', error);
+    }
   };
 
   const handlePositionCommit = async (
@@ -166,11 +177,9 @@ export default function CanvasScene({
     const [nx, ny, nz] = nextPosition;
 
     const unchanged = cx === nx && cy === ny && cz === nz;
+    if (unchanged) return;
 
-    if (unchanged) {
-      return;
-    }
-
+    // optimistic update
     useCanvasStore.getState().updateEntityProps(entity.uuid, {
       position: nextPosition,
     });
@@ -194,7 +203,6 @@ export default function CanvasScene({
     if (!event.ray) return;
 
     const hit = event.ray.intersectPlane(groundPlane, tempPoint);
-
     if (!hit) return;
 
     setMouseWorld([
@@ -206,7 +214,6 @@ export default function CanvasScene({
 
   const handlePointerMissed = () => {
     if (mode === 'create-edge') return;
-
     clearSelection();
   };
 
@@ -237,14 +244,8 @@ export default function CanvasScene({
     );
   }
 
-  const floatingSource = edgeCreationSourceUuid
-    ? visibleEntityMap.get(edgeCreationSourceUuid) ??
-      entityMap.get(edgeCreationSourceUuid)
-    : null;
-
   return (
     <>
-      {/* لایه بوم سه‌بعدی */}
       <div className={styles.canvasSceneLayer}>
         <Canvas
           shadows
@@ -252,29 +253,21 @@ export default function CanvasScene({
             position: [8, -8, 8],
             up: [0, 0, 1],
             fov: 50,
+            near: 0.1,
+            far: 1000,
           }}
           onPointerMove={handleCanvasPointerMove}
           onPointerMissed={handlePointerMissed}
+          gl={{
+            antialias: true,
+            alpha: false,
+          }}
         >
-          <color attach="background" args={['#0b1220']} />
-
-          <ambientLight intensity={1.2} />
-
-          <directionalLight
-            castShadow
-            position={[8, 6, 12]}
-            intensity={2.2}
-          />
-
-          <pointLight
-            position={[-8, -8, 10]}
-            intensity={0.7}
-          />
+          <CanvasEnvironment />
 
           <CanvasCameraSync />
           <CanvasGizmoCameraController />
 
-          {/* گرید چرخیده تا روی صفحه X-Y قرار گیرد */}
           <Grid
             position={[0, 0, -0.01]}
             rotation={[Math.PI / 2, 0, 0]}
@@ -290,7 +283,7 @@ export default function CanvasScene({
             infiniteGrid
           />
 
-          {/* رندر اتصالات */}
+          {/* اتصالات */}
           {visibleGraph.connections.map((connection) => {
             const source = visibleEntityMap.get(connection.sourceUuid);
             const target = visibleEntityMap.get(connection.targetUuid);
@@ -314,7 +307,7 @@ export default function CanvasScene({
             );
           })}
 
-          {/* رندر موجودیت‌ها */}
+          {/* موجودیت‌ها */}
           {visibleGraph.entities.map((entity) => (
             <EntityNode
               key={entity.uuid}
@@ -328,7 +321,7 @@ export default function CanvasScene({
             />
           ))}
 
-          {/* خط اتصال در حال ایجاد */}
+          {/* خط شناور هنگام ساخت اتصال */}
           {mode === 'create-edge' && floatingSource && (
             <FloatingEdge
               source={floatingSource.position}
@@ -345,9 +338,7 @@ export default function CanvasScene({
         </Canvas>
       </div>
 
-      {/* لایه رابط کاربری روی بوم */}
       <div className={styles.canvasUiLayer}>
-        {/* اکشن‌های موجودیت انتخاب شده */}
         {selectedEntity && (
           <div className={styles.overlayEntityActions}>
             <Card className="p-1 bg-slate-900/80 backdrop-blur-md border-slate-700/50 shadow-lg">
@@ -367,14 +358,12 @@ export default function CanvasScene({
                 ) : (
                   <Trash2 className="w-4 h-4" />
                 )}
-
                 <span>حذف موجودیت</span>
               </Button>
             </Card>
           </div>
         )}
 
-        {/* راهنمای نقشه */}
         <div className={styles.overlayBottomRight}>
           <Card
             className={`p-3 bg-slate-900/80 backdrop-blur-md border-slate-700/50 shadow-lg ${styles.canvasLegend}`}
@@ -401,7 +390,6 @@ export default function CanvasScene({
           </Card>
         </div>
 
-        {/* نمای محورها */}
         <div className={styles.overlayBottomLeft}>
           <CanvasAxesGizmoOverlay />
         </div>

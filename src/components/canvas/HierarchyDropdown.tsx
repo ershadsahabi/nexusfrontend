@@ -2,23 +2,38 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
-import { ChevronLeft, ChevronDown, Circle, Network, RotateCcw } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import {
+  ChevronLeft,
+  ChevronDown,
+  Circle,
+  Network,
+  RotateCcw,
+  Target,
+} from 'lucide-react';
+
 import { useCanvasStore } from '@/store/useCanvasStore';
 import { buildChildrenMap, buildEntityMap } from '@/lib/graph/systemTree';
+
 import styles from './controls.module.css';
+
+type EntityLike = {
+  uuid: string;
+  name: string;
+};
 
 type HierarchyNodeProps = {
   uuid: string;
   level: number;
-  childrenMap: Map<string, any[]>;
-  entityMap: Map<string, any>;
+  childrenMap: Map<string, EntityLike[]>;
+  entityMap: Map<string, EntityLike>;
 };
 
 function HierarchyNode({ uuid, level, childrenMap, entityMap }: HierarchyNodeProps) {
   const entity = entityMap.get(uuid);
   const focusEntityUuid = useCanvasStore((s) => s.focusEntityUuid);
   const setFocusEntity = useCanvasStore((s) => s.setFocusEntity);
+
   const children = childrenMap.get(uuid) ?? [];
   const [expanded, setExpanded] = useState(level < 1);
 
@@ -31,32 +46,40 @@ function HierarchyNode({ uuid, level, childrenMap, entityMap }: HierarchyNodePro
     <div className={styles.nodeWrapper}>
       <div
         className={`${styles.nodeItem} ${isFocused ? styles.nodeFocused : ''}`}
-        style={{ paddingRight: `${level * 16}px` }} /* تو رفتگی برای حالت RTL */
+        style={{ paddingRight: `${level * 16}px` }}
+        onClick={() => setFocusEntity(uuid)}
+        title={entity.name}
       >
         <button
           type="button"
           className={styles.nodeToggleButton}
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={(event) => {
+            event.stopPropagation();
             if (hasChildren) setExpanded((prev) => !prev);
           }}
+          aria-label={hasChildren ? 'باز و بسته کردن شاخه' : 'گره بدون فرزند'}
         >
           {hasChildren ? (
             expanded ? <ChevronDown size={14} /> : <ChevronLeft size={14} />
           ) : (
-            <Circle size={4} style={{ opacity: 0.4 }} />
+            <Circle size={4} className={styles.nodeDot} />
           )}
         </button>
-        <div
-          className={styles.nodeLabel}
-          onClick={() => setFocusEntity(uuid)}
-        >
-          {entity.name}
+
+        <div className={styles.nodeLabel}>
+          <span className={styles.nodeName}>{entity.name}</span>
+
+          {isFocused && (
+            <span className={styles.nodeFocusBadge}>
+              <Target size={11} />
+              فوکوس
+            </span>
+          )}
         </div>
       </div>
-      
+
       {expanded && hasChildren && (
-        <div>
+        <div className={styles.nodeChildren}>
           {children.map((child) => (
             <HierarchyNode
               key={child.uuid}
@@ -81,17 +104,31 @@ export default function HierarchyDropdown() {
   const childrenMap = useMemo(() => buildChildrenMap(entities), [entities]);
   const entityMap = useMemo(() => buildEntityMap(entities), [entities]);
 
-  if (!activeRootSystemUuid) return null;
+  if (!activeRootSystemUuid) {
+    return (
+      <div className={styles.hierarchyEmptyState} dir="rtl">
+        <div className={styles.hierarchyEmptyIcon}>
+          <Network size={18} />
+        </div>
+
+        <div className={styles.hierarchyEmptyTitle}>درخت ساختار آماده نیست</div>
+
+        <div className={styles.hierarchyEmptyText}>
+          برای مشاهده سلسله‌مراتب، ابتدا یک سیستم ریشه انتخاب کنید.
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className={`${styles.hierarchyCard} ${styles.smartFade}`}  dir="rtl">
+    <div className={styles.hierarchyPanel} dir="rtl">
       <div className={styles.hierarchyHeader}>
         <div className={styles.hierarchyTitle}>
-          <Network size={16} color="#38bdf8" />
+          <Network size={16} />
           <span>سلسله‌مراتب سیستم</span>
         </div>
-        
-        {focusEntityUuid && (
+
+        {focusEntityUuid ? (
           <button
             type="button"
             className={styles.resetButton}
@@ -99,11 +136,13 @@ export default function HierarchyDropdown() {
             title="بازنشانی فوکوس"
           >
             <RotateCcw size={12} />
-            بازنشانی
+            <span>بازنشانی</span>
           </button>
+        ) : (
+          <span className={styles.hierarchyHeaderHint}>انتخاب یک نود، فوکوس را فعال می‌کند</span>
         )}
       </div>
-      
+
       <div className={styles.hierarchyTree}>
         <HierarchyNode
           uuid={activeRootSystemUuid}

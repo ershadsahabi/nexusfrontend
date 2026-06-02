@@ -1,73 +1,69 @@
 /* src/components/canvas/canvasToolbar.module.css */
 
 .toolbarContainer {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
   gap: 8px;
-  /* افزایش z-index برای قرارگیری روی سایدبار */
-  z-index: 9999; 
+  min-width: max-content;
+  white-space: nowrap;
 }
 
-/* دکمه اصلی (Toggle) */
-.toolbarToggle {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease-in-out;
+/* دکمه‌های مستقیم داخل TopBar */
+.toolbarButton {
+  flex: 0 0 auto;
+  min-height: 36px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.22);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
 }
 
-.toolbarToggle:hover {
+.toolbarButton:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.32);
 }
 
-/* منوی دراپ‌داون (بر پایه Card) */
-.toolbarMenu {
-  position: absolute;
-  top: 100%;
-  /* تغییر از right: 0 به left: 0 تا منو به سمت داخل کانواس باز شود نه زیر سایدبار */
-  left: 0; 
-  margin-top: 8px;
-  min-width: 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 16px;
-  
-  /* افکت شیشه‌ای حرفه‌ای */
-  background: rgba(15, 23, 42, 0.85) !important; 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(148, 163, 184, 0.15) !important;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3) !important;
-  border-radius: 12px !important;
-
-  /* انیمیشن ورود */
-  animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  /* تغییر مبدأ انیمیشن به بالا سمت چپ */
-  transform-origin: top left; 
-}
-
-/* متن راهنما */
+/* متن وضعیت کنار دکمه‌ها */
 .hint {
+  flex: 0 0 auto;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 12px;
+  border-radius: 10px;
+
   font-size: 11px;
+  line-height: 1;
   color: #94a3b8;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 8px 12px;
-  border-radius: 6px;
-  text-align: center;
-  line-height: 1.5;
+
+  background: rgba(15, 23, 42, 0.58);
   border: 1px dashed rgba(148, 163, 184, 0.2);
-  margin-top: 4px;
+
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 8px 18px rgba(2, 6, 23, 0.18);
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.98);
+.hintActive {
+  color: #bae6fd;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.16), transparent 55%),
+    rgba(14, 116, 144, 0.16);
+  border-color: rgba(56, 189, 248, 0.32);
+}
+
+/* در عرض‌های کم، فقط اجازه اسکرول از خود TopBar گرفته می‌شود */
+@media (max-width: 768px) {
+  .toolbarContainer {
+    gap: 6px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+
+  .hint {
+    display: none;
   }
 }
