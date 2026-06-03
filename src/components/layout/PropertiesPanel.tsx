@@ -3,12 +3,14 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { useCanvasStore } from '@/store/useCanvasStore';
 import { useUpdateSystemEntity } from '@/hooks/useUpdateSystemEntity';
 import { useDeleteSystemEntity } from '@/hooks/useDeleteSystemEntity';
 import { useSystemEntityTypes } from '@/hooks/useSystemEntityTypes';
+import { useFemStatus } from '@/hooks/useFemModel';
+import { useFemStatusStore } from '@/store/useFemStatusStore';
 
 import type { ApiEntityType } from '@/lib/types/api.types';
 import type { MetadataSchema, MetadataValues } from '@/lib/metadata/types';
@@ -61,8 +63,13 @@ function getEntityAvatarText(name: string, code: string) {
   return source.slice(0, 2).toUpperCase();
 }
 
+function buildFemWorkspaceHref(projectUuid: string, femModelUuid: string) {
+  return `/projects/${projectUuid}/fem/${femModelUuid}`;
+}
+
 export const PropertiesPanel = () => {
   const params = useParams();
+  const router = useRouter();
 
   const projectUuid =
     typeof params?.projectId === 'string'
@@ -85,6 +92,33 @@ export const PropertiesPanel = () => {
   const selectedEntity = entities.find(
     (entity) => entity.uuid === selectedEntityId
   );
+
+  // --- FEM Status & Integration ---
+  const cachedFemStatus = useFemStatusStore((state) =>
+    selectedEntity?.uuid ? state.byEntityUuid[selectedEntity.uuid] ?? null : null
+  );
+
+  const { data: fetchedFemStatus, isLoading: isFemStatusLoading } = useFemStatus(
+    projectUuid,
+    selectedEntity?.uuid ?? null
+  );
+
+  const femStatus = fetchedFemStatus ?? cachedFemStatus ?? null;
+
+  const isFemEligible =
+    femStatus?.femEligible ??
+    (selectedEntity?.systemType as any)?.fem_eligible ??
+    false;
+
+  const canOpenFemWorkspace = Boolean(
+    projectUuid && femStatus?.hasFemModel && femStatus?.femModelUuid
+  );
+
+  const handleOpenFemWorkspace = () => {
+    if (!projectUuid || !femStatus?.femModelUuid) return;
+    router.push(buildFemWorkspaceHref(projectUuid, femStatus.femModelUuid));
+  };
+  // --------------------------------
 
   const updateEntityMutation = useUpdateSystemEntity(projectUuid, scenarioId);
   const deleteEntityMutation = useDeleteSystemEntity(projectUuid, scenarioId);
@@ -202,14 +236,11 @@ export const PropertiesPanel = () => {
       setEditCode('');
       setEditDescription('');
       setEditType('generic');
-
       setPosX(0);
       setPosY(0);
       setPosZ(0);
-
       setSortOrder(0);
       setIsActive(true);
-
       setParentUuid(null);
       setSystemTypeUuid(null);
       setMetadataValues({});
@@ -220,19 +251,15 @@ export const PropertiesPanel = () => {
     setEditCode(selectedEntity.code ?? '');
     setEditDescription(selectedEntity.description ?? '');
     setEditType((selectedEntity.entityType ?? 'generic') as EntityType);
-
     setPosX(selectedEntity.position?.[0] ?? 0);
     setPosY(selectedEntity.position?.[1] ?? 0);
     setPosZ(selectedEntity.position?.[2] ?? 0);
-
     setSortOrder(selectedEntity.sortOrder ?? 0);
-
     setIsActive(
       typeof selectedEntity.isActive === 'boolean'
         ? selectedEntity.isActive
         : true
     );
-
     setParentUuid(selectedEntity.parentId ?? null);
     setSystemTypeUuid(selectedEntity.systemType?.uuid ?? null);
   }, [selectedEntity]);
@@ -297,7 +324,6 @@ export const PropertiesPanel = () => {
     }
 
     setSaveError(null);
-    setDeleteError(null);
 
     const cleanedMetadata = sanitizeMetadataForSubmit(
       currentMetadataSchema,
@@ -314,17 +340,13 @@ export const PropertiesPanel = () => {
       code: editCode.trim() || undefined,
       description: editDescription.trim() || undefined,
       entity_type: editType as ApiEntityType,
-
       pos_x: Number.isFinite(posX) ? posX : 0,
       pos_y: Number.isFinite(posY) ? posY : 0,
       pos_z: Number.isFinite(posZ) ? posZ : 0,
-
       sort_order: Number.isFinite(sortOrder) ? sortOrder : 0,
       is_active: isActive,
-
       parent: parentUuid ?? null,
       system_type_uuid: systemTypeUuid ?? null,
-
       metadata: metadataOverrides,
     };
 
@@ -351,16 +373,6 @@ export const PropertiesPanel = () => {
   const handleDelete = async () => {
     if (!selectedEntity || isBusy) return;
 
-    if (!selectedEntity.uuid) {
-      setDeleteError('شناسه موجودیت انتخاب‌شده معتبر نیست.');
-      return;
-    }
-
-    if (!projectUuid) {
-      setDeleteError('شناسه پروژه از مسیر صفحه پیدا نشد.');
-      return;
-    }
-
     const confirmed = window.confirm(
       `آیا از حذف موجودیت «${
         selectedEntity.name ?? selectedEntity.uuid
@@ -368,9 +380,6 @@ export const PropertiesPanel = () => {
     );
 
     if (!confirmed) return;
-
-    setDeleteError(null);
-    setSaveError(null);
 
     try {
       await deleteEntityMutation.mutateAsync(selectedEntity.uuid);
@@ -390,9 +399,7 @@ export const PropertiesPanel = () => {
           <span className={styles.panelEyebrow}>
             Inspector // Node Properties
           </span>
-
           <h3 className={styles.panelTitle}>مشخصات سیستم</h3>
-
           <span className={styles.panelSubtitle}>
             ویرایش ساختار، مختصات و متادیتای موجودیت انتخاب‌شده
           </span>
@@ -411,7 +418,6 @@ export const PropertiesPanel = () => {
               className={styles.clearSelectionBtn}
               onClick={clearSelection}
               title="پاک کردن انتخاب"
-              aria-label="پاک کردن انتخاب"
               disabled={isBusy}
             >
               ×
@@ -425,31 +431,12 @@ export const PropertiesPanel = () => {
           <div className={styles.emptyOrb}>
             <span>◇</span>
           </div>
-
           <div className={styles.emptyContent}>
             <p>هیچ موجودیتی انتخاب نشده است</p>
-
             <span>
               یک Node یا System Entity را از روی Canvas انتخاب کنید تا Inspector
               فعال شود.
             </span>
-          </div>
-
-          <div className={styles.emptyHints}>
-            <div>
-              <strong>01</strong>
-              <span>انتخاب Node از Canvas</span>
-            </div>
-
-            <div>
-              <strong>02</strong>
-              <span>ویرایش مشخصات و مختصات</span>
-            </div>
-
-            <div>
-              <strong>03</strong>
-              <span>اعمال تغییرات روی مدل</span>
-            </div>
           </div>
         </div>
       ) : (
@@ -457,7 +444,7 @@ export const PropertiesPanel = () => {
           {generalSaveErrors.length > 0 ? (
             <div className={styles.errorBox}>
               {generalSaveErrors.map((message, index) => (
-                <div key={`${message}-${index}`}>{message}</div>
+                <div key={index}>{message}</div>
               ))}
             </div>
           ) : null}
@@ -468,14 +455,9 @@ export const PropertiesPanel = () => {
 
           <div className={styles.entitySummaryCard}>
             <div className={styles.entityAvatar}>{entityAvatarText}</div>
-
             <div className={styles.entitySummaryMain}>
-              <span className={styles.entitySummaryLabel}>
-                Selected Entity
-              </span>
-
+              <span className={styles.entitySummaryLabel}>Selected Entity</span>
               <strong title={entityDisplayName}>{entityDisplayName}</strong>
-
               <div className={styles.entitySummaryMeta}>
                 <span>{entityDisplayCode}</span>
                 <span>{entityDisplayType}</span>
@@ -484,6 +466,50 @@ export const PropertiesPanel = () => {
             </div>
           </div>
 
+          {/* --- FEM Workspace Integration Card --- */}
+          <div className={styles.femWorkspaceCard}>
+            <div className={styles.femWorkspaceHeader}>
+              <div>
+                <span className={styles.femWorkspaceEyebrow}>FEM WORKSPACE</span>
+                <strong>فضای تحلیل مهندسی</strong>
+              </div>
+
+              {isFemStatusLoading ? (
+                <span className={styles.femStatusPillMuted}>در حال بررسی...</span>
+              ) : femStatus?.hasFemModel ? (
+                <span className={styles.femStatusPillSuccess}>متصل</span>
+              ) : isFemEligible ? (
+                <span className={styles.femStatusPillWarning}>آماده اتصال</span>
+              ) : (
+                <span className={styles.femStatusPillMuted}>غیرمجاز</span>
+              )}
+            </div>
+
+            <p className={styles.femWorkspaceText}>
+              {isFemStatusLoading
+                ? 'در حال دریافت وضعیت مدل FEM برای این موجودیت...'
+                : femStatus?.hasFemModel
+                ? 'مدل FEM برای این موجودیت ساخته شده است و می‌توانید وارد فضای تحلیل شوید.'
+                : isFemEligible
+                ? 'این موجودیت قابلیت FEM دارد، اما هنوز مدل FEM برای آن ساخته نشده است.'
+                : 'این موجودیت قابلیت اتصال به FEM Workspace را ندارد.'}
+            </p>
+
+            {femStatus?.femModelUuid && (
+              <code className={styles.femModelUuid}>{femStatus.femModelUuid}</code>
+            )}
+
+            <button
+              type="button"
+              className={styles.femWorkspaceBtn}
+              onClick={handleOpenFemWorkspace}
+              disabled={!canOpenFemWorkspace || isBusy}
+            >
+              ورود به فضای FEM
+            </button>
+          </div>
+          {/* -------------------------------------- */}
+
           <div className={styles.uuidBox}>
             <span className={styles.propertyLabel}>UUID</span>
             <code>{selectedEntity.uuid}</code>
@@ -491,275 +517,111 @@ export const PropertiesPanel = () => {
 
           <div className={styles.formGroup}>
             <label className={styles.propertyLabel}>{FIELD_LABELS.name}</label>
-
             <input
               type="text"
               value={editName}
-              onChange={(event) => setEditName(event.target.value)}
+              onChange={(e) => setEditName(e.target.value)}
               className={getInputClassName('name')}
               placeholder="نام سیستم"
-              autoComplete="off"
               disabled={isBusy}
             />
-
-            {nameError ? (
-              <span className={styles.fieldError}>{nameError}</span>
-            ) : null}
+            {nameError && <span className={styles.fieldError}>{nameError}</span>}
           </div>
 
           <div className={styles.formGroup}>
             <label className={styles.propertyLabel}>{FIELD_LABELS.code}</label>
-
             <input
               type="text"
               value={editCode}
-              onChange={(event) => setEditCode(event.target.value)}
+              onChange={(e) => setEditCode(e.target.value)}
               className={getInputClassName('code')}
               placeholder="کد اختیاری"
-              autoComplete="off"
               disabled={isBusy}
             />
-
-            {codeError ? (
-              <span className={styles.fieldError}>{codeError}</span>
-            ) : null}
+            {codeError && <span className={styles.fieldError}>{codeError}</span>}
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.propertyLabel}>
-              {FIELD_LABELS.description}
-            </label>
-
+            <label className={styles.propertyLabel}>{FIELD_LABELS.description}</label>
             <textarea
               value={editDescription}
-              onChange={(event) => setEditDescription(event.target.value)}
+              onChange={(e) => setEditDescription(e.target.value)}
               className={getTextareaClassName('description')}
               placeholder="توضیحات اختیاری..."
               disabled={isBusy}
             />
-
-            {descriptionError ? (
-              <span className={styles.fieldError}>{descriptionError}</span>
-            ) : null}
+            {descriptionError && <span className={styles.fieldError}>{descriptionError}</span>}
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.propertyLabel}>
-              {FIELD_LABELS.entity_type}
-            </label>
-
+            <label className={styles.propertyLabel}>{FIELD_LABELS.entity_type}</label>
             <select
               value={editType}
-              onChange={(event) =>
-                setEditType(event.target.value as EntityType)
-              }
+              onChange={(e) => setEditType(e.target.value as EntityType)}
               className={getInputClassName('entity_type')}
               disabled={isBusy}
             >
               {ENTITY_TYPE_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
+                <option key={option.value} value={option.value}>{option.label}</option>
               ))}
             </select>
-
-            {entityTypeError ? (
-              <span className={styles.fieldError}>{entityTypeError}</span>
-            ) : null}
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.propertyLabel}>
-              {FIELD_LABELS.system_type_uuid}
-            </label>
-
+            <label className={styles.propertyLabel}>{FIELD_LABELS.system_type_uuid}</label>
             <select
               value={systemTypeUuid ?? ''}
-              onChange={(event) =>
-                setSystemTypeUuid(event.target.value || null)
-              }
+              onChange={(e) => setSystemTypeUuid(e.target.value || null)}
               className={getInputClassName('system_type_uuid')}
               disabled={isBusy}
             >
               <option value="">بدون تیپ خاص</option>
-
               {systemEntityTypes.map((type: any) => (
                 <option key={type.uuid} value={type.uuid}>
                   {type.name} {type.code ? `(${type.code})` : ''}
                 </option>
               ))}
             </select>
-
-            {currentSystemType ? (
-              <span className={styles.fieldHint}>
-                تیپ فعلی: {currentSystemType.name}
-                {currentSystemType.code ? ` (${currentSystemType.code})` : ''}
-              </span>
-            ) : (
-              <span className={styles.fieldHint}>
-                برای این موجودیت هنوز تیپ سیستمی مشخص نشده است.
-              </span>
-            )}
-
-            {systemTypeUuidError ? (
-              <span className={styles.fieldError}>{systemTypeUuidError}</span>
-            ) : null}
-          </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.propertyLabel}>
-              {FIELD_LABELS.parent}
-            </label>
-
-            <select
-              value={parentUuid ?? ''}
-              onChange={(event) =>
-                setParentUuid(event.target.value || null)
-              }
-              className={getInputClassName('parent')}
-              disabled={isBusy}
-            >
-              <option value="">-- بدون والد --</option>
-
-              {availableParents.map((entity: any) => (
-                <option key={entity.uuid} value={entity.uuid}>
-                  {entity.name}
-                  {entity.code ? ` (${entity.code})` : ''}
-                </option>
-              ))}
-            </select>
-
-            <span className={styles.fieldHint}>
-              والد این موجودیت را از بین نودهای موجود انتخاب کنید.
-            </span>
-
-            {parentError ? (
-              <span className={styles.fieldError}>{parentError}</span>
-            ) : null}
-          </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.propertyLabel}>
-              {FIELD_LABELS.sort_order}
-            </label>
-
-            <input
-              type="number"
-              value={sortOrder}
-              onChange={(event) =>
-                setSortOrder(toFiniteNumber(event.target.value, 0))
-              }
-              className={getInputClassName('sort_order')}
-              disabled={isBusy}
-            />
-
-            {sortOrderError ? (
-              <span className={styles.fieldError}>{sortOrderError}</span>
-            ) : null}
-          </div>
-
-          <div className={styles.formGroup}>
-            <label className={styles.propertyLabel}>
-              {FIELD_LABELS.is_active}
-            </label>
-
-            <div className={styles.toggleRow}>
-              <input
-                type="checkbox"
-                checked={isActive}
-                onChange={(event) => setIsActive(event.target.checked)}
-                disabled={isBusy}
-              />
-
-              <span className={styles.fieldHint}>
-                اگر غیرفعال باشد، ممکن است در برخی نماها نمایش داده نشود.
-              </span>
-            </div>
-
-            {isActiveError ? (
-              <span className={styles.fieldError}>{isActiveError}</span>
-            ) : null}
           </div>
 
           <div className={styles.sectionDivider} />
 
           <div className={styles.coordinateSection}>
-            <div className={styles.sectionTitleRow}>
-              <span className={styles.sectionTitle}>مختصات فضایی</span>
-              <span className={styles.sectionHint}>X / Y / Z</span>
-            </div>
-
+            <span className={styles.sectionTitle}>مختصات فضایی</span>
             <div className={styles.coordinatesGrid}>
               <div className={styles.coordInputGroup}>
                 <label>X</label>
-
                 <input
                   type="number"
                   step="0.5"
                   value={posX}
-                  onChange={(event) =>
-                    setPosX(toFiniteNumber(event.target.value, 0))
-                  }
+                  onChange={(e) => setPosX(toFiniteNumber(e.target.value))}
                   className={getInputClassName('pos_x')}
                   disabled={isBusy}
                 />
-
-                {posXError ? (
-                  <span className={styles.fieldError}>{posXError}</span>
-                ) : null}
               </div>
-
               <div className={styles.coordInputGroup}>
                 <label>Y</label>
-
                 <input
                   type="number"
                   step="0.5"
                   value={posY}
-                  onChange={(event) =>
-                    setPosY(toFiniteNumber(event.target.value, 0))
-                  }
+                  onChange={(e) => setPosY(toFiniteNumber(e.target.value))}
                   className={getInputClassName('pos_y')}
                   disabled={isBusy}
                 />
-
-                {posYError ? (
-                  <span className={styles.fieldError}>{posYError}</span>
-                ) : null}
               </div>
-
               <div className={styles.coordInputGroup}>
                 <label>Z</label>
-
                 <input
                   type="number"
                   step="0.5"
                   value={posZ}
-                  onChange={(event) =>
-                    setPosZ(toFiniteNumber(event.target.value, 0))
-                  }
+                  onChange={(e) => setPosZ(toFiniteNumber(e.target.value))}
                   className={getInputClassName('pos_z')}
                   disabled={isBusy}
                 />
-
-                {posZError ? (
-                  <span className={styles.fieldError}>{posZError}</span>
-                ) : null}
               </div>
-            </div>
-          </div>
-
-          <div className={styles.sectionDivider} />
-
-          <div className={styles.formGroupInline}>
-            <div>
-              <label className={styles.propertyLabel}>Root?</label>
-              <span>{selectedEntity.isRoot ? 'بله' : 'خیر'}</span>
-            </div>
-
-            <div>
-              <label className={styles.propertyLabel}>Leaf?</label>
-              <span>{selectedEntity.isLeaf ? 'بله' : 'خیر'}</span>
             </div>
           </div>
 
@@ -767,76 +629,36 @@ export const PropertiesPanel = () => {
 
           <div className={styles.formGroup}>
             <label className={styles.propertyLabel}>Metadata</label>
-
             {Object.keys(currentMetadataSchema).length === 0 ? (
-              <div className={styles.fieldHint}>
-                برای این تیپ سیستمی، Schema متادیتا تعریف نشده است. متادیتای
-                مؤثر/فعلی موجودیت:
-                <pre className={styles.metadataBox}>
-                  {JSON.stringify(
-                    (selectedEntity as any).effective_metadata ??
-                      metadataValues ??
-                      {},
-                    null,
-                    2
-                  )}
-                </pre>
-              </div>
+              <pre className={styles.metadataBox}>
+                {JSON.stringify(selectedEntity.metadata ?? {}, null, 2)}
+              </pre>
             ) : (
               <div className={styles.metadataFormWrapper}>
                 <MetadataForm
-                  key={systemTypeUuid ?? 'no-system-type'}
+                  key={systemTypeUuid ?? 'no-type'}
                   schema={currentMetadataSchema}
                   values={metadataValues}
                   onChange={setMetadataValues}
                   disabled={isBusy}
-                  title="Engineering Metadata"
-                  emptyMessage="برای این تیپ سیستمی، schema متادیتا تعریف نشده است."
                 />
               </div>
             )}
-
-            {metadataError ? (
-              <span className={styles.fieldError}>{metadataError}</span>
-            ) : null}
           </div>
-
-          {selectedEntity.createdAt || selectedEntity.updatedAt ? (
-            <div className={styles.formGroup}>
-              <label className={styles.propertyLabel}>تاریخ‌ها</label>
-
-              <div className={styles.timestamps}>
-                {selectedEntity.createdAt ? (
-                  <div>
-                    <span>ایجاد:</span>
-                    <code>{selectedEntity.createdAt}</code>
-                  </div>
-                ) : null}
-
-                {selectedEntity.updatedAt ? (
-                  <div>
-                    <span>آخرین به‌روزرسانی:</span>
-                    <code>{selectedEntity.updatedAt}</code>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          ) : null}
 
           <div className={styles.actionsRow}>
             <button
               type="button"
               onClick={handleSave}
-              disabled={isBusy || !projectUuid}
+              disabled={isBusy}
               className={styles.applyBtn}
             >
               {isUpdating ? 'در حال همگام‌سازی...' : 'اعمال تغییرات'}
             </button>
-
             <button
               type="button"
               onClick={handleDelete}
-              disabled={isBusy || !projectUuid}
+              disabled={isBusy}
               className={styles.deleteBtn}
             >
               {isDeleting ? 'در حال حذف...' : 'حذف موجودیت'}

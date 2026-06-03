@@ -9,14 +9,14 @@ import { Canvas, ThreeEvent } from '@react-three/fiber';
 import { Grid } from '@react-three/drei';
 import * as THREE from 'three';
 
-import { AlertCircle, Loader2, Trash2 } from 'lucide-react';
+import { AlertCircle, Loader2 } from 'lucide-react';
 
 // --- Hooks & Store ---
 import { useProjectGraph } from '@/hooks/useProjectGraph';
 import { useCreateConnection } from '@/hooks/useCreateConnection';
 import { useUpdateSystemEntity } from '@/hooks/useUpdateSystemEntity';
 import { useDeleteConnection } from '@/hooks/useDeleteConnection';
-import { useDeleteSystemEntity } from '@/hooks/useDeleteSystemEntity';
+import { useFemBulkStatus } from '@/hooks/useFemModel';
 import { useCanvasStore } from '@/store/useCanvasStore';
 import { filterVisibleGraph } from '@/lib/graph/visibility';
 
@@ -33,7 +33,6 @@ import CanvasEnvironment from './CanvasEnvironment';
 import type { CameraApi } from './CameraController';
 
 // --- UI Components ---
-import Button from '@/components/common/Button/Button';
 import Card from '@/components/common/Card/Card';
 
 import type { CanvasEntity } from '@/lib/types/canvas.types';
@@ -61,7 +60,6 @@ export default function CanvasScene({
   const createConnection = useCreateConnection(projectUuid, scenarioId);
   const updateEntity = useUpdateSystemEntity(projectUuid, scenarioId);
   const deleteConnection = useDeleteConnection(projectUuid, scenarioId);
-  const deleteEntity = useDeleteSystemEntity(projectUuid, scenarioId);
 
   // === Global Store ===
   const {
@@ -122,6 +120,17 @@ export default function CanvasScene({
   const visibleEntityMap = useMemo(() => {
     return new Map(visibleGraph.entities.map((entity) => [entity.uuid, entity]));
   }, [visibleGraph.entities]);
+
+  const visibleEntityUuids = useMemo(() => {
+    return visibleGraph.entities.map((entity) => entity.uuid);
+  }, [visibleGraph.entities]);
+
+  /**
+   * فقط وضعیت FEM نودهای visible گرفته می‌شود.
+   * داده تحلیلی FEM هرگز اینجا fetch نمی‌شود.
+   * نتیجه داخل FemStatusStore cache می‌شود و EntityNodeها جداگانه از آن می‌خوانند.
+   */
+  useFemBulkStatus(projectUuid, visibleEntityUuids);
 
   const floatingSource = useMemo(() => {
     if (!edgeCreationSourceUuid) return null;
@@ -313,6 +322,7 @@ export default function CanvasScene({
               key={entity.uuid}
               entity={entity}
               isSelected={selectedEntity === entity.uuid}
+              isFocused={focusEntityUuid === entity.uuid}
               isEdgeSource={edgeCreationSourceUuid === entity.uuid}
               mode={mode}
               onSelect={selectEntity}
@@ -323,10 +333,7 @@ export default function CanvasScene({
 
           {/* خط شناور هنگام ساخت اتصال */}
           {mode === 'create-edge' && floatingSource && (
-            <FloatingEdge
-              source={floatingSource.position}
-              target={mouseWorld}
-            />
+            <FloatingEdge source={floatingSource.position} target={mouseWorld} />
           )}
 
           <CameraController
@@ -339,31 +346,6 @@ export default function CanvasScene({
       </div>
 
       <div className={styles.canvasUiLayer}>
-        {selectedEntity && (
-          <div className={styles.overlayEntityActions}>
-            <Card className="p-1 bg-slate-900/80 backdrop-blur-md border-slate-700/50 shadow-lg">
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() =>
-                  deleteEntity
-                    .mutateAsync(selectedEntity)
-                    .then(clearSelection)
-                }
-                disabled={deleteEntity.isPending}
-                className="gap-2"
-              >
-                {deleteEntity.isPending ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Trash2 className="w-4 h-4" />
-                )}
-                <span>حذف موجودیت</span>
-              </Button>
-            </Card>
-          </div>
-        )}
-
         <div className={styles.overlayBottomRight}>
           <Card
             className={`p-3 bg-slate-900/80 backdrop-blur-md border-slate-700/50 shadow-lg ${styles.canvasLegend}`}

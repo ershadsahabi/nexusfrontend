@@ -7,6 +7,9 @@ import { apiClient } from '@/lib/api/axios';
 import type {
   ApiConnectionEdge,
   ApiEntityType,
+  ApiFemBulkStatusResponse,
+  ApiFemModel,
+  ApiFemStatus,
   ApiProjectGraphResponse,
   ApiSystemEntity,
   ApiSystemEntityTypeSummary,
@@ -71,6 +74,15 @@ export interface UpdateConnectionPayload {
   metadata?: Record<string, unknown> | null;
 }
 
+export interface CreateFemModelPayload {
+  system_entity_uuid: string;
+  metadata?: Record<string, unknown> | null;
+}
+
+export interface FetchFemBulkStatusOptions {
+  strict?: boolean;
+}
+
 export type ApiErrorMap = {
   nonFieldErrors: string[];
   fieldErrors: Record<string, string[]>;
@@ -95,6 +107,12 @@ export const FIELD_LABELS: Record<string, string> = {
 
   metadata: 'متادیتا',
   project: 'پروژه',
+  project_uuid: 'پروژه',
+
+  system_entity: 'موجودیت سیستمی',
+  system_entity_uuid: 'موجودیت سیستمی',
+  system_entity_uuids: 'موجودیت‌های سیستمی',
+  missing: 'موارد پیدا نشده',
 
   detail: 'خطا',
   non_field_errors: 'خطا',
@@ -146,6 +164,30 @@ const BACKEND_ERROR_TRANSLATIONS: Record<string, string> = {
     'اطلاعات احراز هویت ارسال نشده است.',
   'You do not have permission to perform this action.':
     'شما مجوز انجام این عملیات را ندارید.',
+
+  // FEM model errors
+  'System entity not found.':
+    'موجودیت سیستمی پیدا نشد.',
+  'Selected system entity does not belong to the current project.':
+    'موجودیت انتخاب‌شده متعلق به پروژه فعلی نیست.',
+  'Selected system entity is not FEM-eligible.':
+    'این موجودیت برای ایجاد مدل FEM مجاز نیست.',
+  'A FEM model already exists for this system entity.':
+    'برای این موجودیت، مدل FEM از قبل ایجاد شده است.',
+  'Changing linked system entity is not allowed.':
+    'تغییر موجودیت متصل به مدل FEM مجاز نیست.',
+  'System entity resolution failed.':
+    'تطبیق موجودیت سیستمی با خطا مواجه شد.',
+  'Project UUID is required.':
+    'شناسه پروژه الزامی است.',
+  'System entity UUID is required.':
+    'شناسه موجودیت سیستمی الزامی است.',
+  'System entity not found in current project.':
+    'موجودیت سیستمی در پروژه فعلی پیدا نشد.',
+
+  // FEM bulk status errors
+  'Some system entities were not found in the current project.':
+    'برخی موجودیت‌های سیستمی در پروژه فعلی پیدا نشدند.',
 };
 
 function buildProjectParams(projectUuid: string) {
@@ -314,6 +356,22 @@ export function hasSystemEntityFieldError(
   return Boolean(getFirstSystemEntityFieldError(errors, fieldName));
 }
 
+function uniqueStrings(input: string[]): string[] {
+  return [...new Set(input.filter(Boolean))];
+}
+
+function chunkArray<T>(input: T[], chunkSize: number): T[][] {
+  if (chunkSize <= 0) return [input];
+
+  const chunks: T[][] = [];
+
+  for (let index = 0; index < input.length; index += chunkSize) {
+    chunks.push(input.slice(index, index + chunkSize));
+  }
+
+  return chunks;
+}
+
 export async function fetchSystemEntityTypes(): Promise<ApiSystemEntityTypeSummary[]> {
   const { data } = await apiClient.get('/entities/system-entity-types/');
   return data.results ?? data ?? [];
@@ -449,4 +507,89 @@ export async function deleteConnection(
   await apiClient.delete(`/entities/connections/${connectionUuid}/`, {
     params: buildProjectParams(context.projectUuid),
   });
+}
+
+export async function fetchFemStatus(
+  projectUuid: string,
+  systemEntityUuid: string
+): Promise<ApiFemStatus> {
+  const { data } = await apiClient.get('/entities/fem-models/status/', {
+    params: {
+      ...buildProjectParams(projectUuid),
+      system_entity: systemEntityUuid,
+    },
+  });
+
+  return data;
+}
+
+export async function fetchFemBulkStatus(
+  projectUuid: string,
+  systemEntityUuids: string[],
+  options: FetchFemBulkStatusOptions = {}
+): Promise<ApiFemBulkStatusResponse> {
+  if (!projectUuid) {
+    throw new Error('fetchFemBulkStatus: projectUuid is required');
+  }
+
+  const uniqueUuids = uniqueStrings(systemEntityUuids);
+
+  if (uniqueUuids.length === 0) {
+    return [];
+  }
+
+  /**
+   * Backend serializer currently accepts max_length=500.
+   * This chunking keeps the frontend safe even if Canvas visible nodes grow.
+   */
+  const chunks = chunkArray(uniqueUuids, 500);
+
+  const responses = await Promise.all(
+    chunks.map(async (chunk) => {
+      const { data } = await apiClient.post<ApiFemBulkStatusResponse>(
+        '/entities/fem-models/bulk-status/',
+        {
+          project_uuid: projectUuid,
+          system_entity_uuids: chunk,
+          strict: options.strict ?? false,
+        },
+        {
+          params: buildProjectParams(projectUuid),
+        }
+      );
+
+      return data;
+    })
+  );
+
+  return responses.flat();
+}
+
+export async function fetchFemModels(
+  projectUuid: string,
+  systemEntityUuid?: string
+): Promise<ApiFemModel[]> {
+  const params: Record<string, string> = buildProjectParams(projectUuid);
+
+  if (systemEntityUuid) {
+    params.system_entity = systemEntityUuid;
+  }
+
+  const { data } = await apiClient.get('/entities/fem-models/', { params });
+  return data.results ?? data ?? [];
+}
+
+export async function createFemModel(
+  projectUuid: string,
+  payload: CreateFemModelPayload
+): Promise<ApiFemModel> {
+  const body = {
+    ...payload,
+  };
+
+  const { data } = await apiClient.post('/entities/fem-models/', body, {
+    params: buildProjectParams(projectUuid),
+  });
+
+  return data;
 }

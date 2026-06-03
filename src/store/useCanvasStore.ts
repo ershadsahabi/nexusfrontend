@@ -50,6 +50,8 @@ interface CanvasStoreState {
   viewDepth: number;
   focusEntityUuid: string | null;
 
+  femModalEntityUuid: string | null;
+
   setGraph: (
     entities: CanvasEntity[],
     connections: CanvasConnection[]
@@ -94,6 +96,9 @@ interface CanvasStoreState {
     uuid: string | null
   ) => void;
 
+  openFemModal: (entityUuid: string) => void;
+  closeFemModal: () => void;
+
   reset: () => void;
 }
 
@@ -115,6 +120,8 @@ const initialState = {
   activeRootSystemUuid: null as string | null,
   viewDepth: 2,
   focusEntityUuid: null as string | null,
+
+  femModalEntityUuid: null as string | null,
 };
 
 export const useCanvasStore =
@@ -163,6 +170,12 @@ export const useCanvasStore =
             state.focusEntityUuid &&
             entityUuidSet.has(state.focusEntityUuid)
               ? state.focusEntityUuid
+              : null,
+
+          femModalEntityUuid:
+            state.femModalEntityUuid &&
+            entityUuidSet.has(state.femModalEntityUuid)
+              ? state.femModalEntityUuid
               : null,
         };
       }),
@@ -285,6 +298,11 @@ export const useCanvasStore =
             state.activeRootSystemUuid === uuid
               ? null
               : state.activeRootSystemUuid,
+
+          femModalEntityUuid:
+            state.femModalEntityUuid === uuid
+              ? null
+              : state.femModalEntityUuid,
         };
       }),
 
@@ -364,6 +382,16 @@ export const useCanvasStore =
     setFocusEntity: (uuid) =>
       set(() => ({
         focusEntityUuid: uuid,
+      })),
+
+    openFemModal: (entityUuid) =>
+      set(() => ({
+        femModalEntityUuid: entityUuid,
+      })),
+
+    closeFemModal: () =>
+      set(() => ({
+        femModalEntityUuid: null,
       })),
 
     reset: () =>

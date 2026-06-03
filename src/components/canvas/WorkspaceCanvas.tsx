@@ -9,6 +9,7 @@ import CanvasScene from './CanvasScene';
 import CanvasTopBar from './CanvasTopBar';
 import CameraDock from './CameraDock';
 import CanvasStructureSidebar from './CanvasStructureSidebar';
+import FemLinkModal from './FemLinkModal';
 
 import type { CameraApi } from './CameraController';
 
@@ -64,6 +65,7 @@ export default function WorkspaceCanvas({
         </CanvasTopBar>
 
         <CanvasStructureSidebar />
+        <FemLinkModal projectUuid={projectUuid} />
       </div>
     </div>
   );

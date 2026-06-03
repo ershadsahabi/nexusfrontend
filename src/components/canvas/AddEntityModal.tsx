@@ -606,7 +606,7 @@ export default function AddEntityModal({
       isOpen={isOpen}
       onClose={handleClose}
       title="افزودن سیستم جدید"
-      size="md"
+      size="lg"
     >
       <div
         className={styles.container}
