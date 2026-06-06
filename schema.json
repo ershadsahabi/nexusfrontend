@@ -8,7 +8,6 @@ paths:
   /api/v1/analysis/cases/:
     get:
       operationId: analysis_cases_list
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - name: page
         required: false
@@ -29,7 +28,6 @@ paths:
           description: ''
     post:
       operationId: analysis_cases_create
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       tags:
       - analysis
       requestBody:
@@ -56,7 +54,6 @@ paths:
   /api/v1/analysis/cases/{uuid}/:
     get:
       operationId: analysis_cases_retrieve
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -77,7 +74,6 @@ paths:
           description: ''
     put:
       operationId: analysis_cases_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -110,7 +106,6 @@ paths:
           description: ''
     patch:
       operationId: analysis_cases_partial_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -142,7 +137,6 @@ paths:
           description: ''
     delete:
       operationId: analysis_cases_destroy
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -160,7 +154,6 @@ paths:
   /api/v1/analysis/models/:
     get:
       operationId: analysis_models_list
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - name: page
         required: false
@@ -181,7 +174,6 @@ paths:
           description: ''
     post:
       operationId: analysis_models_create
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       tags:
       - analysis
       requestBody:
@@ -208,7 +200,6 @@ paths:
   /api/v1/analysis/models/{uuid}/:
     get:
       operationId: analysis_models_retrieve
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -229,7 +220,6 @@ paths:
           description: ''
     put:
       operationId: analysis_models_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -262,7 +252,6 @@ paths:
           description: ''
     patch:
       operationId: analysis_models_partial_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -294,7 +283,6 @@ paths:
           description: ''
     delete:
       operationId: analysis_models_destroy
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -312,7 +300,6 @@ paths:
   /api/v1/analysis/result-items/:
     get:
       operationId: analysis_result_items_list
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - name: page
         required: false
@@ -333,7 +320,6 @@ paths:
           description: ''
     post:
       operationId: analysis_result_items_create
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       tags:
       - analysis
       requestBody:
@@ -360,7 +346,6 @@ paths:
   /api/v1/analysis/result-items/{uuid}/:
     get:
       operationId: analysis_result_items_retrieve
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -381,7 +366,6 @@ paths:
           description: ''
     put:
       operationId: analysis_result_items_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -414,7 +398,6 @@ paths:
           description: ''
     patch:
       operationId: analysis_result_items_partial_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -446,7 +429,6 @@ paths:
           description: ''
     delete:
       operationId: analysis_result_items_destroy
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -464,7 +446,6 @@ paths:
   /api/v1/analysis/results/:
     get:
       operationId: analysis_results_list
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - name: page
         required: false
@@ -485,7 +466,6 @@ paths:
           description: ''
     post:
       operationId: analysis_results_create
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       tags:
       - analysis
       requestBody:
@@ -512,7 +492,6 @@ paths:
   /api/v1/analysis/results/{uuid}/:
     get:
       operationId: analysis_results_retrieve
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -533,7 +512,6 @@ paths:
           description: ''
     put:
       operationId: analysis_results_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -566,7 +544,6 @@ paths:
           description: ''
     patch:
       operationId: analysis_results_partial_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -598,7 +575,6 @@ paths:
           description: ''
     delete:
       operationId: analysis_results_destroy
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -616,7 +592,6 @@ paths:
   /api/v1/analysis/runs/:
     get:
       operationId: analysis_runs_list
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - name: page
         required: false
@@ -637,7 +612,6 @@ paths:
           description: ''
     post:
       operationId: analysis_runs_create
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       tags:
       - analysis
       requestBody:
@@ -664,7 +638,6 @@ paths:
   /api/v1/analysis/runs/{uuid}/:
     get:
       operationId: analysis_runs_retrieve
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -685,7 +658,6 @@ paths:
           description: ''
     put:
       operationId: analysis_runs_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -718,7 +690,6 @@ paths:
           description: ''
     patch:
       operationId: analysis_runs_partial_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -750,7 +721,6 @@ paths:
           description: ''
     delete:
       operationId: analysis_runs_destroy
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -822,7 +792,6 @@ paths:
   /api/v1/ecosystem/applied-loads/:
     get:
       operationId: ecosystem_applied_loads_list
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - name: page
         required: false
@@ -843,7 +812,6 @@ paths:
           description: ''
     post:
       operationId: ecosystem_applied_loads_create
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       tags:
       - ecosystem
       requestBody:
@@ -870,7 +838,6 @@ paths:
   /api/v1/ecosystem/applied-loads/{uuid}/:
     get:
       operationId: ecosystem_applied_loads_retrieve
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -891,7 +858,6 @@ paths:
           description: ''
     put:
       operationId: ecosystem_applied_loads_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -924,7 +890,6 @@ paths:
           description: ''
     patch:
       operationId: ecosystem_applied_loads_partial_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -956,7 +921,6 @@ paths:
           description: ''
     delete:
       operationId: ecosystem_applied_loads_destroy
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -974,7 +938,6 @@ paths:
   /api/v1/ecosystem/boundary-conditions/:
     get:
       operationId: ecosystem_boundary_conditions_list
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - name: page
         required: false
@@ -995,7 +958,6 @@ paths:
           description: ''
     post:
       operationId: ecosystem_boundary_conditions_create
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       tags:
       - ecosystem
       requestBody:
@@ -1022,7 +984,6 @@ paths:
   /api/v1/ecosystem/boundary-conditions/{uuid}/:
     get:
       operationId: ecosystem_boundary_conditions_retrieve
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1043,7 +1004,6 @@ paths:
           description: ''
     put:
       operationId: ecosystem_boundary_conditions_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1076,7 +1036,6 @@ paths:
           description: ''
     patch:
       operationId: ecosystem_boundary_conditions_partial_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1108,7 +1067,6 @@ paths:
           description: ''
     delete:
       operationId: ecosystem_boundary_conditions_destroy
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1126,7 +1084,6 @@ paths:
   /api/v1/ecosystem/load-cases/:
     get:
       operationId: ecosystem_load_cases_list
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - name: page
         required: false
@@ -1147,7 +1104,6 @@ paths:
           description: ''
     post:
       operationId: ecosystem_load_cases_create
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       tags:
       - ecosystem
       requestBody:
@@ -1174,7 +1130,6 @@ paths:
   /api/v1/ecosystem/load-cases/{uuid}/:
     get:
       operationId: ecosystem_load_cases_retrieve
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1195,7 +1150,6 @@ paths:
           description: ''
     put:
       operationId: ecosystem_load_cases_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1228,7 +1182,6 @@ paths:
           description: ''
     patch:
       operationId: ecosystem_load_cases_partial_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1260,7 +1213,6 @@ paths:
           description: ''
     delete:
       operationId: ecosystem_load_cases_destroy
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1278,7 +1230,6 @@ paths:
   /api/v1/ecosystem/load-combinations/:
     get:
       operationId: ecosystem_load_combinations_list
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - name: page
         required: false
@@ -1299,7 +1250,6 @@ paths:
           description: ''
     post:
       operationId: ecosystem_load_combinations_create
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       tags:
       - ecosystem
       requestBody:
@@ -1326,7 +1276,6 @@ paths:
   /api/v1/ecosystem/load-combinations/{uuid}/:
     get:
       operationId: ecosystem_load_combinations_retrieve
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1347,7 +1296,6 @@ paths:
           description: ''
     put:
       operationId: ecosystem_load_combinations_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1380,7 +1328,6 @@ paths:
           description: ''
     patch:
       operationId: ecosystem_load_combinations_partial_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1412,7 +1359,6 @@ paths:
           description: ''
     delete:
       operationId: ecosystem_load_combinations_destroy
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1430,7 +1376,6 @@ paths:
   /api/v1/ecosystem/scenarios/:
     get:
       operationId: ecosystem_scenarios_list
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - name: page
         required: false
@@ -1451,7 +1396,6 @@ paths:
           description: ''
     post:
       operationId: ecosystem_scenarios_create
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       tags:
       - ecosystem
       requestBody:
@@ -1478,7 +1422,6 @@ paths:
   /api/v1/ecosystem/scenarios/{uuid}/:
     get:
       operationId: ecosystem_scenarios_retrieve
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1499,7 +1442,6 @@ paths:
           description: ''
     put:
       operationId: ecosystem_scenarios_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1532,7 +1474,6 @@ paths:
           description: ''
     patch:
       operationId: ecosystem_scenarios_partial_update
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1564,7 +1505,6 @@ paths:
           description: ''
     delete:
       operationId: ecosystem_scenarios_destroy
-      description: ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
       parameters:
       - in: path
         name: uuid
@@ -1582,9 +1522,6 @@ paths:
   /api/v1/entities/assemblies/:
     get:
       operationId: entities_assemblies_list
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - name: page
         required: false
@@ -1605,9 +1542,6 @@ paths:
           description: ''
     post:
       operationId: entities_assemblies_create
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       tags:
       - entities
       requestBody:
@@ -1634,9 +1568,6 @@ paths:
   /api/v1/entities/assemblies/{uuid}/:
     get:
       operationId: entities_assemblies_retrieve
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -1657,9 +1588,6 @@ paths:
           description: ''
     put:
       operationId: entities_assemblies_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -1692,9 +1620,6 @@ paths:
           description: ''
     patch:
       operationId: entities_assemblies_partial_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -1726,9 +1651,6 @@ paths:
           description: ''
     delete:
       operationId: entities_assemblies_destroy
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -1746,9 +1668,6 @@ paths:
   /api/v1/entities/connections/:
     get:
       operationId: entities_connections_list
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - name: page
         required: false
@@ -1769,9 +1688,6 @@ paths:
           description: ''
     post:
       operationId: entities_connections_create
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       tags:
       - entities
       requestBody:
@@ -1798,9 +1714,6 @@ paths:
   /api/v1/entities/connections/{uuid}/:
     get:
       operationId: entities_connections_retrieve
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -1821,9 +1734,6 @@ paths:
           description: ''
     put:
       operationId: entities_connections_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -1856,9 +1766,6 @@ paths:
           description: ''
     patch:
       operationId: entities_connections_partial_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -1890,9 +1797,6 @@ paths:
           description: ''
     delete:
       operationId: entities_connections_destroy
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -1910,9 +1814,6 @@ paths:
   /api/v1/entities/coordinate-systems/:
     get:
       operationId: entities_coordinate_systems_list
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - name: page
         required: false
@@ -1933,9 +1834,6 @@ paths:
           description: ''
     post:
       operationId: entities_coordinate_systems_create
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       tags:
       - entities
       requestBody:
@@ -1962,9 +1860,6 @@ paths:
   /api/v1/entities/coordinate-systems/{uuid}/:
     get:
       operationId: entities_coordinate_systems_retrieve
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -1985,9 +1880,6 @@ paths:
           description: ''
     put:
       operationId: entities_coordinate_systems_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2020,9 +1912,6 @@ paths:
           description: ''
     patch:
       operationId: entities_coordinate_systems_partial_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2054,9 +1943,6 @@ paths:
           description: ''
     delete:
       operationId: entities_coordinate_systems_destroy
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2074,9 +1960,6 @@ paths:
   /api/v1/entities/entity-nodes/:
     get:
       operationId: entities_entity_nodes_list
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - name: page
         required: false
@@ -2097,9 +1980,6 @@ paths:
           description: ''
     post:
       operationId: entities_entity_nodes_create
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       tags:
       - entities
       requestBody:
@@ -2126,9 +2006,6 @@ paths:
   /api/v1/entities/entity-nodes/{uuid}/:
     get:
       operationId: entities_entity_nodes_retrieve
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2149,9 +2026,6 @@ paths:
           description: ''
     put:
       operationId: entities_entity_nodes_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2184,9 +2058,6 @@ paths:
           description: ''
     patch:
       operationId: entities_entity_nodes_partial_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2218,9 +2089,6 @@ paths:
           description: ''
     delete:
       operationId: entities_entity_nodes_destroy
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2238,9 +2106,6 @@ paths:
   /api/v1/entities/fem-models/:
     get:
       operationId: entities_fem_models_list
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - name: page
         required: false
@@ -2261,9 +2126,6 @@ paths:
           description: ''
     post:
       operationId: entities_fem_models_create
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       tags:
       - entities
       requestBody:
@@ -2290,9 +2152,6 @@ paths:
   /api/v1/entities/fem-models/{uuid}/:
     get:
       operationId: entities_fem_models_retrieve
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2313,9 +2172,6 @@ paths:
           description: ''
     put:
       operationId: entities_fem_models_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2348,9 +2204,6 @@ paths:
           description: ''
     patch:
       operationId: entities_fem_models_partial_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2382,9 +2235,6 @@ paths:
           description: ''
     delete:
       operationId: entities_fem_models_destroy
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2399,12 +2249,49 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/entities/fem-models/bulk-status/:
+    post:
+      operationId: entities_fem_models_bulk_status_create
+      tags:
+      - entities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FemModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FemModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FemModel'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FemModel'
+          description: ''
+  /api/v1/entities/fem-models/status/:
+    get:
+      operationId: entities_fem_models_status_retrieve
+      tags:
+      - entities
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FemModel'
+          description: ''
   /api/v1/entities/nodes/:
     get:
       operationId: entities_nodes_list
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - name: page
         required: false
@@ -2425,9 +2312,6 @@ paths:
           description: ''
     post:
       operationId: entities_nodes_create
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       tags:
       - entities
       requestBody:
@@ -2454,9 +2338,6 @@ paths:
   /api/v1/entities/nodes/{uuid}/:
     get:
       operationId: entities_nodes_retrieve
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2477,9 +2358,6 @@ paths:
           description: ''
     put:
       operationId: entities_nodes_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2512,9 +2390,6 @@ paths:
           description: ''
     patch:
       operationId: entities_nodes_partial_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2546,9 +2421,6 @@ paths:
           description: ''
     delete:
       operationId: entities_nodes_destroy
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2566,9 +2438,6 @@ paths:
   /api/v1/entities/structural-entities/:
     get:
       operationId: entities_structural_entities_list
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - name: page
         required: false
@@ -2589,9 +2458,6 @@ paths:
           description: ''
     post:
       operationId: entities_structural_entities_create
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       tags:
       - entities
       requestBody:
@@ -2618,9 +2484,6 @@ paths:
   /api/v1/entities/structural-entities/{uuid}/:
     get:
       operationId: entities_structural_entities_retrieve
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2641,9 +2504,6 @@ paths:
           description: ''
     put:
       operationId: entities_structural_entities_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2676,9 +2536,6 @@ paths:
           description: ''
     patch:
       operationId: entities_structural_entities_partial_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2710,9 +2567,6 @@ paths:
           description: ''
     delete:
       operationId: entities_structural_entities_destroy
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2730,9 +2584,6 @@ paths:
   /api/v1/entities/system-entities/:
     get:
       operationId: entities_system_entities_list
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - name: page
         required: false
@@ -2753,9 +2604,6 @@ paths:
           description: ''
     post:
       operationId: entities_system_entities_create
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       tags:
       - entities
       requestBody:
@@ -2782,9 +2630,6 @@ paths:
   /api/v1/entities/system-entities/{uuid}/:
     get:
       operationId: entities_system_entities_retrieve
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2805,9 +2650,6 @@ paths:
           description: ''
     put:
       operationId: entities_system_entities_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2840,9 +2682,6 @@ paths:
           description: ''
     patch:
       operationId: entities_system_entities_partial_update
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2874,9 +2713,6 @@ paths:
           description: ''
     delete:
       operationId: entities_system_entities_destroy
-      description: |-
-        ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-        فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
       parameters:
       - in: path
         name: uuid
@@ -2894,11 +2730,6 @@ paths:
   /api/v1/entities/system-entity-types/:
     get:
       operationId: entities_system_entity_types_list
-      description: |-
-        Global catalog of system entity semantic types.
-
-        This endpoint is NOT project scoped.
-        Used by UI to populate type selectors.
       parameters:
       - name: page
         required: false
@@ -2920,11 +2751,6 @@ paths:
   /api/v1/entities/system-entity-types/{uuid}/:
     get:
       operationId: entities_system_entity_types_retrieve
-      description: |-
-        Global catalog of system entity semantic types.
-
-        This endpoint is NOT project scoped.
-        Used by UI to populate type selectors.
       parameters:
       - in: path
         name: uuid
@@ -2943,10 +2769,155 @@ paths:
               schema:
                 $ref: '#/components/schemas/SystemEntityType'
           description: ''
+  /api/v1/entities/workspaces/:
+    get:
+      operationId: entities_workspaces_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - entities
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEntityWorkspaceList'
+          description: ''
+    post:
+      operationId: entities_workspaces_create
+      tags:
+      - entities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityWorkspace'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EntityWorkspace'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EntityWorkspace'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityWorkspace'
+          description: ''
+  /api/v1/entities/workspaces/{uuid}/:
+    get:
+      operationId: entities_workspaces_retrieve
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - entities
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityWorkspace'
+          description: ''
+    put:
+      operationId: entities_workspaces_update
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - entities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityWorkspace'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EntityWorkspace'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EntityWorkspace'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityWorkspace'
+          description: ''
+    patch:
+      operationId: entities_workspaces_partial_update
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - entities
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEntityWorkspace'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEntityWorkspace'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEntityWorkspace'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityWorkspace'
+          description: ''
+    delete:
+      operationId: entities_workspaces_destroy
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - entities
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v1/memory/attachments/:
     get:
       operationId: memory_attachments_list
-      description: مدیریت فایل‌های پیوست شده به یک Entry
       parameters:
       - name: page
         required: false
@@ -2967,7 +2938,6 @@ paths:
           description: ''
     post:
       operationId: memory_attachments_create
-      description: مدیریت فایل‌های پیوست شده به یک Entry
       tags:
       - memory
       requestBody:
@@ -2994,7 +2964,6 @@ paths:
   /api/v1/memory/attachments/{uuid}/:
     get:
       operationId: memory_attachments_retrieve
-      description: مدیریت فایل‌های پیوست شده به یک Entry
       parameters:
       - in: path
         name: uuid
@@ -3015,7 +2984,6 @@ paths:
           description: ''
     put:
       operationId: memory_attachments_update
-      description: مدیریت فایل‌های پیوست شده به یک Entry
       parameters:
       - in: path
         name: uuid
@@ -3048,7 +3016,6 @@ paths:
           description: ''
     patch:
       operationId: memory_attachments_partial_update
-      description: مدیریت فایل‌های پیوست شده به یک Entry
       parameters:
       - in: path
         name: uuid
@@ -3080,7 +3047,6 @@ paths:
           description: ''
     delete:
       operationId: memory_attachments_destroy
-      description: مدیریت فایل‌های پیوست شده به یک Entry
       parameters:
       - in: path
         name: uuid
@@ -3098,18 +3064,11 @@ paths:
   /api/v1/memory/entries/:
     get:
       operationId: memory_entries_list
-      description: مدیریت یادداشت‌ها و مستندات یک پروژه
       parameters:
       - name: page
         required: false
         in: query
         description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
         schema:
           type: integer
       tags:
@@ -3125,7 +3084,6 @@ paths:
           description: ''
     post:
       operationId: memory_entries_create
-      description: مدیریت یادداشت‌ها و مستندات یک پروژه
       tags:
       - memory
       requestBody:
@@ -3152,7 +3110,6 @@ paths:
   /api/v1/memory/entries/{uuid}/:
     get:
       operationId: memory_entries_retrieve
-      description: مدیریت یادداشت‌ها و مستندات یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3173,7 +3130,6 @@ paths:
           description: ''
     put:
       operationId: memory_entries_update
-      description: مدیریت یادداشت‌ها و مستندات یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3206,7 +3162,6 @@ paths:
           description: ''
     patch:
       operationId: memory_entries_partial_update
-      description: مدیریت یادداشت‌ها و مستندات یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3238,7 +3193,6 @@ paths:
           description: ''
     delete:
       operationId: memory_entries_destroy
-      description: مدیریت یادداشت‌ها و مستندات یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3256,18 +3210,11 @@ paths:
   /api/v1/memory/folders/:
     get:
       operationId: memory_folders_list
-      description: مدیریت پوشه‌های مربوط به یک پروژه
       parameters:
       - name: page
         required: false
         in: query
         description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
         schema:
           type: integer
       tags:
@@ -3283,7 +3230,6 @@ paths:
           description: ''
     post:
       operationId: memory_folders_create
-      description: مدیریت پوشه‌های مربوط به یک پروژه
       tags:
       - memory
       requestBody:
@@ -3310,7 +3256,6 @@ paths:
   /api/v1/memory/folders/{uuid}/:
     get:
       operationId: memory_folders_retrieve
-      description: مدیریت پوشه‌های مربوط به یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3331,7 +3276,6 @@ paths:
           description: ''
     put:
       operationId: memory_folders_update
-      description: مدیریت پوشه‌های مربوط به یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3364,7 +3308,6 @@ paths:
           description: ''
     patch:
       operationId: memory_folders_partial_update
-      description: مدیریت پوشه‌های مربوط به یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3396,7 +3339,6 @@ paths:
           description: ''
     delete:
       operationId: memory_folders_destroy
-      description: مدیریت پوشه‌های مربوط به یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3414,18 +3356,11 @@ paths:
   /api/v1/memory/tags/:
     get:
       operationId: memory_tags_list
-      description: مدیریت تگ‌های مربوط به یک پروژه
       parameters:
       - name: page
         required: false
         in: query
         description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
         schema:
           type: integer
       tags:
@@ -3441,7 +3376,6 @@ paths:
           description: ''
     post:
       operationId: memory_tags_create
-      description: مدیریت تگ‌های مربوط به یک پروژه
       tags:
       - memory
       requestBody:
@@ -3468,7 +3402,6 @@ paths:
   /api/v1/memory/tags/{uuid}/:
     get:
       operationId: memory_tags_retrieve
-      description: مدیریت تگ‌های مربوط به یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3489,7 +3422,6 @@ paths:
           description: ''
     put:
       operationId: memory_tags_update
-      description: مدیریت تگ‌های مربوط به یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3522,7 +3454,6 @@ paths:
           description: ''
     patch:
       operationId: memory_tags_partial_update
-      description: مدیریت تگ‌های مربوط به یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3554,7 +3485,6 @@ paths:
           description: ''
     delete:
       operationId: memory_tags_destroy
-      description: مدیریت تگ‌های مربوط به یک پروژه
       parameters:
       - in: path
         name: uuid
@@ -3998,7 +3928,7 @@ paths:
   /api/v1/rules/clauses/:
     get:
       operationId: rules_clauses_list
-      description: مدیریت بندهای آیین‌نامه (گلوبال)
+      description: مدیریت بندهای آیین‌نامه به صورت global.
       parameters:
       - name: page
         required: false
@@ -4019,7 +3949,7 @@ paths:
           description: ''
     post:
       operationId: rules_clauses_create
-      description: مدیریت بندهای آیین‌نامه (گلوبال)
+      description: مدیریت بندهای آیین‌نامه به صورت global.
       tags:
       - rules
       requestBody:
@@ -4046,7 +3976,7 @@ paths:
   /api/v1/rules/clauses/{uuid}/:
     get:
       operationId: rules_clauses_retrieve
-      description: مدیریت بندهای آیین‌نامه (گلوبال)
+      description: مدیریت بندهای آیین‌نامه به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4067,7 +3997,7 @@ paths:
           description: ''
     put:
       operationId: rules_clauses_update
-      description: مدیریت بندهای آیین‌نامه (گلوبال)
+      description: مدیریت بندهای آیین‌نامه به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4100,7 +4030,7 @@ paths:
           description: ''
     patch:
       operationId: rules_clauses_partial_update
-      description: مدیریت بندهای آیین‌نامه (گلوبال)
+      description: مدیریت بندهای آیین‌نامه به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4132,7 +4062,7 @@ paths:
           description: ''
     delete:
       operationId: rules_clauses_destroy
-      description: مدیریت بندهای آیین‌نامه (گلوبال)
+      description: مدیریت بندهای آیین‌نامه به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4150,7 +4080,7 @@ paths:
   /api/v1/rules/combination-templates/:
     get:
       operationId: rules_combination_templates_list
-      description: مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال)
+      description: مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global.
       parameters:
       - name: page
         required: false
@@ -4171,7 +4101,7 @@ paths:
           description: ''
     post:
       operationId: rules_combination_templates_create
-      description: مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال)
+      description: مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global.
       tags:
       - rules
       requestBody:
@@ -4198,7 +4128,7 @@ paths:
   /api/v1/rules/combination-templates/{uuid}/:
     get:
       operationId: rules_combination_templates_retrieve
-      description: مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال)
+      description: مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4219,7 +4149,7 @@ paths:
           description: ''
     put:
       operationId: rules_combination_templates_update
-      description: مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال)
+      description: مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4252,7 +4182,7 @@ paths:
           description: ''
     patch:
       operationId: rules_combination_templates_partial_update
-      description: مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال)
+      description: مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4284,7 +4214,7 @@ paths:
           description: ''
     delete:
       operationId: rules_combination_templates_destroy
-      description: مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال)
+      description: مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4302,7 +4232,7 @@ paths:
   /api/v1/rules/design-codes/:
     get:
       operationId: rules_design_codes_list
-      description: مدیریت آیین‌نامه‌های طراحی (گلوبال)
+      description: مدیریت آیین‌نامه‌های طراحی به صورت global.
       parameters:
       - name: page
         required: false
@@ -4323,7 +4253,7 @@ paths:
           description: ''
     post:
       operationId: rules_design_codes_create
-      description: مدیریت آیین‌نامه‌های طراحی (گلوبال)
+      description: مدیریت آیین‌نامه‌های طراحی به صورت global.
       tags:
       - rules
       requestBody:
@@ -4350,7 +4280,7 @@ paths:
   /api/v1/rules/design-codes/{uuid}/:
     get:
       operationId: rules_design_codes_retrieve
-      description: مدیریت آیین‌نامه‌های طراحی (گلوبال)
+      description: مدیریت آیین‌نامه‌های طراحی به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4371,7 +4301,7 @@ paths:
           description: ''
     put:
       operationId: rules_design_codes_update
-      description: مدیریت آیین‌نامه‌های طراحی (گلوبال)
+      description: مدیریت آیین‌نامه‌های طراحی به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4404,7 +4334,7 @@ paths:
           description: ''
     patch:
       operationId: rules_design_codes_partial_update
-      description: مدیریت آیین‌نامه‌های طراحی (گلوبال)
+      description: مدیریت آیین‌نامه‌های طراحی به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4436,7 +4366,7 @@ paths:
           description: ''
     delete:
       operationId: rules_design_codes_destroy
-      description: مدیریت آیین‌نامه‌های طراحی (گلوبال)
+      description: مدیریت آیین‌نامه‌های طراحی به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4454,7 +4384,7 @@ paths:
   /api/v1/sections/material-categories/:
     get:
       operationId: sections_material_categories_list
-      description: مدیریت دسته‌بندی مصالح (گلوبال)
+      description: مدیریت دسته‌بندی مصالح به صورت global.
       parameters:
       - name: page
         required: false
@@ -4475,7 +4405,7 @@ paths:
           description: ''
     post:
       operationId: sections_material_categories_create
-      description: مدیریت دسته‌بندی مصالح (گلوبال)
+      description: مدیریت دسته‌بندی مصالح به صورت global.
       tags:
       - sections
       requestBody:
@@ -4502,7 +4432,7 @@ paths:
   /api/v1/sections/material-categories/{uuid}/:
     get:
       operationId: sections_material_categories_retrieve
-      description: مدیریت دسته‌بندی مصالح (گلوبال)
+      description: مدیریت دسته‌بندی مصالح به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4523,7 +4453,7 @@ paths:
           description: ''
     put:
       operationId: sections_material_categories_update
-      description: مدیریت دسته‌بندی مصالح (گلوبال)
+      description: مدیریت دسته‌بندی مصالح به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4556,7 +4486,7 @@ paths:
           description: ''
     patch:
       operationId: sections_material_categories_partial_update
-      description: مدیریت دسته‌بندی مصالح (گلوبال)
+      description: مدیریت دسته‌بندی مصالح به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4588,7 +4518,7 @@ paths:
           description: ''
     delete:
       operationId: sections_material_categories_destroy
-      description: مدیریت دسته‌بندی مصالح (گلوبال)
+      description: مدیریت دسته‌بندی مصالح به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4606,7 +4536,7 @@ paths:
   /api/v1/sections/materials/:
     get:
       operationId: sections_materials_list
-      description: مدیریت مصالح (گلوبال)
+      description: مدیریت مصالح به صورت global.
       parameters:
       - name: page
         required: false
@@ -4627,7 +4557,7 @@ paths:
           description: ''
     post:
       operationId: sections_materials_create
-      description: مدیریت مصالح (گلوبال)
+      description: مدیریت مصالح به صورت global.
       tags:
       - sections
       requestBody:
@@ -4654,7 +4584,7 @@ paths:
   /api/v1/sections/materials/{uuid}/:
     get:
       operationId: sections_materials_retrieve
-      description: مدیریت مصالح (گلوبال)
+      description: مدیریت مصالح به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4675,7 +4605,7 @@ paths:
           description: ''
     put:
       operationId: sections_materials_update
-      description: مدیریت مصالح (گلوبال)
+      description: مدیریت مصالح به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4708,7 +4638,7 @@ paths:
           description: ''
     patch:
       operationId: sections_materials_partial_update
-      description: مدیریت مصالح (گلوبال)
+      description: مدیریت مصالح به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4740,7 +4670,7 @@ paths:
           description: ''
     delete:
       operationId: sections_materials_destroy
-      description: مدیریت مصالح (گلوبال)
+      description: مدیریت مصالح به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4758,7 +4688,7 @@ paths:
   /api/v1/sections/section-catalogs/:
     get:
       operationId: sections_section_catalogs_list
-      description: مدیریت کاتالوگ مقاطع (گلوبال)
+      description: مدیریت کاتالوگ مقاطع به صورت global.
       parameters:
       - name: page
         required: false
@@ -4779,7 +4709,7 @@ paths:
           description: ''
     post:
       operationId: sections_section_catalogs_create
-      description: مدیریت کاتالوگ مقاطع (گلوبال)
+      description: مدیریت کاتالوگ مقاطع به صورت global.
       tags:
       - sections
       requestBody:
@@ -4806,7 +4736,7 @@ paths:
   /api/v1/sections/section-catalogs/{uuid}/:
     get:
       operationId: sections_section_catalogs_retrieve
-      description: مدیریت کاتالوگ مقاطع (گلوبال)
+      description: مدیریت کاتالوگ مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4827,7 +4757,7 @@ paths:
           description: ''
     put:
       operationId: sections_section_catalogs_update
-      description: مدیریت کاتالوگ مقاطع (گلوبال)
+      description: مدیریت کاتالوگ مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4860,7 +4790,7 @@ paths:
           description: ''
     patch:
       operationId: sections_section_catalogs_partial_update
-      description: مدیریت کاتالوگ مقاطع (گلوبال)
+      description: مدیریت کاتالوگ مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4892,7 +4822,7 @@ paths:
           description: ''
     delete:
       operationId: sections_section_catalogs_destroy
-      description: مدیریت کاتالوگ مقاطع (گلوبال)
+      description: مدیریت کاتالوگ مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4910,7 +4840,7 @@ paths:
   /api/v1/sections/section-families/:
     get:
       operationId: sections_section_families_list
-      description: مدیریت خانواده مقاطع (گلوبال)
+      description: مدیریت خانواده مقاطع به صورت global.
       parameters:
       - name: page
         required: false
@@ -4931,7 +4861,7 @@ paths:
           description: ''
     post:
       operationId: sections_section_families_create
-      description: مدیریت خانواده مقاطع (گلوبال)
+      description: مدیریت خانواده مقاطع به صورت global.
       tags:
       - sections
       requestBody:
@@ -4958,7 +4888,7 @@ paths:
   /api/v1/sections/section-families/{uuid}/:
     get:
       operationId: sections_section_families_retrieve
-      description: مدیریت خانواده مقاطع (گلوبال)
+      description: مدیریت خانواده مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -4979,7 +4909,7 @@ paths:
           description: ''
     put:
       operationId: sections_section_families_update
-      description: مدیریت خانواده مقاطع (گلوبال)
+      description: مدیریت خانواده مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -5012,7 +4942,7 @@ paths:
           description: ''
     patch:
       operationId: sections_section_families_partial_update
-      description: مدیریت خانواده مقاطع (گلوبال)
+      description: مدیریت خانواده مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -5044,7 +4974,7 @@ paths:
           description: ''
     delete:
       operationId: sections_section_families_destroy
-      description: مدیریت خانواده مقاطع (گلوبال)
+      description: مدیریت خانواده مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -5062,7 +4992,7 @@ paths:
   /api/v1/sections/section-properties/:
     get:
       operationId: sections_section_properties_list
-      description: مدیریت مشخصات هندسی مقاطع (گلوبال)
+      description: مدیریت خواص هندسی مقاطع به صورت global.
       parameters:
       - name: page
         required: false
@@ -5083,7 +5013,7 @@ paths:
           description: ''
     post:
       operationId: sections_section_properties_create
-      description: مدیریت مشخصات هندسی مقاطع (گلوبال)
+      description: مدیریت خواص هندسی مقاطع به صورت global.
       tags:
       - sections
       requestBody:
@@ -5110,7 +5040,7 @@ paths:
   /api/v1/sections/section-properties/{uuid}/:
     get:
       operationId: sections_section_properties_retrieve
-      description: مدیریت مشخصات هندسی مقاطع (گلوبال)
+      description: مدیریت خواص هندسی مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -5131,7 +5061,7 @@ paths:
           description: ''
     put:
       operationId: sections_section_properties_update
-      description: مدیریت مشخصات هندسی مقاطع (گلوبال)
+      description: مدیریت خواص هندسی مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -5164,7 +5094,7 @@ paths:
           description: ''
     patch:
       operationId: sections_section_properties_partial_update
-      description: مدیریت مشخصات هندسی مقاطع (گلوبال)
+      description: مدیریت خواص هندسی مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -5196,7 +5126,7 @@ paths:
           description: ''
     delete:
       operationId: sections_section_properties_destroy
-      description: مدیریت مشخصات هندسی مقاطع (گلوبال)
+      description: مدیریت خواص هندسی مقاطع به صورت global.
       parameters:
       - in: path
         name: uuid
@@ -5391,12 +5321,52 @@ components:
     AnalysisCase:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        analysis_model:
+          type: string
+          format: uuid
+        analysis_model_name:
+          type: string
+          readOnly: true
+        analysis_model_type:
+          type: string
+          readOnly: true
+        load_case:
+          type: string
+          format: uuid
+          nullable: true
+        load_case_name:
+          type: string
+          readOnly: true
+        load_case_code:
+          type: string
+          readOnly: true
+        load_combination:
+          type: string
+          format: uuid
+          nullable: true
+        load_combination_name:
+          type: string
+          readOnly: true
+        load_combination_code:
+          type: string
+          readOnly: true
+        metadata: {}
+        is_active:
+          type: boolean
+        runs_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -5406,41 +5376,67 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        is_active:
-          type: boolean
-        metadata: {}
-        project:
-          type: integer
-        analysis_model:
-          type: integer
-        load_case:
-          type: integer
-          nullable: true
-        load_combination:
-          type: integer
-          nullable: true
       required:
       - analysis_model
+      - analysis_model_name
+      - analysis_model_type
       - created_at
-      - id
+      - load_case_code
+      - load_case_name
+      - load_combination_code
+      - load_combination_name
       - name
       - project
+      - runs_count
       - updated_at
       - uuid
     AnalysisModel:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        workspace:
+          type: string
+          format: uuid
+          nullable: true
+        workspace_type:
+          type: string
+          readOnly: true
+        workspace_system_entity_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        workspace_system_entity_code:
+          type: string
+          readOnly: true
+        workspace_system_entity_name:
+          type: string
+          readOnly: true
+        model_type:
+          $ref: '#/components/schemas/ModelTypeEnum'
+        scenario:
+          type: string
+          format: uuid
+          nullable: true
+        scenario_name:
+          type: string
+          readOnly: true
+        source_snapshot: {}
+        metadata: {}
+        is_active:
+          type: boolean
+        cases_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -5450,79 +5446,61 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        is_active:
-          type: boolean
-        metadata: {}
-        model_type:
-          $ref: '#/components/schemas/ModelTypeEnum'
-        source_snapshot: {}
-        project:
-          type: integer
-        scenario:
-          type: integer
-          nullable: true
       required:
+      - cases_count
       - created_at
-      - id
       - name
       - project
+      - scenario_name
       - updated_at
       - uuid
+      - workspace_system_entity_code
+      - workspace_system_entity_name
+      - workspace_system_entity_uuid
+      - workspace_type
     AnalysisResult:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
+          format: uuid
         name:
           type: string
           maxLength: 255
         description:
           type: string
-        metadata: {}
+        run:
+          type: string
+          format: uuid
+        run_status:
+          type: string
+          readOnly: true
+        analysis_case_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        analysis_case_name:
+          type: string
+          readOnly: true
+        analysis_model_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        analysis_model_name:
+          type: string
+          readOnly: true
         result_type:
           $ref: '#/components/schemas/ResultTypeEnum'
         unit:
           type: string
           maxLength: 50
-        project:
+        metadata: {}
+        items_count:
           type: integer
-        run:
-          type: integer
-      required:
-      - created_at
-      - id
-      - name
-      - project
-      - run
-      - updated_at
-      - uuid
-    AnalysisResultItem:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
-          type: string
-          format: uuid
           readOnly: true
         created_at:
           type: string
@@ -5532,7 +5510,82 @@ components:
           type: string
           format: date-time
           readOnly: true
-        metadata: {}
+      required:
+      - analysis_case_name
+      - analysis_case_uuid
+      - analysis_model_name
+      - analysis_model_uuid
+      - created_at
+      - items_count
+      - name
+      - project
+      - run
+      - run_status
+      - updated_at
+      - uuid
+    AnalysisResultItem:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        result:
+          type: string
+          format: uuid
+        result_name:
+          type: string
+          readOnly: true
+        result_type:
+          type: string
+          readOnly: true
+        node:
+          type: string
+          format: uuid
+          nullable: true
+        node_code:
+          type: string
+          readOnly: true
+        node_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        entity:
+          type: string
+          format: uuid
+          nullable: true
+        entity_code:
+          type: string
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        system_entity:
+          type: string
+          format: uuid
+          nullable: true
+        system_entity_code:
+          type: string
+          readOnly: true
+        system_entity_name:
+          type: string
+          readOnly: true
+        target_type:
+          type: string
+          readOnly: true
+        target_label:
+          type: string
+          readOnly: true
+        target_workspace_uuid:
+          type: string
+          readOnly: true
         station:
           type: number
           format: double
@@ -5548,37 +5601,7 @@ components:
           maximum: 9223372036854775807
           minimum: 0
           format: int64
-        project:
-          type: integer
-        result:
-          type: integer
-        node:
-          type: integer
-          nullable: true
-        entity:
-          type: integer
-          nullable: true
-        system_entity:
-          type: integer
-          nullable: true
-      required:
-      - created_at
-      - id
-      - project
-      - result
-      - updated_at
-      - uuid
-      - value
-    AnalysisRun:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
-          type: string
-          format: uuid
-          readOnly: true
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -5587,9 +5610,51 @@ components:
           type: string
           format: date-time
           readOnly: true
-        is_active:
-          type: boolean
-        metadata: {}
+      required:
+      - created_at
+      - entity_code
+      - entity_name
+      - entity_workspace_uuid
+      - node_code
+      - node_workspace_uuid
+      - project
+      - result
+      - result_name
+      - result_type
+      - system_entity_code
+      - system_entity_name
+      - target_label
+      - target_type
+      - target_workspace_uuid
+      - updated_at
+      - uuid
+      - value
+    AnalysisRun:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        analysis_case:
+          type: string
+          format: uuid
+        analysis_case_name:
+          type: string
+          readOnly: true
+        analysis_model_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        analysis_model_name:
+          type: string
+          readOnly: true
+        analysis_model_type:
+          type: string
+          readOnly: true
         status:
           $ref: '#/components/schemas/AnalysisRunStatusEnum'
         started_at:
@@ -5610,15 +5675,29 @@ components:
           type: string
         error_message:
           type: string
-        project:
+        metadata: {}
+        is_active:
+          type: boolean
+        result_count:
           type: integer
-        analysis_case:
-          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
       - analysis_case
+      - analysis_case_name
+      - analysis_model_name
+      - analysis_model_type
+      - analysis_model_uuid
       - created_at
-      - id
       - project
+      - result_count
       - updated_at
       - uuid
     AnalysisRunStatusEnum:
@@ -5645,17 +5724,71 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
+          format: uuid
+        load_case:
           type: string
-          format: date-time
+          format: uuid
+        load_case_code:
+          type: string
           readOnly: true
-        metadata: {}
+        load_case_name:
+          type: string
+          readOnly: true
+        load_case_type:
+          type: string
+          readOnly: true
         target_type:
           $ref: '#/components/schemas/AppliedLoadTargetTypeEnum'
+        node:
+          type: string
+          format: uuid
+          nullable: true
+        node_code:
+          type: string
+          readOnly: true
+          nullable: true
+        node_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        entity:
+          type: string
+          format: uuid
+          nullable: true
+        entity_code:
+          type: string
+          readOnly: true
+          nullable: true
+        entity_name:
+          type: string
+          readOnly: true
+          nullable: true
+        entity_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        system_entity:
+          type: string
+          format: uuid
+          nullable: true
+        system_entity_code:
+          type: string
+          readOnly: true
+          nullable: true
+        system_entity_name:
+          type: string
+          readOnly: true
+          nullable: true
+        target_label:
+          type: string
+          readOnly: true
+        target_workspace_uuid:
+          type: string
+          readOnly: true
         distribution:
           $ref: '#/components/schemas/DistributionEnum'
         direction:
@@ -5676,25 +5809,33 @@ components:
           type: number
           format: double
           nullable: true
-        project:
-          type: integer
-        load_case:
-          type: integer
-        node:
-          type: integer
-          nullable: true
-        entity:
-          type: integer
-          nullable: true
-        system_entity:
-          type: integer
-          nullable: true
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
       - created_at
+      - entity_code
+      - entity_name
+      - entity_workspace_uuid
       - id
       - load_case
+      - load_case_code
+      - load_case_name
+      - load_case_type
+      - node_code
+      - node_workspace_uuid
       - project
+      - system_entity_code
+      - system_entity_name
+      - target_label
       - target_type
+      - target_workspace_uuid
       - updated_at
       - uuid
     AppliedLoadTargetTypeEnum:
@@ -5717,14 +5858,19 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
+          format: uuid
+        workspace:
           type: string
-          format: date-time
+          format: uuid
+        workspace_type:
+          type: string
           readOnly: true
+        parent:
+          type: string
+          format: uuid
+          nullable: true
         name:
           type: string
           maxLength: 255
@@ -5733,14 +5879,14 @@ components:
         is_active:
           type: boolean
         metadata: {}
-        project:
-          type: integer
-        fem_model:
-          type: integer
-          nullable: true
-        parent:
-          type: integer
-          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
       - created_at
       - id
@@ -5748,6 +5894,8 @@ components:
       - project
       - updated_at
       - uuid
+      - workspace
+      - workspace_type
     BoundaryCondition:
       type: object
       properties:
@@ -5758,24 +5906,44 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
+          format: uuid
         name:
           type: string
           maxLength: 255
         description:
           type: string
-        is_active:
-          type: boolean
-        metadata: {}
         target_type:
           $ref: '#/components/schemas/BoundaryConditionTargetTypeEnum'
+        node:
+          type: string
+          format: uuid
+          nullable: true
+        node_code:
+          type: string
+          readOnly: true
+          nullable: true
+        node_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        system_entity:
+          type: string
+          format: uuid
+          nullable: true
+        system_entity_code:
+          type: string
+          readOnly: true
+          nullable: true
+        system_entity_name:
+          type: string
+          readOnly: true
+          nullable: true
+        target_label:
+          type: string
+          readOnly: true
         ux:
           type: boolean
         uy:
@@ -5789,19 +5957,27 @@ components:
         rz:
           type: boolean
         stiffness: {}
-        project:
-          type: integer
-        node:
-          type: integer
-          nullable: true
-        system_entity:
-          type: integer
-          nullable: true
+        is_active:
+          type: boolean
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
       - created_at
       - id
       - name
+      - node_code
+      - node_workspace_uuid
       - project
+      - system_entity_code
+      - system_entity_name
+      - target_label
       - updated_at
       - uuid
     BoundaryConditionTargetTypeEnum:
@@ -5836,6 +6012,29 @@ components:
           type: string
           format: uuid
           readOnly: true
+        project:
+          type: string
+          format: uuid
+        source_entity:
+          type: string
+          format: uuid
+        source_entity_code:
+          type: string
+          readOnly: true
+        target_entity:
+          type: string
+          format: uuid
+        target_entity_code:
+          type: string
+          readOnly: true
+        relation_type:
+          type: string
+          default: connected_to
+          maxLength: 50
+        weight:
+          type: number
+          format: double
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -5844,26 +6043,14 @@ components:
           type: string
           format: date-time
           readOnly: true
-        metadata: {}
-        relation_type:
-          type: string
-          default: connected_to
-          maxLength: 50
-        weight:
-          type: number
-          format: double
-        project:
-          type: integer
-        source_entity:
-          type: integer
-        target_entity:
-          type: integer
       required:
       - created_at
       - id
       - project
       - source_entity
+      - source_entity_code
       - target_entity
+      - target_entity_code
       - updated_at
       - uuid
     CoordinateSystem:
@@ -5876,22 +6063,14 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
+          format: uuid
         name:
           type: string
           maxLength: 255
         description:
           type: string
-        is_active:
-          type: boolean
-        metadata: {}
         origin_x:
           type: number
           format: double
@@ -5906,8 +6085,17 @@ components:
         axis_z: {}
         is_global:
           type: boolean
-        project:
-          type: integer
+        is_active:
+          type: boolean
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
       - created_at
       - id
@@ -5918,20 +6106,9 @@ components:
     DesignCode:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
           readOnly: true
         name:
           type: string
@@ -5941,9 +6118,6 @@ components:
         code:
           type: string
           maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
         version:
           type: string
           default: ''
@@ -5954,10 +6128,28 @@ components:
         country:
           type: string
           maxLength: 100
+        metadata: {}
+        is_active:
+          type: boolean
+        clauses_count:
+          type: integer
+          readOnly: true
+        combination_templates_count:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
+      - clauses_count
       - code
+      - combination_templates_count
       - created_at
-      - id
       - name
       - updated_at
       - uuid
@@ -5987,6 +6179,27 @@ components:
           type: string
           format: uuid
           readOnly: true
+        project:
+          type: string
+          format: uuid
+        entity:
+          type: string
+          format: uuid
+        entity_code:
+          type: string
+          readOnly: true
+        node:
+          type: string
+          format: uuid
+        node_code:
+          type: string
+          readOnly: true
+        sort_order:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -5995,23 +6208,13 @@ components:
           type: string
           format: date-time
           readOnly: true
-        sort_order:
-          type: integer
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        metadata: {}
-        project:
-          type: integer
-        entity:
-          type: integer
-        node:
-          type: integer
       required:
       - created_at
       - entity
+      - entity_code
       - id
       - node
+      - node_code
       - project
       - updated_at
       - uuid
@@ -6027,6 +6230,123 @@ components:
         * `fem` - Finite Element Model (Detailed)
         * `environment` - Environmental Object
         * `generic` - Generic Node
+    EntityWorkspace:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        system_entity:
+          type: string
+          format: uuid
+        system_entity_code:
+          type: string
+          readOnly: true
+        system_entity_name:
+          type: string
+          readOnly: true
+        workspace_type:
+          $ref: '#/components/schemas/WorkspaceTypeEnum'
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        origin_x:
+          type: number
+          format: double
+        origin_y:
+          type: number
+          format: double
+        origin_z:
+          type: number
+          format: double
+        rotation_x_deg:
+          type: number
+          format: double
+        rotation_y_deg:
+          type: number
+          format: double
+        rotation_z_deg:
+          type: number
+          format: double
+        coordinate_system:
+          type: string
+          format: uuid
+          nullable: true
+        coordinate_system_name:
+          type: string
+          readOnly: true
+          nullable: true
+        has_fem_model:
+          type: string
+          readOnly: true
+        has_cad_model:
+          type: string
+          readOnly: true
+        is_active:
+          type: boolean
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - coordinate_system_name
+      - created_at
+      - has_cad_model
+      - has_fem_model
+      - id
+      - name
+      - project
+      - system_entity
+      - system_entity_code
+      - system_entity_name
+      - updated_at
+      - uuid
+      - workspace_type
+    EntityWorkspaceSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        workspace_type:
+          $ref: '#/components/schemas/WorkspaceTypeEnum'
+        system_entity_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        system_entity_code:
+          type: string
+          readOnly: true
+        is_active:
+          type: boolean
+      required:
+      - id
+      - name
+      - system_entity_code
+      - system_entity_uuid
+      - uuid
+      - workspace_type
     EntryTypeEnum:
       enum:
       - note
@@ -6055,27 +6375,91 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
+          format: uuid
           readOnly: true
-        updated_at:
+        workspace:
+          allOf:
+          - $ref: '#/components/schemas/FemWorkspaceSummary'
+          readOnly: true
+        workspace_uuid:
           type: string
-          format: date-time
+          format: uuid
+          writeOnly: true
+        system_entity:
+          type: string
           readOnly: true
         metadata: {}
-        project:
-          type: integer
-        system_entity:
-          type: integer
-          description: The system entity represented by this FEM model.
       required:
-      - created_at
       - id
       - project
       - system_entity
-      - updated_at
       - uuid
+      - workspace
+      - workspace_uuid
+    FemSystemEntitySummary:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        code:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        entity_type:
+          type: string
+          readOnly: true
+        system_type_uuid:
+          type: string
+          readOnly: true
+        system_type_name:
+          type: string
+          readOnly: true
+        fem_eligible:
+          type: string
+          readOnly: true
+        allowed_workspaces:
+          type: string
+          readOnly: true
+      required:
+      - allowed_workspaces
+      - code
+      - entity_type
+      - fem_eligible
+      - name
+      - system_type_name
+      - system_type_uuid
+      - uuid
+    FemWorkspaceSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        workspace_type:
+          $ref: '#/components/schemas/WorkspaceTypeEnum'
+        system_entity:
+          allOf:
+          - $ref: '#/components/schemas/FemSystemEntitySummary'
+          readOnly: true
+      required:
+      - id
+      - name
+      - system_entity
+      - uuid
+      - workspace_type
     LoadCase:
       type: object
       properties:
@@ -6086,6 +6470,36 @@ components:
           type: string
           format: uuid
           readOnly: true
+        project:
+          type: string
+          format: uuid
+        scenario:
+          type: string
+          format: uuid
+          nullable: true
+        scenario_name:
+          type: string
+          readOnly: true
+          nullable: true
+        code:
+          type: string
+          maxLength: 100
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        load_type:
+          $ref: '#/components/schemas/LoadTypeEnum'
+        factor:
+          type: number
+          format: double
+        is_active:
+          type: boolean
+        metadata: {}
+        applied_loads_count:
+          type: integer
+          readOnly: true
         created_at:
           type: string
           format: date-time
@@ -6094,33 +6508,14 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        code:
-          type: string
-          maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
-        load_type:
-          $ref: '#/components/schemas/LoadTypeEnum'
-        factor:
-          type: number
-          format: double
-        project:
-          type: integer
-        scenario:
-          type: integer
-          nullable: true
       required:
+      - applied_loads_count
       - code
       - created_at
       - id
       - name
       - project
+      - scenario_name
       - updated_at
       - uuid
     LoadCombination:
@@ -6133,6 +6528,30 @@ components:
           type: string
           format: uuid
           readOnly: true
+        project:
+          type: string
+          format: uuid
+        scenario:
+          type: string
+          format: uuid
+          nullable: true
+        scenario_name:
+          type: string
+          readOnly: true
+          nullable: true
+        code:
+          type: string
+          maxLength: 100
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        expression:
+          type: string
+        is_active:
+          type: boolean
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -6141,24 +6560,6 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        code:
-          type: string
-          maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
-        expression:
-          type: string
-        project:
-          type: integer
-        scenario:
-          type: integer
-          nullable: true
       required:
       - code
       - created_at
@@ -6166,6 +6567,7 @@ components:
       - id
       - name
       - project
+      - scenario_name
       - updated_at
       - uuid
     LoadTypeEnum:
@@ -6189,32 +6591,38 @@ components:
     Material:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
           readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
         name:
           type: string
           maxLength: 255
-        description:
-          type: string
         code:
           type: string
           maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
+        category:
+          type: string
+          format: uuid
+        category_name:
+          type: string
+          readOnly: true
+        category_code:
+          type: string
+          readOnly: true
+        standard:
+          type: string
+          format: uuid
+          nullable: true
+        standard_name:
+          type: string
+          readOnly: true
+        standard_code:
+          type: string
+          readOnly: true
+        standard_version:
+          type: string
+          readOnly: true
         elastic_modulus:
           type: number
           format: double
@@ -6236,30 +6644,11 @@ components:
           type: number
           format: double
           nullable: true
-        category:
+        metadata: {}
+        is_active:
+          type: boolean
+        section_catalogs_count:
           type: integer
-        standard:
-          type: integer
-          nullable: true
-      required:
-      - category
-      - code
-      - created_at
-      - density
-      - elastic_modulus
-      - id
-      - name
-      - updated_at
-      - uuid
-    MaterialCategory:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
-          type: string
-          format: uuid
           readOnly: true
         created_at:
           type: string
@@ -6269,72 +6658,98 @@ components:
           type: string
           format: date-time
           readOnly: true
+      required:
+      - category
+      - category_code
+      - category_name
+      - code
+      - created_at
+      - density
+      - elastic_modulus
+      - name
+      - section_catalogs_count
+      - standard_code
+      - standard_name
+      - standard_version
+      - updated_at
+      - uuid
+    MaterialCategory:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
         name:
           type: string
           maxLength: 255
-        description:
-          type: string
         code:
           type: string
           maxLength: 100
         is_active:
           type: boolean
+        materials_count:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
       - code
       - created_at
-      - id
+      - materials_count
       - name
       - updated_at
       - uuid
     MemoryAttachment:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        entry:
           type: string
-          format: date-time
+          format: uuid
+        entry_name:
+          type: string
           readOnly: true
-        updated_at:
+        entry_type:
           type: string
-          format: date-time
+          readOnly: true
+        project_uuid:
+          type: string
+          format: uuid
           readOnly: true
         file:
           type: string
           format: uri
+        file_url:
+          type: string
+          readOnly: true
+        file_name:
+          type: string
+          readOnly: true
         title:
           type: string
           maxLength: 255
-        metadata: {}
-        entry:
-          type: integer
-        uploaded_by:
-          type: integer
-          readOnly: true
-          nullable: true
-      required:
-      - created_at
-      - entry
-      - file
-      - id
-      - updated_at
-      - uploaded_by
-      - uuid
-    MemoryEntry:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
+        uploaded_by_uuid:
           type: string
           format: uuid
           readOnly: true
+        uploaded_by_username:
+          type: string
+          readOnly: true
+        uploaded_by_email:
+          type: string
+          format: email
+          readOnly: true
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -6343,62 +6758,181 @@ components:
           type: string
           format: date-time
           readOnly: true
+      required:
+      - created_at
+      - entry
+      - entry_name
+      - entry_type
+      - file
+      - file_name
+      - file_url
+      - project_uuid
+      - updated_at
+      - uploaded_by_email
+      - uploaded_by_username
+      - uploaded_by_uuid
+      - uuid
+    MemoryEntry:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
         name:
           type: string
           maxLength: 255
         description:
           type: string
-        is_active:
-          type: boolean
-        metadata: {}
+        folder:
+          type: string
+          format: uuid
+          nullable: true
+        folder_name:
+          type: string
+          readOnly: true
+        author_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        author_username:
+          type: string
+          readOnly: true
+        author_email:
+          type: string
+          format: email
+          readOnly: true
         entry_type:
           $ref: '#/components/schemas/EntryTypeEnum'
         content:
           type: string
-        project:
-          type: integer
-          readOnly: true
-        folder:
-          type: integer
-          nullable: true
-        author:
-          type: integer
-          readOnly: true
-          nullable: true
-        linked_system_entity:
-          type: integer
-          nullable: true
-        linked_entity:
-          type: integer
-          nullable: true
-        linked_node:
-          type: integer
-          nullable: true
-        linked_analysis_run:
-          type: integer
-          nullable: true
         tags:
           type: array
           items:
-            type: integer
+            type: string
+            format: uuid
+        tag_details:
+          type: string
+          readOnly: true
+        linked_system_entity:
+          type: string
+          format: uuid
+          nullable: true
+        linked_system_entity_code:
+          type: string
+          readOnly: true
+        linked_system_entity_name:
+          type: string
+          readOnly: true
+        linked_entity:
+          type: string
+          format: uuid
+          nullable: true
+        linked_entity_code:
+          type: string
+          readOnly: true
+        linked_entity_name:
+          type: string
+          readOnly: true
+        linked_entity_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        linked_node:
+          type: string
+          format: uuid
+          nullable: true
+        linked_node_code:
+          type: string
+          readOnly: true
+        linked_node_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        linked_analysis_run:
+          type: string
+          format: uuid
+          nullable: true
+        linked_analysis_run_status:
+          type: string
+          readOnly: true
+        linked_analysis_case_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        linked_analysis_case_name:
+          type: string
+          readOnly: true
+        metadata: {}
+        is_active:
+          type: boolean
+        attachments_count:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
-      - author
+      - attachments_count
+      - author_email
+      - author_username
+      - author_uuid
       - content
       - created_at
-      - id
+      - folder_name
+      - linked_analysis_case_name
+      - linked_analysis_case_uuid
+      - linked_analysis_run_status
+      - linked_entity_code
+      - linked_entity_name
+      - linked_entity_workspace_uuid
+      - linked_node_code
+      - linked_node_workspace_uuid
+      - linked_system_entity_code
+      - linked_system_entity_name
       - name
       - project
+      - tag_details
       - updated_at
       - uuid
     MemoryFolder:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        parent:
+          type: string
+          format: uuid
+          nullable: true
+        parent_name:
+          type: string
+          readOnly: true
+        metadata: {}
+        is_active:
+          type: boolean
+        children_count:
+          type: integer
+          readOnly: true
+        entries_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -6408,36 +6942,33 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        is_active:
-          type: boolean
-        metadata: {}
-        project:
-          type: integer
-          readOnly: true
-        parent:
-          type: integer
-          nullable: true
       required:
+      - children_count
       - created_at
-      - id
+      - entries_count
       - name
+      - parent_name
       - project
       - updated_at
       - uuid
     MemoryTag:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 100
+        color:
+          type: string
+          maxLength: 20
+        entries_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -6447,18 +6978,9 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 100
-        color:
-          type: string
-          maxLength: 20
-        project:
-          type: integer
-          readOnly: true
       required:
       - created_at
-      - id
+      - entries_count
       - name
       - project
       - updated_at
@@ -6487,20 +7009,21 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
+          format: uuid
+        workspace:
           type: string
-          format: date-time
+          format: uuid
+        workspace_type:
+          type: string
           readOnly: true
         code:
           type: string
           maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
+        label:
+          type: string
+          maxLength: 255
         x:
           type: number
           format: double
@@ -6510,24 +7033,35 @@ components:
         z:
           type: number
           format: double
-        label:
-          type: string
-          maxLength: 255
-        project:
-          type: integer
-        fem_model:
-          type: integer
-          nullable: true
         coordinate_system:
-          type: integer
+          type: string
+          format: uuid
           nullable: true
+        coordinate_system_name:
+          type: string
+          readOnly: true
+          nullable: true
+        is_active:
+          type: boolean
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
       - code
+      - coordinate_system_name
       - created_at
       - id
       - project
       - updated_at
       - uuid
+      - workspace
+      - workspace_type
       - x
       - y
       - z
@@ -6807,6 +7341,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EntityNode'
+    PaginatedEntityWorkspaceList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityWorkspace'
     PaginatedFemModelList:
       type: object
       required:
@@ -7293,12 +7850,52 @@ components:
     PatchedAnalysisCase:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        analysis_model:
+          type: string
+          format: uuid
+        analysis_model_name:
+          type: string
+          readOnly: true
+        analysis_model_type:
+          type: string
+          readOnly: true
+        load_case:
+          type: string
+          format: uuid
+          nullable: true
+        load_case_name:
+          type: string
+          readOnly: true
+        load_case_code:
+          type: string
+          readOnly: true
+        load_combination:
+          type: string
+          format: uuid
+          nullable: true
+        load_combination_name:
+          type: string
+          readOnly: true
+        load_combination_code:
+          type: string
+          readOnly: true
+        metadata: {}
+        is_active:
+          type: boolean
+        runs_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -7308,33 +7905,53 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        is_active:
-          type: boolean
-        metadata: {}
-        project:
-          type: integer
-        analysis_model:
-          type: integer
-        load_case:
-          type: integer
-          nullable: true
-        load_combination:
-          type: integer
-          nullable: true
     PatchedAnalysisModel:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        workspace:
+          type: string
+          format: uuid
+          nullable: true
+        workspace_type:
+          type: string
+          readOnly: true
+        workspace_system_entity_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        workspace_system_entity_code:
+          type: string
+          readOnly: true
+        workspace_system_entity_name:
+          type: string
+          readOnly: true
+        model_type:
+          $ref: '#/components/schemas/ModelTypeEnum'
+        scenario:
+          type: string
+          format: uuid
+          nullable: true
+        scenario_name:
+          type: string
+          readOnly: true
+        source_snapshot: {}
+        metadata: {}
+        is_active:
+          type: boolean
+        cases_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -7344,64 +7961,49 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        is_active:
-          type: boolean
-        metadata: {}
-        model_type:
-          $ref: '#/components/schemas/ModelTypeEnum'
-        source_snapshot: {}
-        project:
-          type: integer
-        scenario:
-          type: integer
-          nullable: true
     PatchedAnalysisResult:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
+          format: uuid
         name:
           type: string
           maxLength: 255
         description:
           type: string
-        metadata: {}
+        run:
+          type: string
+          format: uuid
+        run_status:
+          type: string
+          readOnly: true
+        analysis_case_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        analysis_case_name:
+          type: string
+          readOnly: true
+        analysis_model_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        analysis_model_name:
+          type: string
+          readOnly: true
         result_type:
           $ref: '#/components/schemas/ResultTypeEnum'
         unit:
           type: string
           maxLength: 50
-        project:
+        metadata: {}
+        items_count:
           type: integer
-        run:
-          type: integer
-    PatchedAnalysisResultItem:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
-          type: string
-          format: uuid
           readOnly: true
         created_at:
           type: string
@@ -7411,7 +8013,69 @@ components:
           type: string
           format: date-time
           readOnly: true
-        metadata: {}
+    PatchedAnalysisResultItem:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        result:
+          type: string
+          format: uuid
+        result_name:
+          type: string
+          readOnly: true
+        result_type:
+          type: string
+          readOnly: true
+        node:
+          type: string
+          format: uuid
+          nullable: true
+        node_code:
+          type: string
+          readOnly: true
+        node_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        entity:
+          type: string
+          format: uuid
+          nullable: true
+        entity_code:
+          type: string
+          readOnly: true
+        entity_name:
+          type: string
+          readOnly: true
+        entity_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        system_entity:
+          type: string
+          format: uuid
+          nullable: true
+        system_entity_code:
+          type: string
+          readOnly: true
+        system_entity_name:
+          type: string
+          readOnly: true
+        target_type:
+          type: string
+          readOnly: true
+        target_label:
+          type: string
+          readOnly: true
+        target_workspace_uuid:
+          type: string
+          readOnly: true
         station:
           type: number
           format: double
@@ -7427,29 +8091,7 @@ components:
           maximum: 9223372036854775807
           minimum: 0
           format: int64
-        project:
-          type: integer
-        result:
-          type: integer
-        node:
-          type: integer
-          nullable: true
-        entity:
-          type: integer
-          nullable: true
-        system_entity:
-          type: integer
-          nullable: true
-    PatchedAnalysisRun:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
-          type: string
-          format: uuid
-          readOnly: true
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -7458,9 +8100,32 @@ components:
           type: string
           format: date-time
           readOnly: true
-        is_active:
-          type: boolean
-        metadata: {}
+    PatchedAnalysisRun:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        analysis_case:
+          type: string
+          format: uuid
+        analysis_case_name:
+          type: string
+          readOnly: true
+        analysis_model_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        analysis_model_name:
+          type: string
+          readOnly: true
+        analysis_model_type:
+          type: string
+          readOnly: true
         status:
           $ref: '#/components/schemas/AnalysisRunStatusEnum'
         started_at:
@@ -7481,10 +8146,20 @@ components:
           type: string
         error_message:
           type: string
-        project:
+        metadata: {}
+        is_active:
+          type: boolean
+        result_count:
           type: integer
-        analysis_case:
-          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedAppliedLoad:
       type: object
       properties:
@@ -7495,17 +8170,71 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
+          format: uuid
+        load_case:
           type: string
-          format: date-time
+          format: uuid
+        load_case_code:
+          type: string
           readOnly: true
-        metadata: {}
+        load_case_name:
+          type: string
+          readOnly: true
+        load_case_type:
+          type: string
+          readOnly: true
         target_type:
           $ref: '#/components/schemas/AppliedLoadTargetTypeEnum'
+        node:
+          type: string
+          format: uuid
+          nullable: true
+        node_code:
+          type: string
+          readOnly: true
+          nullable: true
+        node_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        entity:
+          type: string
+          format: uuid
+          nullable: true
+        entity_code:
+          type: string
+          readOnly: true
+          nullable: true
+        entity_name:
+          type: string
+          readOnly: true
+          nullable: true
+        entity_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        system_entity:
+          type: string
+          format: uuid
+          nullable: true
+        system_entity_code:
+          type: string
+          readOnly: true
+          nullable: true
+        system_entity_name:
+          type: string
+          readOnly: true
+          nullable: true
+        target_label:
+          type: string
+          readOnly: true
+        target_workspace_uuid:
+          type: string
+          readOnly: true
         distribution:
           $ref: '#/components/schemas/DistributionEnum'
         direction:
@@ -7526,19 +8255,15 @@ components:
           type: number
           format: double
           nullable: true
-        project:
-          type: integer
-        load_case:
-          type: integer
-        node:
-          type: integer
-          nullable: true
-        entity:
-          type: integer
-          nullable: true
-        system_entity:
-          type: integer
-          nullable: true
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedAssembly:
       type: object
       properties:
@@ -7549,14 +8274,19 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
+          format: uuid
+        workspace:
           type: string
-          format: date-time
+          format: uuid
+        workspace_type:
+          type: string
           readOnly: true
+        parent:
+          type: string
+          format: uuid
+          nullable: true
         name:
           type: string
           maxLength: 255
@@ -7565,14 +8295,14 @@ components:
         is_active:
           type: boolean
         metadata: {}
-        project:
-          type: integer
-        fem_model:
-          type: integer
-          nullable: true
-        parent:
-          type: integer
-          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedBoundaryCondition:
       type: object
       properties:
@@ -7583,24 +8313,44 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
+          format: uuid
         name:
           type: string
           maxLength: 255
         description:
           type: string
-        is_active:
-          type: boolean
-        metadata: {}
         target_type:
           $ref: '#/components/schemas/BoundaryConditionTargetTypeEnum'
+        node:
+          type: string
+          format: uuid
+          nullable: true
+        node_code:
+          type: string
+          readOnly: true
+          nullable: true
+        node_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        system_entity:
+          type: string
+          format: uuid
+          nullable: true
+        system_entity_code:
+          type: string
+          readOnly: true
+          nullable: true
+        system_entity_name:
+          type: string
+          readOnly: true
+          nullable: true
+        target_label:
+          type: string
+          readOnly: true
         ux:
           type: boolean
         uy:
@@ -7614,14 +8364,17 @@ components:
         rz:
           type: boolean
         stiffness: {}
-        project:
-          type: integer
-        node:
-          type: integer
-          nullable: true
-        system_entity:
-          type: integer
-          nullable: true
+        is_active:
+          type: boolean
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedConnectionEdge:
       type: object
       properties:
@@ -7632,6 +8385,29 @@ components:
           type: string
           format: uuid
           readOnly: true
+        project:
+          type: string
+          format: uuid
+        source_entity:
+          type: string
+          format: uuid
+        source_entity_code:
+          type: string
+          readOnly: true
+        target_entity:
+          type: string
+          format: uuid
+        target_entity_code:
+          type: string
+          readOnly: true
+        relation_type:
+          type: string
+          default: connected_to
+          maxLength: 50
+        weight:
+          type: number
+          format: double
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -7640,20 +8416,6 @@ components:
           type: string
           format: date-time
           readOnly: true
-        metadata: {}
-        relation_type:
-          type: string
-          default: connected_to
-          maxLength: 50
-        weight:
-          type: number
-          format: double
-        project:
-          type: integer
-        source_entity:
-          type: integer
-        target_entity:
-          type: integer
     PatchedCoordinateSystem:
       type: object
       properties:
@@ -7664,22 +8426,14 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
+          format: uuid
         name:
           type: string
           maxLength: 255
         description:
           type: string
-        is_active:
-          type: boolean
-        metadata: {}
         origin_x:
           type: number
           format: double
@@ -7694,18 +8448,9 @@ components:
         axis_z: {}
         is_global:
           type: boolean
-        project:
-          type: integer
-    PatchedDesignCode:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
-          type: string
-          format: uuid
-          readOnly: true
+        is_active:
+          type: boolean
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -7713,6 +8458,13 @@ components:
         updated_at:
           type: string
           format: date-time
+          readOnly: true
+    PatchedDesignCode:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
           readOnly: true
         name:
           type: string
@@ -7722,9 +8474,6 @@ components:
         code:
           type: string
           maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
         version:
           type: string
           default: ''
@@ -7735,6 +8484,23 @@ components:
         country:
           type: string
           maxLength: 100
+        metadata: {}
+        is_active:
+          type: boolean
+        clauses_count:
+          type: integer
+          readOnly: true
+        combination_templates_count:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedEntityNode:
       type: object
       properties:
@@ -7745,6 +8511,27 @@ components:
           type: string
           format: uuid
           readOnly: true
+        project:
+          type: string
+          format: uuid
+        entity:
+          type: string
+          format: uuid
+        entity_code:
+          type: string
+          readOnly: true
+        node:
+          type: string
+          format: uuid
+        node_code:
+          type: string
+          readOnly: true
+        sort_order:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -7753,18 +8540,78 @@ components:
           type: string
           format: date-time
           readOnly: true
-        sort_order:
+    PatchedEntityWorkspace:
+      type: object
+      properties:
+        id:
           type: integer
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        metadata: {}
+          readOnly: true
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
         project:
-          type: integer
-        entity:
-          type: integer
-        node:
-          type: integer
+          type: string
+          format: uuid
+        system_entity:
+          type: string
+          format: uuid
+        system_entity_code:
+          type: string
+          readOnly: true
+        system_entity_name:
+          type: string
+          readOnly: true
+        workspace_type:
+          $ref: '#/components/schemas/WorkspaceTypeEnum'
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        origin_x:
+          type: number
+          format: double
+        origin_y:
+          type: number
+          format: double
+        origin_z:
+          type: number
+          format: double
+        rotation_x_deg:
+          type: number
+          format: double
+        rotation_y_deg:
+          type: number
+          format: double
+        rotation_z_deg:
+          type: number
+          format: double
+        coordinate_system:
+          type: string
+          format: uuid
+          nullable: true
+        coordinate_system_name:
+          type: string
+          readOnly: true
+          nullable: true
+        has_fem_model:
+          type: string
+          readOnly: true
+        has_cad_model:
+          type: string
+          readOnly: true
+        is_active:
+          type: boolean
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedFemModel:
       type: object
       properties:
@@ -7775,20 +8622,22 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
+          format: uuid
           readOnly: true
-        updated_at:
+        workspace:
+          allOf:
+          - $ref: '#/components/schemas/FemWorkspaceSummary'
+          readOnly: true
+        workspace_uuid:
           type: string
-          format: date-time
+          format: uuid
+          writeOnly: true
+        system_entity:
+          type: string
           readOnly: true
         metadata: {}
-        project:
-          type: integer
-        system_entity:
-          type: integer
-          description: The system entity represented by this FEM model.
     PatchedLoadCase:
       type: object
       properties:
@@ -7799,6 +8648,36 @@ components:
           type: string
           format: uuid
           readOnly: true
+        project:
+          type: string
+          format: uuid
+        scenario:
+          type: string
+          format: uuid
+          nullable: true
+        scenario_name:
+          type: string
+          readOnly: true
+          nullable: true
+        code:
+          type: string
+          maxLength: 100
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        load_type:
+          $ref: '#/components/schemas/LoadTypeEnum'
+        factor:
+          type: number
+          format: double
+        is_active:
+          type: boolean
+        metadata: {}
+        applied_loads_count:
+          type: integer
+          readOnly: true
         created_at:
           type: string
           format: date-time
@@ -7807,27 +8686,6 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        code:
-          type: string
-          maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
-        load_type:
-          $ref: '#/components/schemas/LoadTypeEnum'
-        factor:
-          type: number
-          format: double
-        project:
-          type: integer
-        scenario:
-          type: integer
-          nullable: true
     PatchedLoadCombination:
       type: object
       properties:
@@ -7838,6 +8696,30 @@ components:
           type: string
           format: uuid
           readOnly: true
+        project:
+          type: string
+          format: uuid
+        scenario:
+          type: string
+          format: uuid
+          nullable: true
+        scenario_name:
+          type: string
+          readOnly: true
+          nullable: true
+        code:
+          type: string
+          maxLength: 100
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        expression:
+          type: string
+        is_active:
+          type: boolean
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -7846,53 +8728,41 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        code:
-          type: string
-          maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
-        expression:
-          type: string
-        project:
-          type: integer
-        scenario:
-          type: integer
-          nullable: true
     PatchedMaterial:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
           readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
         name:
           type: string
           maxLength: 255
-        description:
-          type: string
         code:
           type: string
           maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
+        category:
+          type: string
+          format: uuid
+        category_name:
+          type: string
+          readOnly: true
+        category_code:
+          type: string
+          readOnly: true
+        standard:
+          type: string
+          format: uuid
+          nullable: true
+        standard_name:
+          type: string
+          readOnly: true
+        standard_code:
+          type: string
+          readOnly: true
+        standard_version:
+          type: string
+          readOnly: true
         elastic_modulus:
           type: number
           format: double
@@ -7914,20 +8784,11 @@ components:
           type: number
           format: double
           nullable: true
-        category:
+        metadata: {}
+        is_active:
+          type: boolean
+        section_catalogs_count:
           type: integer
-        standard:
-          type: integer
-          nullable: true
-    PatchedMaterialCategory:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
-          type: string
-          format: uuid
           readOnly: true
         created_at:
           type: string
@@ -7937,25 +8798,23 @@ components:
           type: string
           format: date-time
           readOnly: true
+    PatchedMaterialCategory:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
         name:
           type: string
           maxLength: 255
-        description:
-          type: string
         code:
           type: string
           maxLength: 100
         is_active:
           type: boolean
-    PatchedMemoryAttachment:
-      type: object
-      properties:
-        id:
+        materials_count:
           type: integer
-          readOnly: true
-        uuid:
-          type: string
-          format: uuid
           readOnly: true
         created_at:
           type: string
@@ -7964,30 +8823,51 @@ components:
         updated_at:
           type: string
           format: date-time
+          readOnly: true
+    PatchedMemoryAttachment:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        entry:
+          type: string
+          format: uuid
+        entry_name:
+          type: string
+          readOnly: true
+        entry_type:
+          type: string
+          readOnly: true
+        project_uuid:
+          type: string
+          format: uuid
           readOnly: true
         file:
           type: string
           format: uri
+        file_url:
+          type: string
+          readOnly: true
+        file_name:
+          type: string
+          readOnly: true
         title:
           type: string
           maxLength: 255
-        metadata: {}
-        entry:
-          type: integer
-        uploaded_by:
-          type: integer
-          readOnly: true
-          nullable: true
-    PatchedMemoryEntry:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
+        uploaded_by_uuid:
           type: string
           format: uuid
           readOnly: true
+        uploaded_by_username:
+          type: string
+          readOnly: true
+        uploaded_by_email:
+          type: string
+          format: email
+          readOnly: true
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -7996,53 +8876,105 @@ components:
           type: string
           format: date-time
           readOnly: true
+    PatchedMemoryEntry:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
         name:
           type: string
           maxLength: 255
         description:
           type: string
-        is_active:
-          type: boolean
-        metadata: {}
+        folder:
+          type: string
+          format: uuid
+          nullable: true
+        folder_name:
+          type: string
+          readOnly: true
+        author_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        author_username:
+          type: string
+          readOnly: true
+        author_email:
+          type: string
+          format: email
+          readOnly: true
         entry_type:
           $ref: '#/components/schemas/EntryTypeEnum'
         content:
           type: string
-        project:
-          type: integer
-          readOnly: true
-        folder:
-          type: integer
-          nullable: true
-        author:
-          type: integer
-          readOnly: true
-          nullable: true
-        linked_system_entity:
-          type: integer
-          nullable: true
-        linked_entity:
-          type: integer
-          nullable: true
-        linked_node:
-          type: integer
-          nullable: true
-        linked_analysis_run:
-          type: integer
-          nullable: true
         tags:
           type: array
           items:
-            type: integer
-    PatchedMemoryFolder:
-      type: object
-      properties:
-        id:
-          type: integer
+            type: string
+            format: uuid
+        tag_details:
+          type: string
           readOnly: true
-        uuid:
+        linked_system_entity:
           type: string
           format: uuid
+          nullable: true
+        linked_system_entity_code:
+          type: string
+          readOnly: true
+        linked_system_entity_name:
+          type: string
+          readOnly: true
+        linked_entity:
+          type: string
+          format: uuid
+          nullable: true
+        linked_entity_code:
+          type: string
+          readOnly: true
+        linked_entity_name:
+          type: string
+          readOnly: true
+        linked_entity_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        linked_node:
+          type: string
+          format: uuid
+          nullable: true
+        linked_node_code:
+          type: string
+          readOnly: true
+        linked_node_workspace_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        linked_analysis_run:
+          type: string
+          format: uuid
+          nullable: true
+        linked_analysis_run_status:
+          type: string
+          readOnly: true
+        linked_analysis_case_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        linked_analysis_case_name:
+          type: string
+          readOnly: true
+        metadata: {}
+        is_active:
+          type: boolean
+        attachments_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -8052,29 +8984,36 @@ components:
           type: string
           format: date-time
           readOnly: true
+    PatchedMemoryFolder:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
         name:
           type: string
           maxLength: 255
         description:
           type: string
-        is_active:
-          type: boolean
-        metadata: {}
-        project:
-          type: integer
-          readOnly: true
         parent:
-          type: integer
-          nullable: true
-    PatchedMemoryTag:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
           type: string
           format: uuid
+          nullable: true
+        parent_name:
+          type: string
+          readOnly: true
+        metadata: {}
+        is_active:
+          type: boolean
+        children_count:
+          type: integer
+          readOnly: true
+        entries_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -8084,14 +9023,32 @@ components:
           type: string
           format: date-time
           readOnly: true
+    PatchedMemoryTag:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
         name:
           type: string
           maxLength: 100
         color:
           type: string
           maxLength: 20
-        project:
+        entries_count:
           type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
           readOnly: true
     PatchedNode:
       type: object
@@ -8103,20 +9060,21 @@ components:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        project:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
+          format: uuid
+        workspace:
           type: string
-          format: date-time
+          format: uuid
+        workspace_type:
+          type: string
           readOnly: true
         code:
           type: string
           maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
+        label:
+          type: string
+          maxLength: 255
         x:
           type: number
           format: double
@@ -8126,17 +9084,25 @@ components:
         z:
           type: number
           format: double
-        label:
-          type: string
-          maxLength: 255
-        project:
-          type: integer
-        fem_model:
-          type: integer
-          nullable: true
         coordinate_system:
-          type: integer
+          type: string
+          format: uuid
           nullable: true
+        coordinate_system_name:
+          type: string
+          readOnly: true
+          nullable: true
+        is_active:
+          type: boolean
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedProject:
       type: object
       properties:
@@ -8231,24 +9197,22 @@ components:
     PatchedRuleClause:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        design_code:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
+          format: uuid
+        design_code_name:
           type: string
-          format: date-time
           readOnly: true
-        is_active:
-          type: boolean
-        metadata: {}
+        design_code_code:
+          type: string
+          readOnly: true
+        design_code_version:
+          type: string
+          readOnly: true
         clause_number:
           type: string
           maxLength: 100
@@ -8257,20 +9221,21 @@ components:
           maxLength: 255
         body:
           type: string
-        design_code:
-          type: integer
         parent:
-          type: integer
-          nullable: true
-    PatchedRuleCombinationTemplate:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
           type: string
           format: uuid
+          nullable: true
+        parent_clause_number:
+          type: string
+          readOnly: true
+        parent_title:
+          type: string
+          readOnly: true
+        metadata: {}
+        is_active:
+          type: boolean
+        children_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -8280,31 +9245,72 @@ components:
           type: string
           format: date-time
           readOnly: true
+    PatchedRuleCombinationTemplate:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        design_code:
+          type: string
+          format: uuid
+        design_code_name:
+          type: string
+          readOnly: true
+        design_code_code:
+          type: string
+          readOnly: true
+        design_code_version:
+          type: string
+          readOnly: true
         name:
           type: string
           maxLength: 255
         description:
           type: string
-        is_active:
-          type: boolean
-        metadata: {}
         expression:
           type: string
           description: Combination expression or machine-readable template.
-        design_code:
-          type: integer
+        metadata: {}
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedScenario:
       type: object
       properties:
         id:
           type: integer
           readOnly: true
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
         project:
           type: string
           format: uuid
-        uuid:
+        name:
           type: string
-          format: uuid
+          maxLength: 255
+        description:
+          type: string
+        scenario_type:
+          $ref: '#/components/schemas/ScenarioTypeEnum'
+        is_active:
+          type: boolean
+        metadata: {}
+        load_cases_count:
+          type: integer
+          readOnly: true
+        load_combinations_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -8314,45 +9320,51 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        is_active:
-          type: boolean
-        metadata: {}
-        scenario_type:
-          $ref: '#/components/schemas/ScenarioTypeEnum'
     PatchedSectionCatalog:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
           readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
         name:
           type: string
           maxLength: 255
-        description:
-          type: string
         code:
           type: string
           maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
+        family:
+          type: string
+          format: uuid
+        family_name:
+          type: string
+          readOnly: true
+        family_code:
+          type: string
+          readOnly: true
+        material:
+          type: string
+          format: uuid
+          nullable: true
+        material_name:
+          type: string
+          readOnly: true
+        material_code:
+          type: string
+          readOnly: true
+        standard:
+          type: string
+          format: uuid
+          nullable: true
+        standard_name:
+          type: string
+          readOnly: true
+        standard_code:
+          type: string
+          readOnly: true
+        standard_version:
+          type: string
+          readOnly: true
         height:
           type: number
           format: double
@@ -8377,23 +9389,11 @@ components:
           type: number
           format: double
           nullable: true
-        family:
-          type: integer
-        material:
-          type: integer
-          nullable: true
-        standard:
-          type: integer
-          nullable: true
-    PatchedSectionFamily:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
+        metadata: {}
+        is_active:
+          type: boolean
+        has_properties:
           type: string
-          format: uuid
           readOnly: true
         created_at:
           type: string
@@ -8403,25 +9403,23 @@ components:
           type: string
           format: date-time
           readOnly: true
+    PatchedSectionFamily:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
         name:
           type: string
           maxLength: 255
-        description:
-          type: string
         code:
           type: string
           maxLength: 100
         is_active:
           type: boolean
-    PatchedSectionProperty:
-      type: object
-      properties:
-        id:
+        catalogs_count:
           type: integer
-          readOnly: true
-        uuid:
-          type: string
-          format: uuid
           readOnly: true
         created_at:
           type: string
@@ -8431,7 +9429,32 @@ components:
           type: string
           format: date-time
           readOnly: true
-        metadata: {}
+    PatchedSectionProperty:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        section:
+          type: string
+          format: uuid
+        section_name:
+          type: string
+          readOnly: true
+        section_code:
+          type: string
+          readOnly: true
+        family_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        family_name:
+          type: string
+          readOnly: true
+        family_code:
+          type: string
+          readOnly: true
         area:
           type: number
           format: double
@@ -8464,8 +9487,15 @@ components:
           type: number
           format: double
           nullable: true
-        section:
-          type: integer
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedStructuralEntity:
       type: object
       properties:
@@ -8476,6 +9506,50 @@ components:
           type: string
           format: uuid
           readOnly: true
+        project:
+          type: string
+          format: uuid
+        workspace:
+          type: string
+          format: uuid
+        workspace_type:
+          type: string
+          readOnly: true
+        code:
+          type: string
+          maxLength: 100
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        entity_type:
+          $ref: '#/components/schemas/StructuralEntityEntityTypeEnum'
+        assembly:
+          type: string
+          format: uuid
+          nullable: true
+        assembly_name:
+          type: string
+          readOnly: true
+          nullable: true
+        material:
+          type: integer
+          nullable: true
+        material_name:
+          type: string
+          readOnly: true
+          nullable: true
+        section:
+          type: integer
+          nullable: true
+        section_name:
+          type: string
+          readOnly: true
+          nullable: true
+        is_active:
+          type: boolean
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -8484,36 +9558,12 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        code:
-          type: string
-          maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
-        entity_type:
-          $ref: '#/components/schemas/StructuralEntityEntityTypeEnum'
-        project:
-          type: integer
-        fem_model:
-          type: integer
-          nullable: true
-        assembly:
-          type: integer
-          nullable: true
-        material:
-          type: integer
-          nullable: true
-        section:
-          type: integer
-          nullable: true
     PatchedSystemEntity:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
         uuid:
           type: string
           format: uuid
@@ -8536,6 +9586,8 @@ components:
         name:
           type: string
           maxLength: 255
+        description:
+          type: string
         entity_type:
           allOf:
           - $ref: '#/components/schemas/EntityTypeBddEnum'
@@ -8578,6 +9630,26 @@ components:
         is_active:
           type: boolean
         metadata: {}
+        metadata_schema:
+          type: string
+          readOnly: true
+        metadata_defaults:
+          type: string
+          readOnly: true
+        effective_metadata:
+          type: string
+          readOnly: true
+        allowed_workspaces:
+          type: string
+          readOnly: true
+        workspace_summary:
+          type: string
+          readOnly: true
+        workspaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityWorkspaceSummary'
+          readOnly: true
         created_at:
           type: string
           format: date-time
@@ -8792,24 +9864,22 @@ components:
     RuleClause:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        design_code:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
+          format: uuid
+        design_code_name:
           type: string
-          format: date-time
           readOnly: true
-        is_active:
-          type: boolean
-        metadata: {}
+        design_code_code:
+          type: string
+          readOnly: true
+        design_code_version:
+          type: string
+          readOnly: true
         clause_number:
           type: string
           maxLength: 100
@@ -8818,28 +9888,21 @@ components:
           maxLength: 255
         body:
           type: string
-        design_code:
-          type: integer
         parent:
-          type: integer
-          nullable: true
-      required:
-      - clause_number
-      - created_at
-      - design_code
-      - id
-      - title
-      - updated_at
-      - uuid
-    RuleCombinationTemplate:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
           type: string
           format: uuid
+          nullable: true
+        parent_clause_number:
+          type: string
+          readOnly: true
+        parent_title:
+          type: string
+          readOnly: true
+        metadata: {}
+        is_active:
+          type: boolean
+        children_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -8849,24 +9912,64 @@ components:
           type: string
           format: date-time
           readOnly: true
+      required:
+      - children_count
+      - clause_number
+      - created_at
+      - design_code
+      - design_code_code
+      - design_code_name
+      - design_code_version
+      - parent_clause_number
+      - parent_title
+      - title
+      - updated_at
+      - uuid
+    RuleCombinationTemplate:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        design_code:
+          type: string
+          format: uuid
+        design_code_name:
+          type: string
+          readOnly: true
+        design_code_code:
+          type: string
+          readOnly: true
+        design_code_version:
+          type: string
+          readOnly: true
         name:
           type: string
           maxLength: 255
         description:
           type: string
-        is_active:
-          type: boolean
-        metadata: {}
         expression:
           type: string
           description: Combination expression or machine-readable template.
-        design_code:
-          type: integer
+        metadata: {}
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
       - created_at
       - design_code
+      - design_code_code
+      - design_code_name
+      - design_code_version
       - expression
-      - id
       - name
       - updated_at
       - uuid
@@ -8876,12 +9979,28 @@ components:
         id:
           type: integer
           readOnly: true
-        project:
-          type: string
-          format: uuid
         uuid:
           type: string
           format: uuid
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        scenario_type:
+          $ref: '#/components/schemas/ScenarioTypeEnum'
+        is_active:
+          type: boolean
+        metadata: {}
+        load_cases_count:
+          type: integer
+          readOnly: true
+        load_combinations_count:
+          type: integer
           readOnly: true
         created_at:
           type: string
@@ -8891,19 +10010,11 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        is_active:
-          type: boolean
-        metadata: {}
-        scenario_type:
-          $ref: '#/components/schemas/ScenarioTypeEnum'
       required:
       - created_at
       - id
+      - load_cases_count
+      - load_combinations_count
       - name
       - project
       - updated_at
@@ -8929,32 +10040,48 @@ components:
     SectionCatalog:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
           readOnly: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
         name:
           type: string
           maxLength: 255
-        description:
-          type: string
         code:
           type: string
           maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
+        family:
+          type: string
+          format: uuid
+        family_name:
+          type: string
+          readOnly: true
+        family_code:
+          type: string
+          readOnly: true
+        material:
+          type: string
+          format: uuid
+          nullable: true
+        material_name:
+          type: string
+          readOnly: true
+        material_code:
+          type: string
+          readOnly: true
+        standard:
+          type: string
+          format: uuid
+          nullable: true
+        standard_name:
+          type: string
+          readOnly: true
+        standard_code:
+          type: string
+          readOnly: true
+        standard_version:
+          type: string
+          readOnly: true
         height:
           type: number
           format: double
@@ -8979,31 +10106,11 @@ components:
           type: number
           format: double
           nullable: true
-        family:
-          type: integer
-        material:
-          type: integer
-          nullable: true
-        standard:
-          type: integer
-          nullable: true
-      required:
-      - code
-      - created_at
-      - family
-      - id
-      - name
-      - updated_at
-      - uuid
-    SectionFamily:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        uuid:
+        metadata: {}
+        is_active:
+          type: boolean
+        has_properties:
           type: string
-          format: uuid
           readOnly: true
         created_at:
           type: string
@@ -9013,42 +10120,80 @@ components:
           type: string
           format: date-time
           readOnly: true
+      required:
+      - code
+      - created_at
+      - family
+      - family_code
+      - family_name
+      - has_properties
+      - material_code
+      - material_name
+      - name
+      - standard_code
+      - standard_name
+      - standard_version
+      - updated_at
+      - uuid
+    SectionFamily:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
         name:
           type: string
           maxLength: 255
-        description:
-          type: string
         code:
           type: string
           maxLength: 100
         is_active:
           type: boolean
+        catalogs_count:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
+      - catalogs_count
       - code
       - created_at
-      - id
       - name
       - updated_at
       - uuid
     SectionProperty:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
         uuid:
           type: string
           format: uuid
           readOnly: true
-        created_at:
+        section:
           type: string
-          format: date-time
-          readOnly: true
-        updated_at:
+          format: uuid
+        section_name:
           type: string
-          format: date-time
           readOnly: true
-        metadata: {}
+        section_code:
+          type: string
+          readOnly: true
+        family_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        family_name:
+          type: string
+          readOnly: true
+        family_code:
+          type: string
+          readOnly: true
         area:
           type: number
           format: double
@@ -9081,12 +10226,23 @@ components:
           type: number
           format: double
           nullable: true
-        section:
-          type: integer
+        metadata: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
       required:
       - created_at
-      - id
+      - family_code
+      - family_name
+      - family_uuid
       - section
+      - section_code
+      - section_name
       - updated_at
       - uuid
     StructuralEntity:
@@ -9099,6 +10255,50 @@ components:
           type: string
           format: uuid
           readOnly: true
+        project:
+          type: string
+          format: uuid
+        workspace:
+          type: string
+          format: uuid
+        workspace_type:
+          type: string
+          readOnly: true
+        code:
+          type: string
+          maxLength: 100
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        entity_type:
+          $ref: '#/components/schemas/StructuralEntityEntityTypeEnum'
+        assembly:
+          type: string
+          format: uuid
+          nullable: true
+        assembly_name:
+          type: string
+          readOnly: true
+          nullable: true
+        material:
+          type: integer
+          nullable: true
+        material_name:
+          type: string
+          readOnly: true
+          nullable: true
+        section:
+          type: integer
+          nullable: true
+        section_name:
+          type: string
+          readOnly: true
+          nullable: true
+        is_active:
+          type: boolean
+        metadata: {}
         created_at:
           type: string
           format: date-time
@@ -9107,41 +10307,19 @@ components:
           type: string
           format: date-time
           readOnly: true
-        name:
-          type: string
-          maxLength: 255
-        description:
-          type: string
-        code:
-          type: string
-          maxLength: 100
-        is_active:
-          type: boolean
-        metadata: {}
-        entity_type:
-          $ref: '#/components/schemas/StructuralEntityEntityTypeEnum'
-        project:
-          type: integer
-        fem_model:
-          type: integer
-          nullable: true
-        assembly:
-          type: integer
-          nullable: true
-        material:
-          type: integer
-          nullable: true
-        section:
-          type: integer
-          nullable: true
       required:
+      - assembly_name
       - code
       - created_at
       - id
+      - material_name
       - name
       - project
+      - section_name
       - updated_at
       - uuid
+      - workspace
+      - workspace_type
     StructuralEntityEntityTypeEnum:
       enum:
       - beam
@@ -9161,6 +10339,9 @@ components:
     SystemEntity:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
         uuid:
           type: string
           format: uuid
@@ -9183,6 +10364,8 @@ components:
         name:
           type: string
           maxLength: 255
+        description:
+          type: string
         entity_type:
           allOf:
           - $ref: '#/components/schemas/EntityTypeBddEnum'
@@ -9225,6 +10408,26 @@ components:
         is_active:
           type: boolean
         metadata: {}
+        metadata_schema:
+          type: string
+          readOnly: true
+        metadata_defaults:
+          type: string
+          readOnly: true
+        effective_metadata:
+          type: string
+          readOnly: true
+        allowed_workspaces:
+          type: string
+          readOnly: true
+        workspace_summary:
+          type: string
+          readOnly: true
+        workspaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityWorkspaceSummary'
+          readOnly: true
         created_at:
           type: string
           format: date-time
@@ -9234,19 +10437,29 @@ components:
           format: date-time
           readOnly: true
       required:
+      - allowed_workspaces
       - children
       - code
       - created_at
+      - effective_metadata
+      - id
       - is_leaf
       - is_root
+      - metadata_defaults
+      - metadata_schema
       - name
       - project
       - system_type
       - updated_at
       - uuid
+      - workspace_summary
+      - workspaces
     SystemEntityTreeChild:
       type: object
       properties:
+        id:
+          type: integer
+          readOnly: true
         uuid:
           type: string
           format: uuid
@@ -9276,11 +10489,24 @@ components:
           maximum: 9223372036854775807
           minimum: 0
           format: int64
+        effective_metadata:
+          type: string
+          readOnly: true
+        allowed_workspaces:
+          type: string
+          readOnly: true
+        workspace_summary:
+          type: string
+          readOnly: true
       required:
+      - allowed_workspaces
       - code
+      - effective_metadata
+      - id
       - name
       - system_type
       - uuid
+      - workspace_summary
     SystemEntityType:
       type: object
       properties:
@@ -9323,6 +10549,17 @@ components:
           type: boolean
         metadata:
           nullable: true
+          description: 'Expected shape: {''schema'': {...}, ''defaults'': {...}, ''allowed_workspaces'':
+            [...]}'
+        metadata_schema:
+          type: string
+          readOnly: true
+        metadata_defaults:
+          type: string
+          readOnly: true
+        allowed_workspaces:
+          type: string
+          readOnly: true
         created_at:
           type: string
           format: date-time
@@ -9332,9 +10569,12 @@ components:
           format: date-time
           readOnly: true
       required:
+      - allowed_workspaces
       - code
       - created_at
       - domain
+      - metadata_defaults
+      - metadata_schema
       - name
       - updated_at
       - uuid
@@ -9376,9 +10616,21 @@ components:
           maxLength: 100
         is_active:
           type: boolean
+        metadata_schema:
+          type: string
+          readOnly: true
+        metadata_defaults:
+          type: string
+          readOnly: true
+        allowed_workspaces:
+          type: string
+          readOnly: true
       required:
+      - allowed_workspaces
       - code
       - domain
+      - metadata_defaults
+      - metadata_schema
       - name
       - uuid
     TokenObtainPair:
@@ -9495,6 +10747,22 @@ components:
       - email
       - password
       - username
+    WorkspaceTypeEnum:
+      enum:
+      - fem
+      - cad
+      - cost
+      - analysis
+      - document
+      - custom
+      type: string
+      description: |-
+        * `fem` - FEM
+        * `cad` - CAD
+        * `cost` - Cost
+        * `analysis` - Analysis
+        * `document` - Document
+        * `custom` - Custom
   securitySchemes:
     jwtAuth:
       type: http

@@ -7,9 +7,6 @@ import { apiClient } from '@/lib/api/axios';
 import type {
   ApiConnectionEdge,
   ApiEntityType,
-  ApiFemBulkStatusResponse,
-  ApiFemModel,
-  ApiFemStatus,
   ApiProjectGraphResponse,
   ApiSystemEntity,
   ApiSystemEntityTypeSummary,
@@ -74,14 +71,9 @@ export interface UpdateConnectionPayload {
   metadata?: Record<string, unknown> | null;
 }
 
-export interface CreateFemModelPayload {
-  system_entity_uuid: string;
-  metadata?: Record<string, unknown> | null;
-}
 
-export interface FetchFemBulkStatusOptions {
-  strict?: boolean;
-}
+
+
 
 export type ApiErrorMap = {
   nonFieldErrors: string[];
@@ -509,87 +501,7 @@ export async function deleteConnection(
   });
 }
 
-export async function fetchFemStatus(
-  projectUuid: string,
-  systemEntityUuid: string
-): Promise<ApiFemStatus> {
-  const { data } = await apiClient.get('/entities/fem-models/status/', {
-    params: {
-      ...buildProjectParams(projectUuid),
-      system_entity: systemEntityUuid,
-    },
-  });
 
-  return data;
-}
 
-export async function fetchFemBulkStatus(
-  projectUuid: string,
-  systemEntityUuids: string[],
-  options: FetchFemBulkStatusOptions = {}
-): Promise<ApiFemBulkStatusResponse> {
-  if (!projectUuid) {
-    throw new Error('fetchFemBulkStatus: projectUuid is required');
-  }
 
-  const uniqueUuids = uniqueStrings(systemEntityUuids);
 
-  if (uniqueUuids.length === 0) {
-    return [];
-  }
-
-  /**
-   * Backend serializer currently accepts max_length=500.
-   * This chunking keeps the frontend safe even if Canvas visible nodes grow.
-   */
-  const chunks = chunkArray(uniqueUuids, 500);
-
-  const responses = await Promise.all(
-    chunks.map(async (chunk) => {
-      const { data } = await apiClient.post<ApiFemBulkStatusResponse>(
-        '/entities/fem-models/bulk-status/',
-        {
-          project_uuid: projectUuid,
-          system_entity_uuids: chunk,
-          strict: options.strict ?? false,
-        },
-        {
-          params: buildProjectParams(projectUuid),
-        }
-      );
-
-      return data;
-    })
-  );
-
-  return responses.flat();
-}
-
-export async function fetchFemModels(
-  projectUuid: string,
-  systemEntityUuid?: string
-): Promise<ApiFemModel[]> {
-  const params: Record<string, string> = buildProjectParams(projectUuid);
-
-  if (systemEntityUuid) {
-    params.system_entity = systemEntityUuid;
-  }
-
-  const { data } = await apiClient.get('/entities/fem-models/', { params });
-  return data.results ?? data ?? [];
-}
-
-export async function createFemModel(
-  projectUuid: string,
-  payload: CreateFemModelPayload
-): Promise<ApiFemModel> {
-  const body = {
-    ...payload,
-  };
-
-  const { data } = await apiClient.post('/entities/fem-models/', body, {
-    params: buildProjectParams(projectUuid),
-  });
-
-  return data;
-}

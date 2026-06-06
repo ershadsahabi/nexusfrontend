@@ -16,7 +16,7 @@ import { useProjectGraph } from '@/hooks/useProjectGraph';
 import { useCreateConnection } from '@/hooks/useCreateConnection';
 import { useUpdateSystemEntity } from '@/hooks/useUpdateSystemEntity';
 import { useDeleteConnection } from '@/hooks/useDeleteConnection';
-import { useFemBulkStatus } from '@/hooks/useFemModel';
+import { useWorkspaceBulkStatus } from '@/hooks/useWorkspaceModel';
 import { useCanvasStore } from '@/store/useCanvasStore';
 import { filterVisibleGraph } from '@/lib/graph/visibility';
 
@@ -125,12 +125,13 @@ export default function CanvasScene({
     return visibleGraph.entities.map((entity) => entity.uuid);
   }, [visibleGraph.entities]);
 
-  /**
-   * فقط وضعیت FEM نودهای visible گرفته می‌شود.
-   * داده تحلیلی FEM هرگز اینجا fetch نمی‌شود.
-   * نتیجه داخل FemStatusStore cache می‌شود و EntityNodeها جداگانه از آن می‌خوانند.
-   */
-  useFemBulkStatus(projectUuid, visibleEntityUuids);
+/**
+ * فقط وضعیت Workspace نوع FEM برای نودهای visible گرفته می‌شود.
+ * داده تحلیلی Workspace/FEM هرگز اینجا fetch نمی‌شود.
+ * نتیجه داخل WorkspaceStatusStore cache می‌شود و کامپوننت‌ها جداگانه از آن می‌خوانند.
+ */
+  useWorkspaceBulkStatus(projectUuid, visibleEntityUuids, 'FEM');
+
 
   const floatingSource = useMemo(() => {
     if (!edgeCreationSourceUuid) return null;

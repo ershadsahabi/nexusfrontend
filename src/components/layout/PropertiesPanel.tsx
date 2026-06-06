@@ -9,11 +9,13 @@ import { useCanvasStore } from '@/store/useCanvasStore';
 import { useUpdateSystemEntity } from '@/hooks/useUpdateSystemEntity';
 import { useDeleteSystemEntity } from '@/hooks/useDeleteSystemEntity';
 import { useSystemEntityTypes } from '@/hooks/useSystemEntityTypes';
-import { useFemStatus } from '@/hooks/useFemModel';
-import { useFemStatusStore } from '@/store/useFemStatusStore';
+import { useWorkspaceStatus } from '@/hooks/useWorkspaceModel';
+import { useWorkspaceStatusStore } from '@/store/useWorkspaceStatusStore';
+
 
 import type { ApiEntityType } from '@/lib/types/api.types';
 import type { MetadataSchema, MetadataValues } from '@/lib/metadata/types';
+import { buildWorkspaceHref } from '@/lib/types/workspace.types';
 
 import {
   type ApiErrorMap,
@@ -63,9 +65,7 @@ function getEntityAvatarText(name: string, code: string) {
   return source.slice(0, 2).toUpperCase();
 }
 
-function buildFemWorkspaceHref(projectUuid: string, femModelUuid: string) {
-  return `/projects/${projectUuid}/fem/${femModelUuid}`;
-}
+
 
 export const PropertiesPanel = () => {
   const params = useParams();
@@ -93,31 +93,47 @@ export const PropertiesPanel = () => {
     (entity) => entity.uuid === selectedEntityId
   );
 
-  // --- FEM Status & Integration ---
-  const cachedFemStatus = useFemStatusStore((state) =>
-    selectedEntity?.uuid ? state.byEntityUuid[selectedEntity.uuid] ?? null : null
+    // --- FEM Workspace Integration ---
+  const cachedWorkspaceStatus = useWorkspaceStatusStore((state) =>
+    selectedEntity?.uuid
+      ? state.getByEntityUuid(selectedEntity.uuid, 'FEM')
+      : null
   );
 
-  const { data: fetchedFemStatus, isLoading: isFemStatusLoading } = useFemStatus(
-    projectUuid,
-    selectedEntity?.uuid ?? null
-  );
+  const {
+    data: fetchedWorkspaceStatus,
+    isLoading: isWorkspaceStatusLoading,
+  } = useWorkspaceStatus(projectUuid, selectedEntity?.uuid ?? null, 'FEM');
 
-  const femStatus = fetchedFemStatus ?? cachedFemStatus ?? null;
+  const femWorkspaceStatus =
+    fetchedWorkspaceStatus ?? cachedWorkspaceStatus ?? null;
 
   const isFemEligible =
-    femStatus?.femEligible ??
-    (selectedEntity?.systemType as any)?.fem_eligible ??
+    femWorkspaceStatus?.eligible ??
+    selectedEntity?.systemType?.fem_eligible ??
     false;
 
   const canOpenFemWorkspace = Boolean(
-    projectUuid && femStatus?.hasFemModel && femStatus?.femModelUuid
+    projectUuid &&
+      femWorkspaceStatus?.hasWorkspace &&
+      femWorkspaceStatus?.workspaceUuid
   );
 
   const handleOpenFemWorkspace = () => {
-    if (!projectUuid || !femStatus?.femModelUuid) return;
-    router.push(buildFemWorkspaceHref(projectUuid, femStatus.femModelUuid));
+    if (!projectUuid || !femWorkspaceStatus?.workspaceUuid) return;
+
+    const href = buildWorkspaceHref(
+      projectUuid,
+      'FEM',
+      femWorkspaceStatus.workspaceUuid
+    );
+
+    window.open(href, '_blank', 'noopener,noreferrer');
   };
+
+
+
+
   // --------------------------------
 
   const updateEntityMutation = useUpdateSystemEntity(projectUuid, scenarioId);
@@ -474,30 +490,34 @@ export const PropertiesPanel = () => {
                 <strong>فضای تحلیل مهندسی</strong>
               </div>
 
-              {isFemStatusLoading ? (
+              {isWorkspaceStatusLoading ? (
                 <span className={styles.femStatusPillMuted}>در حال بررسی...</span>
-              ) : femStatus?.hasFemModel ? (
+              ) : femWorkspaceStatus?.hasWorkspace ? (
                 <span className={styles.femStatusPillSuccess}>متصل</span>
               ) : isFemEligible ? (
                 <span className={styles.femStatusPillWarning}>آماده اتصال</span>
               ) : (
                 <span className={styles.femStatusPillMuted}>غیرمجاز</span>
               )}
+
             </div>
 
             <p className={styles.femWorkspaceText}>
-              {isFemStatusLoading
-                ? 'در حال دریافت وضعیت مدل FEM برای این موجودیت...'
-                : femStatus?.hasFemModel
-                ? 'مدل FEM برای این موجودیت ساخته شده است و می‌توانید وارد فضای تحلیل شوید.'
+              {isWorkspaceStatusLoading
+                ? 'در حال دریافت وضعیت Workspace نوع FEM برای این موجودیت...'
+                : femWorkspaceStatus?.hasWorkspace
+                ? 'Workspace نوع FEM برای این موجودیت ساخته شده است و می‌توانید وارد فضای تحلیل شوید.'
                 : isFemEligible
-                ? 'این موجودیت قابلیت FEM دارد، اما هنوز مدل FEM برای آن ساخته نشده است.'
+                ? 'این موجودیت قابلیت FEM دارد، اما هنوز Workspace نوع FEM برای آن ساخته نشده است.'
                 : 'این موجودیت قابلیت اتصال به FEM Workspace را ندارد.'}
             </p>
 
-            {femStatus?.femModelUuid && (
-              <code className={styles.femModelUuid}>{femStatus.femModelUuid}</code>
-            )}
+                {femWorkspaceStatus?.workspaceUuid && (
+                  <code className={styles.femModelUuid}>
+                    {femWorkspaceStatus.workspaceUuid}
+                  </code>
+                )}
+
 
             <button
               type="button"
@@ -506,6 +526,7 @@ export const PropertiesPanel = () => {
               disabled={!canOpenFemWorkspace || isBusy}
             >
               ورود به فضای FEM
+            <span style={{ marginRight: '8px', fontSize: '0.9em', opacity: 0.8 }}>↗</span>
             </button>
           </div>
           {/* -------------------------------------- */}

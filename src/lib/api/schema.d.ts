@@ -11,10 +11,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["analysis_cases_list"];
         put?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         post: operations["analysis_cases_create"];
         delete?: never;
         options?: never;
@@ -29,16 +27,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["analysis_cases_retrieve"];
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         put: operations["analysis_cases_update"];
         post?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         delete: operations["analysis_cases_destroy"];
         options?: never;
         head?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         patch: operations["analysis_cases_partial_update"];
         trace?: never;
     };
@@ -49,10 +43,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["analysis_models_list"];
         put?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         post: operations["analysis_models_create"];
         delete?: never;
         options?: never;
@@ -67,16 +59,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["analysis_models_retrieve"];
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         put: operations["analysis_models_update"];
         post?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         delete: operations["analysis_models_destroy"];
         options?: never;
         head?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         patch: operations["analysis_models_partial_update"];
         trace?: never;
     };
@@ -87,10 +75,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["analysis_result_items_list"];
         put?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         post: operations["analysis_result_items_create"];
         delete?: never;
         options?: never;
@@ -105,16 +91,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["analysis_result_items_retrieve"];
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         put: operations["analysis_result_items_update"];
         post?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         delete: operations["analysis_result_items_destroy"];
         options?: never;
         head?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         patch: operations["analysis_result_items_partial_update"];
         trace?: never;
     };
@@ -125,10 +107,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["analysis_results_list"];
         put?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         post: operations["analysis_results_create"];
         delete?: never;
         options?: never;
@@ -143,16 +123,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["analysis_results_retrieve"];
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         put: operations["analysis_results_update"];
         post?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         delete: operations["analysis_results_destroy"];
         options?: never;
         head?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         patch: operations["analysis_results_partial_update"];
         trace?: never;
     };
@@ -163,10 +139,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["analysis_runs_list"];
         put?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         post: operations["analysis_runs_create"];
         delete?: never;
         options?: never;
@@ -181,16 +155,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["analysis_runs_retrieve"];
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         put: operations["analysis_runs_update"];
         post?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         delete: operations["analysis_runs_destroy"];
         options?: never;
         head?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         patch: operations["analysis_runs_partial_update"];
         trace?: never;
     };
@@ -241,10 +211,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["ecosystem_applied_loads_list"];
         put?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         post: operations["ecosystem_applied_loads_create"];
         delete?: never;
         options?: never;
@@ -259,16 +227,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["ecosystem_applied_loads_retrieve"];
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         put: operations["ecosystem_applied_loads_update"];
         post?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         delete: operations["ecosystem_applied_loads_destroy"];
         options?: never;
         head?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         patch: operations["ecosystem_applied_loads_partial_update"];
         trace?: never;
     };
@@ -279,10 +243,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["ecosystem_boundary_conditions_list"];
         put?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         post: operations["ecosystem_boundary_conditions_create"];
         delete?: never;
         options?: never;
@@ -297,16 +259,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["ecosystem_boundary_conditions_retrieve"];
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         put: operations["ecosystem_boundary_conditions_update"];
         post?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         delete: operations["ecosystem_boundary_conditions_destroy"];
         options?: never;
         head?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         patch: operations["ecosystem_boundary_conditions_partial_update"];
         trace?: never;
     };
@@ -317,10 +275,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["ecosystem_load_cases_list"];
         put?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         post: operations["ecosystem_load_cases_create"];
         delete?: never;
         options?: never;
@@ -335,16 +291,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["ecosystem_load_cases_retrieve"];
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         put: operations["ecosystem_load_cases_update"];
         post?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         delete: operations["ecosystem_load_cases_destroy"];
         options?: never;
         head?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         patch: operations["ecosystem_load_cases_partial_update"];
         trace?: never;
     };
@@ -355,10 +307,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["ecosystem_load_combinations_list"];
         put?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         post: operations["ecosystem_load_combinations_create"];
         delete?: never;
         options?: never;
@@ -373,16 +323,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["ecosystem_load_combinations_retrieve"];
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         put: operations["ecosystem_load_combinations_update"];
         post?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         delete: operations["ecosystem_load_combinations_destroy"];
         options?: never;
         head?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         patch: operations["ecosystem_load_combinations_partial_update"];
         trace?: never;
     };
@@ -393,10 +339,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["ecosystem_scenarios_list"];
         put?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         post: operations["ecosystem_scenarios_create"];
         delete?: never;
         options?: never;
@@ -411,16 +355,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         get: operations["ecosystem_scenarios_retrieve"];
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         put: operations["ecosystem_scenarios_update"];
         post?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         delete: operations["ecosystem_scenarios_destroy"];
         options?: never;
         head?: never;
-        /** @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه. */
         patch: operations["ecosystem_scenarios_partial_update"];
         trace?: never;
     };
@@ -431,16 +371,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_assemblies_list"];
         put?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         post: operations["entities_assemblies_create"];
         delete?: never;
         options?: never;
@@ -455,28 +387,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_assemblies_retrieve"];
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         put: operations["entities_assemblies_update"];
         post?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         delete: operations["entities_assemblies_destroy"];
         options?: never;
         head?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         patch: operations["entities_assemblies_partial_update"];
         trace?: never;
     };
@@ -487,16 +403,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_connections_list"];
         put?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         post: operations["entities_connections_create"];
         delete?: never;
         options?: never;
@@ -511,28 +419,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_connections_retrieve"];
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         put: operations["entities_connections_update"];
         post?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         delete: operations["entities_connections_destroy"];
         options?: never;
         head?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         patch: operations["entities_connections_partial_update"];
         trace?: never;
     };
@@ -543,16 +435,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_coordinate_systems_list"];
         put?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         post: operations["entities_coordinate_systems_create"];
         delete?: never;
         options?: never;
@@ -567,28 +451,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_coordinate_systems_retrieve"];
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         put: operations["entities_coordinate_systems_update"];
         post?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         delete: operations["entities_coordinate_systems_destroy"];
         options?: never;
         head?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         patch: operations["entities_coordinate_systems_partial_update"];
         trace?: never;
     };
@@ -599,16 +467,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_entity_nodes_list"];
         put?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         post: operations["entities_entity_nodes_create"];
         delete?: never;
         options?: never;
@@ -623,28 +483,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_entity_nodes_retrieve"];
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         put: operations["entities_entity_nodes_update"];
         post?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         delete: operations["entities_entity_nodes_destroy"];
         options?: never;
         head?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         patch: operations["entities_entity_nodes_partial_update"];
         trace?: never;
     };
@@ -655,16 +499,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_fem_models_list"];
         put?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         post: operations["entities_fem_models_create"];
         delete?: never;
         options?: never;
@@ -679,29 +515,45 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_fem_models_retrieve"];
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         put: operations["entities_fem_models_update"];
         post?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         delete: operations["entities_fem_models_destroy"];
         options?: never;
         head?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         patch: operations["entities_fem_models_partial_update"];
+        trace?: never;
+    };
+    "/api/v1/entities/fem-models/bulk-status/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["entities_fem_models_bulk_status_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/entities/fem-models/status/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["entities_fem_models_status_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/api/v1/entities/nodes/": {
@@ -711,16 +563,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_nodes_list"];
         put?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         post: operations["entities_nodes_create"];
         delete?: never;
         options?: never;
@@ -735,28 +579,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_nodes_retrieve"];
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         put: operations["entities_nodes_update"];
         post?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         delete: operations["entities_nodes_destroy"];
         options?: never;
         head?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         patch: operations["entities_nodes_partial_update"];
         trace?: never;
     };
@@ -767,16 +595,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_structural_entities_list"];
         put?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         post: operations["entities_structural_entities_create"];
         delete?: never;
         options?: never;
@@ -791,28 +611,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_structural_entities_retrieve"];
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         put: operations["entities_structural_entities_update"];
         post?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         delete: operations["entities_structural_entities_destroy"];
         options?: never;
         head?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         patch: operations["entities_structural_entities_partial_update"];
         trace?: never;
     };
@@ -823,16 +627,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_system_entities_list"];
         put?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         post: operations["entities_system_entities_create"];
         delete?: never;
         options?: never;
@@ -847,28 +643,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         get: operations["entities_system_entities_retrieve"];
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         put: operations["entities_system_entities_update"];
         post?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         delete: operations["entities_system_entities_destroy"];
         options?: never;
         head?: never;
-        /**
-         * @description ویوست پایه برای فیلتر کردن خودکار رکوردها بر اساس پروژه.
-         *     فرض بر این است که project_uuid از طریق URL (Nested Router) یا Query Params ارسال می‌شود.
-         */
         patch: operations["entities_system_entities_partial_update"];
         trace?: never;
     };
@@ -879,12 +659,6 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description Global catalog of system entity semantic types.
-         *
-         *     This endpoint is NOT project scoped.
-         *     Used by UI to populate type selectors.
-         */
         get: operations["entities_system_entity_types_list"];
         put?: never;
         post?: never;
@@ -901,12 +675,6 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description Global catalog of system entity semantic types.
-         *
-         *     This endpoint is NOT project scoped.
-         *     Used by UI to populate type selectors.
-         */
         get: operations["entities_system_entity_types_retrieve"];
         put?: never;
         post?: never;
@@ -916,6 +684,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/entities/workspaces/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["entities_workspaces_list"];
+        put?: never;
+        post: operations["entities_workspaces_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/entities/workspaces/{uuid}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["entities_workspaces_retrieve"];
+        put: operations["entities_workspaces_update"];
+        post?: never;
+        delete: operations["entities_workspaces_destroy"];
+        options?: never;
+        head?: never;
+        patch: operations["entities_workspaces_partial_update"];
+        trace?: never;
+    };
     "/api/v1/memory/attachments/": {
         parameters: {
             query?: never;
@@ -923,10 +723,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت فایل‌های پیوست شده به یک Entry */
         get: operations["memory_attachments_list"];
         put?: never;
-        /** @description مدیریت فایل‌های پیوست شده به یک Entry */
         post: operations["memory_attachments_create"];
         delete?: never;
         options?: never;
@@ -941,16 +739,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت فایل‌های پیوست شده به یک Entry */
         get: operations["memory_attachments_retrieve"];
-        /** @description مدیریت فایل‌های پیوست شده به یک Entry */
         put: operations["memory_attachments_update"];
         post?: never;
-        /** @description مدیریت فایل‌های پیوست شده به یک Entry */
         delete: operations["memory_attachments_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت فایل‌های پیوست شده به یک Entry */
         patch: operations["memory_attachments_partial_update"];
         trace?: never;
     };
@@ -961,10 +755,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت یادداشت‌ها و مستندات یک پروژه */
         get: operations["memory_entries_list"];
         put?: never;
-        /** @description مدیریت یادداشت‌ها و مستندات یک پروژه */
         post: operations["memory_entries_create"];
         delete?: never;
         options?: never;
@@ -979,16 +771,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت یادداشت‌ها و مستندات یک پروژه */
         get: operations["memory_entries_retrieve"];
-        /** @description مدیریت یادداشت‌ها و مستندات یک پروژه */
         put: operations["memory_entries_update"];
         post?: never;
-        /** @description مدیریت یادداشت‌ها و مستندات یک پروژه */
         delete: operations["memory_entries_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت یادداشت‌ها و مستندات یک پروژه */
         patch: operations["memory_entries_partial_update"];
         trace?: never;
     };
@@ -999,10 +787,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت پوشه‌های مربوط به یک پروژه */
         get: operations["memory_folders_list"];
         put?: never;
-        /** @description مدیریت پوشه‌های مربوط به یک پروژه */
         post: operations["memory_folders_create"];
         delete?: never;
         options?: never;
@@ -1017,16 +803,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت پوشه‌های مربوط به یک پروژه */
         get: operations["memory_folders_retrieve"];
-        /** @description مدیریت پوشه‌های مربوط به یک پروژه */
         put: operations["memory_folders_update"];
         post?: never;
-        /** @description مدیریت پوشه‌های مربوط به یک پروژه */
         delete: operations["memory_folders_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت پوشه‌های مربوط به یک پروژه */
         patch: operations["memory_folders_partial_update"];
         trace?: never;
     };
@@ -1037,10 +819,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت تگ‌های مربوط به یک پروژه */
         get: operations["memory_tags_list"];
         put?: never;
-        /** @description مدیریت تگ‌های مربوط به یک پروژه */
         post: operations["memory_tags_create"];
         delete?: never;
         options?: never;
@@ -1055,16 +835,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت تگ‌های مربوط به یک پروژه */
         get: operations["memory_tags_retrieve"];
-        /** @description مدیریت تگ‌های مربوط به یک پروژه */
         put: operations["memory_tags_update"];
         post?: never;
-        /** @description مدیریت تگ‌های مربوط به یک پروژه */
         delete: operations["memory_tags_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت تگ‌های مربوط به یک پروژه */
         patch: operations["memory_tags_partial_update"];
         trace?: never;
     };
@@ -1161,10 +937,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت بندهای آیین‌نامه (گلوبال) */
+        /** @description مدیریت بندهای آیین‌نامه به صورت global. */
         get: operations["rules_clauses_list"];
         put?: never;
-        /** @description مدیریت بندهای آیین‌نامه (گلوبال) */
+        /** @description مدیریت بندهای آیین‌نامه به صورت global. */
         post: operations["rules_clauses_create"];
         delete?: never;
         options?: never;
@@ -1179,16 +955,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت بندهای آیین‌نامه (گلوبال) */
+        /** @description مدیریت بندهای آیین‌نامه به صورت global. */
         get: operations["rules_clauses_retrieve"];
-        /** @description مدیریت بندهای آیین‌نامه (گلوبال) */
+        /** @description مدیریت بندهای آیین‌نامه به صورت global. */
         put: operations["rules_clauses_update"];
         post?: never;
-        /** @description مدیریت بندهای آیین‌نامه (گلوبال) */
+        /** @description مدیریت بندهای آیین‌نامه به صورت global. */
         delete: operations["rules_clauses_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت بندهای آیین‌نامه (گلوبال) */
+        /** @description مدیریت بندهای آیین‌نامه به صورت global. */
         patch: operations["rules_clauses_partial_update"];
         trace?: never;
     };
@@ -1199,10 +975,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال) */
+        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global. */
         get: operations["rules_combination_templates_list"];
         put?: never;
-        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال) */
+        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global. */
         post: operations["rules_combination_templates_create"];
         delete?: never;
         options?: never;
@@ -1217,16 +993,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال) */
+        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global. */
         get: operations["rules_combination_templates_retrieve"];
-        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال) */
+        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global. */
         put: operations["rules_combination_templates_update"];
         post?: never;
-        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال) */
+        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global. */
         delete: operations["rules_combination_templates_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه (گلوبال) */
+        /** @description مدیریت الگوهای ترکیب بار آیین‌نامه به صورت global. */
         patch: operations["rules_combination_templates_partial_update"];
         trace?: never;
     };
@@ -1237,10 +1013,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت آیین‌نامه‌های طراحی (گلوبال) */
+        /** @description مدیریت آیین‌نامه‌های طراحی به صورت global. */
         get: operations["rules_design_codes_list"];
         put?: never;
-        /** @description مدیریت آیین‌نامه‌های طراحی (گلوبال) */
+        /** @description مدیریت آیین‌نامه‌های طراحی به صورت global. */
         post: operations["rules_design_codes_create"];
         delete?: never;
         options?: never;
@@ -1255,16 +1031,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت آیین‌نامه‌های طراحی (گلوبال) */
+        /** @description مدیریت آیین‌نامه‌های طراحی به صورت global. */
         get: operations["rules_design_codes_retrieve"];
-        /** @description مدیریت آیین‌نامه‌های طراحی (گلوبال) */
+        /** @description مدیریت آیین‌نامه‌های طراحی به صورت global. */
         put: operations["rules_design_codes_update"];
         post?: never;
-        /** @description مدیریت آیین‌نامه‌های طراحی (گلوبال) */
+        /** @description مدیریت آیین‌نامه‌های طراحی به صورت global. */
         delete: operations["rules_design_codes_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت آیین‌نامه‌های طراحی (گلوبال) */
+        /** @description مدیریت آیین‌نامه‌های طراحی به صورت global. */
         patch: operations["rules_design_codes_partial_update"];
         trace?: never;
     };
@@ -1275,10 +1051,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت دسته‌بندی مصالح (گلوبال) */
+        /** @description مدیریت دسته‌بندی مصالح به صورت global. */
         get: operations["sections_material_categories_list"];
         put?: never;
-        /** @description مدیریت دسته‌بندی مصالح (گلوبال) */
+        /** @description مدیریت دسته‌بندی مصالح به صورت global. */
         post: operations["sections_material_categories_create"];
         delete?: never;
         options?: never;
@@ -1293,16 +1069,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت دسته‌بندی مصالح (گلوبال) */
+        /** @description مدیریت دسته‌بندی مصالح به صورت global. */
         get: operations["sections_material_categories_retrieve"];
-        /** @description مدیریت دسته‌بندی مصالح (گلوبال) */
+        /** @description مدیریت دسته‌بندی مصالح به صورت global. */
         put: operations["sections_material_categories_update"];
         post?: never;
-        /** @description مدیریت دسته‌بندی مصالح (گلوبال) */
+        /** @description مدیریت دسته‌بندی مصالح به صورت global. */
         delete: operations["sections_material_categories_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت دسته‌بندی مصالح (گلوبال) */
+        /** @description مدیریت دسته‌بندی مصالح به صورت global. */
         patch: operations["sections_material_categories_partial_update"];
         trace?: never;
     };
@@ -1313,10 +1089,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت مصالح (گلوبال) */
+        /** @description مدیریت مصالح به صورت global. */
         get: operations["sections_materials_list"];
         put?: never;
-        /** @description مدیریت مصالح (گلوبال) */
+        /** @description مدیریت مصالح به صورت global. */
         post: operations["sections_materials_create"];
         delete?: never;
         options?: never;
@@ -1331,16 +1107,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت مصالح (گلوبال) */
+        /** @description مدیریت مصالح به صورت global. */
         get: operations["sections_materials_retrieve"];
-        /** @description مدیریت مصالح (گلوبال) */
+        /** @description مدیریت مصالح به صورت global. */
         put: operations["sections_materials_update"];
         post?: never;
-        /** @description مدیریت مصالح (گلوبال) */
+        /** @description مدیریت مصالح به صورت global. */
         delete: operations["sections_materials_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت مصالح (گلوبال) */
+        /** @description مدیریت مصالح به صورت global. */
         patch: operations["sections_materials_partial_update"];
         trace?: never;
     };
@@ -1351,10 +1127,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت کاتالوگ مقاطع (گلوبال) */
+        /** @description مدیریت کاتالوگ مقاطع به صورت global. */
         get: operations["sections_section_catalogs_list"];
         put?: never;
-        /** @description مدیریت کاتالوگ مقاطع (گلوبال) */
+        /** @description مدیریت کاتالوگ مقاطع به صورت global. */
         post: operations["sections_section_catalogs_create"];
         delete?: never;
         options?: never;
@@ -1369,16 +1145,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت کاتالوگ مقاطع (گلوبال) */
+        /** @description مدیریت کاتالوگ مقاطع به صورت global. */
         get: operations["sections_section_catalogs_retrieve"];
-        /** @description مدیریت کاتالوگ مقاطع (گلوبال) */
+        /** @description مدیریت کاتالوگ مقاطع به صورت global. */
         put: operations["sections_section_catalogs_update"];
         post?: never;
-        /** @description مدیریت کاتالوگ مقاطع (گلوبال) */
+        /** @description مدیریت کاتالوگ مقاطع به صورت global. */
         delete: operations["sections_section_catalogs_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت کاتالوگ مقاطع (گلوبال) */
+        /** @description مدیریت کاتالوگ مقاطع به صورت global. */
         patch: operations["sections_section_catalogs_partial_update"];
         trace?: never;
     };
@@ -1389,10 +1165,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت خانواده مقاطع (گلوبال) */
+        /** @description مدیریت خانواده مقاطع به صورت global. */
         get: operations["sections_section_families_list"];
         put?: never;
-        /** @description مدیریت خانواده مقاطع (گلوبال) */
+        /** @description مدیریت خانواده مقاطع به صورت global. */
         post: operations["sections_section_families_create"];
         delete?: never;
         options?: never;
@@ -1407,16 +1183,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت خانواده مقاطع (گلوبال) */
+        /** @description مدیریت خانواده مقاطع به صورت global. */
         get: operations["sections_section_families_retrieve"];
-        /** @description مدیریت خانواده مقاطع (گلوبال) */
+        /** @description مدیریت خانواده مقاطع به صورت global. */
         put: operations["sections_section_families_update"];
         post?: never;
-        /** @description مدیریت خانواده مقاطع (گلوبال) */
+        /** @description مدیریت خانواده مقاطع به صورت global. */
         delete: operations["sections_section_families_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت خانواده مقاطع (گلوبال) */
+        /** @description مدیریت خانواده مقاطع به صورت global. */
         patch: operations["sections_section_families_partial_update"];
         trace?: never;
     };
@@ -1427,10 +1203,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت مشخصات هندسی مقاطع (گلوبال) */
+        /** @description مدیریت خواص هندسی مقاطع به صورت global. */
         get: operations["sections_section_properties_list"];
         put?: never;
-        /** @description مدیریت مشخصات هندسی مقاطع (گلوبال) */
+        /** @description مدیریت خواص هندسی مقاطع به صورت global. */
         post: operations["sections_section_properties_create"];
         delete?: never;
         options?: never;
@@ -1445,16 +1221,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description مدیریت مشخصات هندسی مقاطع (گلوبال) */
+        /** @description مدیریت خواص هندسی مقاطع به صورت global. */
         get: operations["sections_section_properties_retrieve"];
-        /** @description مدیریت مشخصات هندسی مقاطع (گلوبال) */
+        /** @description مدیریت خواص هندسی مقاطع به صورت global. */
         put: operations["sections_section_properties_update"];
         post?: never;
-        /** @description مدیریت مشخصات هندسی مقاطع (گلوبال) */
+        /** @description مدیریت خواص هندسی مقاطع به صورت global. */
         delete: operations["sections_section_properties_destroy"];
         options?: never;
         head?: never;
-        /** @description مدیریت مشخصات هندسی مقاطع (گلوبال) */
+        /** @description مدیریت خواص هندسی مقاطع به صورت global. */
         patch: operations["sections_section_properties_partial_update"];
         trace?: never;
     };
@@ -1514,64 +1290,111 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         AnalysisCase: {
-            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
+            /** Format: uuid */
+            project: string;
+            name: string;
+            description?: string;
+            /** Format: uuid */
+            analysis_model: string;
+            readonly analysis_model_name: string;
+            readonly analysis_model_type: string;
+            /** Format: uuid */
+            load_case?: string | null;
+            readonly load_case_name: string;
+            readonly load_case_code: string;
+            /** Format: uuid */
+            load_combination?: string | null;
+            readonly load_combination_name: string;
+            readonly load_combination_code: string;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly runs_count: number;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
-            name: string;
-            description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            project: number;
-            analysis_model: number;
-            load_case?: number | null;
-            load_combination?: number | null;
         };
         AnalysisModel: {
-            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
+            /** Format: uuid */
+            project: string;
+            name: string;
+            description?: string;
+            /** Format: uuid */
+            workspace?: string | null;
+            readonly workspace_type: string;
+            /** Format: uuid */
+            readonly workspace_system_entity_uuid: string;
+            readonly workspace_system_entity_code: string;
+            readonly workspace_system_entity_name: string;
+            model_type?: components["schemas"]["ModelTypeEnum"];
+            /** Format: uuid */
+            scenario?: string | null;
+            readonly scenario_name: string;
+            source_snapshot?: unknown;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly cases_count: number;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
-            name: string;
-            description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            model_type?: components["schemas"]["ModelTypeEnum"];
-            source_snapshot?: unknown;
-            project: number;
-            scenario?: number | null;
         };
         AnalysisResult: {
-            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
+            /** Format: uuid */
+            project: string;
             name: string;
             description?: string;
-            metadata?: unknown;
+            /** Format: uuid */
+            run: string;
+            readonly run_status: string;
+            /** Format: uuid */
+            readonly analysis_case_uuid: string;
+            readonly analysis_case_name: string;
+            /** Format: uuid */
+            readonly analysis_model_uuid: string;
+            readonly analysis_model_name: string;
             result_type?: components["schemas"]["ResultTypeEnum"];
             unit?: string;
-            project: number;
-            run: number;
-        };
-        AnalysisResultItem: {
-            readonly id: number;
-            /** Format: uuid */
-            readonly uuid: string;
+            metadata?: unknown;
+            readonly items_count: number;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
-            metadata?: unknown;
+        };
+        AnalysisResultItem: {
+            /** Format: uuid */
+            readonly uuid: string;
+            /** Format: uuid */
+            project: string;
+            /** Format: uuid */
+            result: string;
+            readonly result_name: string;
+            readonly result_type: string;
+            /** Format: uuid */
+            node?: string | null;
+            readonly node_code: string;
+            /** Format: uuid */
+            readonly node_workspace_uuid: string;
+            /** Format: uuid */
+            entity?: string | null;
+            readonly entity_code: string;
+            readonly entity_name: string;
+            /** Format: uuid */
+            readonly entity_workspace_uuid: string;
+            /** Format: uuid */
+            system_entity?: string | null;
+            readonly system_entity_code: string;
+            readonly system_entity_name: string;
+            readonly target_type: string;
+            readonly target_label: string;
+            readonly target_workspace_uuid: string;
             /** Format: double */
             station?: number | null;
             component?: string;
@@ -1579,22 +1402,24 @@ export interface components {
             value: number;
             /** Format: int64 */
             step_index?: number;
-            project: number;
-            result: number;
-            node?: number | null;
-            entity?: number | null;
-            system_entity?: number | null;
-        };
-        AnalysisRun: {
-            readonly id: number;
-            /** Format: uuid */
-            readonly uuid: string;
+            metadata?: unknown;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
-            is_active?: boolean;
-            metadata?: unknown;
+        };
+        AnalysisRun: {
+            /** Format: uuid */
+            readonly uuid: string;
+            /** Format: uuid */
+            project: string;
+            /** Format: uuid */
+            analysis_case: string;
+            readonly analysis_case_name: string;
+            /** Format: uuid */
+            readonly analysis_model_uuid: string;
+            readonly analysis_model_name: string;
+            readonly analysis_model_type: string;
             status?: components["schemas"]["AnalysisRunStatusEnum"];
             /** Format: date-time */
             started_at?: string | null;
@@ -1604,8 +1429,13 @@ export interface components {
             solver_version?: string;
             log?: string;
             error_message?: string;
-            project: number;
-            analysis_case: number;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly result_count: number;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         /**
          * @description * `queued` - Queued
@@ -1620,12 +1450,31 @@ export interface components {
             readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
-            metadata?: unknown;
+            /** Format: uuid */
+            project: string;
+            /** Format: uuid */
+            load_case: string;
+            readonly load_case_code: string;
+            readonly load_case_name: string;
+            readonly load_case_type: string;
             target_type: components["schemas"]["AppliedLoadTargetTypeEnum"];
+            /** Format: uuid */
+            node?: string | null;
+            readonly node_code: string | null;
+            /** Format: uuid */
+            readonly node_workspace_uuid: string | null;
+            /** Format: uuid */
+            entity?: string | null;
+            readonly entity_code: string | null;
+            readonly entity_name: string | null;
+            /** Format: uuid */
+            readonly entity_workspace_uuid: string | null;
+            /** Format: uuid */
+            system_entity?: string | null;
+            readonly system_entity_code: string | null;
+            readonly system_entity_name: string | null;
+            readonly target_label: string;
+            readonly target_workspace_uuid: string;
             distribution?: components["schemas"]["DistributionEnum"];
             direction?: string;
             /** Format: double */
@@ -1636,11 +1485,11 @@ export interface components {
             end_value?: number | null;
             /** Format: double */
             position_ratio?: number | null;
-            project: number;
-            load_case: number;
-            node?: number | null;
-            entity?: number | null;
-            system_entity?: number | null;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         /**
          * @description * `node` - Node
@@ -1653,31 +1502,41 @@ export interface components {
             readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
+            /** Format: uuid */
+            project: string;
+            /** Format: uuid */
+            workspace: string;
+            readonly workspace_type: string;
+            /** Format: uuid */
+            parent?: string | null;
             name: string;
             description?: string;
             is_active?: boolean;
             metadata?: unknown;
-            project: number;
-            fem_model?: number | null;
-            parent?: number | null;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         BoundaryCondition: {
             readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
+            /** Format: uuid */
+            project: string;
             name: string;
             description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
             target_type?: components["schemas"]["BoundaryConditionTargetTypeEnum"];
+            /** Format: uuid */
+            node?: string | null;
+            readonly node_code: string | null;
+            /** Format: uuid */
+            readonly node_workspace_uuid: string | null;
+            /** Format: uuid */
+            system_entity?: string | null;
+            readonly system_entity_code: string | null;
+            readonly system_entity_name: string | null;
+            readonly target_label: string;
             ux?: boolean;
             uy?: boolean;
             uz?: boolean;
@@ -1685,9 +1544,12 @@ export interface components {
             ry?: boolean;
             rz?: boolean;
             stiffness?: unknown;
-            project: number;
-            node?: number | null;
-            system_entity?: number | null;
+            is_active?: boolean;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         /**
          * @description * `node` - Node
@@ -1708,31 +1570,32 @@ export interface components {
             readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
-            metadata?: unknown;
+            /** Format: uuid */
+            project: string;
+            /** Format: uuid */
+            source_entity: string;
+            readonly source_entity_code: string;
+            /** Format: uuid */
+            target_entity: string;
+            readonly target_entity_code: string;
             /** @default connected_to */
             relation_type: string;
             /** Format: double */
             weight?: number;
-            project: number;
-            source_entity: number;
-            target_entity: number;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         CoordinateSystem: {
             readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
+            /** Format: uuid */
+            project: string;
             name: string;
             description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
             /** Format: double */
             origin_x?: number;
             /** Format: double */
@@ -1743,25 +1606,31 @@ export interface components {
             axis_y?: unknown;
             axis_z?: unknown;
             is_global?: boolean;
-            project: number;
-        };
-        DesignCode: {
-            readonly id: number;
-            /** Format: uuid */
-            readonly uuid: string;
+            is_active?: boolean;
+            metadata?: unknown;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
+        };
+        DesignCode: {
+            /** Format: uuid */
+            readonly uuid: string;
             name: string;
             description?: string;
             code: string;
-            is_active?: boolean;
-            metadata?: unknown;
             /** @default  */
             version: string;
             publisher?: string;
             country?: string;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly clauses_count: number;
+            readonly combination_templates_count: number;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         /**
          * @description * `point` - Point
@@ -1777,16 +1646,21 @@ export interface components {
             readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
+            /** Format: uuid */
+            project: string;
+            /** Format: uuid */
+            entity: string;
+            readonly entity_code: string;
+            /** Format: uuid */
+            node: string;
+            readonly node_code: string;
+            /** Format: int64 */
+            sort_order?: number;
+            metadata?: unknown;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
-            /** Format: int64 */
-            sort_order?: number;
-            metadata?: unknown;
-            project: number;
-            entity: number;
-            node: number;
         };
         /**
          * @description * `macro` - Macro Structure (Concept)
@@ -1796,6 +1670,54 @@ export interface components {
          * @enum {string}
          */
         EntityTypeBddEnum: "macro" | "fem" | "environment" | "generic";
+        EntityWorkspace: {
+            readonly id: number;
+            /** Format: uuid */
+            readonly uuid: string;
+            /** Format: uuid */
+            project: string;
+            /** Format: uuid */
+            system_entity: string;
+            readonly system_entity_code: string;
+            readonly system_entity_name: string;
+            workspace_type: components["schemas"]["WorkspaceTypeEnum"];
+            name: string;
+            description?: string;
+            /** Format: double */
+            origin_x?: number;
+            /** Format: double */
+            origin_y?: number;
+            /** Format: double */
+            origin_z?: number;
+            /** Format: double */
+            rotation_x_deg?: number;
+            /** Format: double */
+            rotation_y_deg?: number;
+            /** Format: double */
+            rotation_z_deg?: number;
+            /** Format: uuid */
+            coordinate_system?: string | null;
+            readonly coordinate_system_name: string | null;
+            readonly has_fem_model: string;
+            readonly has_cad_model: string;
+            is_active?: boolean;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
+        };
+        EntityWorkspaceSummary: {
+            readonly id: number;
+            /** Format: uuid */
+            readonly uuid: string;
+            name: string;
+            workspace_type: components["schemas"]["WorkspaceTypeEnum"];
+            /** Format: uuid */
+            readonly system_entity_uuid: string;
+            readonly system_entity_code: string;
+            is_active?: boolean;
+        };
         /**
          * @description * `note` - Note
          *     * `decision` - Decision
@@ -1811,50 +1733,75 @@ export interface components {
             readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
+            /** Format: uuid */
+            readonly project: string;
+            readonly workspace: components["schemas"]["FemWorkspaceSummary"];
+            /** Format: uuid */
+            workspace_uuid: string;
+            readonly system_entity: string;
             metadata?: unknown;
-            project: number;
-            /** @description The system entity represented by this FEM model. */
-            system_entity: number;
+        };
+        FemSystemEntitySummary: {
+            /** Format: uuid */
+            readonly uuid: string;
+            readonly code: string;
+            readonly name: string;
+            readonly entity_type: string;
+            readonly system_type_uuid: string;
+            readonly system_type_name: string;
+            readonly fem_eligible: string;
+            readonly allowed_workspaces: string;
+        };
+        FemWorkspaceSummary: {
+            readonly id: number;
+            /** Format: uuid */
+            readonly uuid: string;
+            name: string;
+            workspace_type: components["schemas"]["WorkspaceTypeEnum"];
+            readonly system_entity: components["schemas"]["FemSystemEntitySummary"];
         };
         LoadCase: {
             readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
+            /** Format: uuid */
+            project: string;
+            /** Format: uuid */
+            scenario?: string | null;
+            readonly scenario_name: string | null;
+            code: string;
+            name: string;
+            description?: string;
+            load_type?: components["schemas"]["LoadTypeEnum"];
+            /** Format: double */
+            factor?: number;
+            is_active?: boolean;
+            metadata?: unknown;
+            readonly applied_loads_count: number;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
-            name: string;
-            description?: string;
-            code: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            load_type?: components["schemas"]["LoadTypeEnum"];
-            /** Format: double */
-            factor?: number;
-            project: number;
-            scenario?: number | null;
         };
         LoadCombination: {
             readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
+            /** Format: uuid */
+            project: string;
+            /** Format: uuid */
+            scenario?: string | null;
+            readonly scenario_name: string | null;
+            code: string;
+            name: string;
+            description?: string;
+            expression: string;
+            is_active?: boolean;
+            metadata?: unknown;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
-            name: string;
-            description?: string;
-            code: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            expression: string;
-            project: number;
-            scenario?: number | null;
         };
         /**
          * @description * `dead` - Dead
@@ -1868,18 +1815,19 @@ export interface components {
          */
         LoadTypeEnum: "dead" | "live" | "wind" | "seismic" | "snow" | "temperature" | "other";
         Material: {
-            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
             name: string;
-            description?: string;
             code: string;
-            is_active?: boolean;
-            metadata?: unknown;
+            /** Format: uuid */
+            category: string;
+            readonly category_name: string;
+            readonly category_code: string;
+            /** Format: uuid */
+            standard?: string | null;
+            readonly standard_name: string;
+            readonly standard_code: string;
+            readonly standard_version: string;
             /** Format: double */
             elastic_modulus: number;
             /** Format: double */
@@ -1892,86 +1840,130 @@ export interface components {
             compressive_strength?: number | null;
             /** Format: double */
             thermal_expansion?: number | null;
-            category: number;
-            standard?: number | null;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly section_catalogs_count: number;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         MaterialCategory: {
-            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
             name: string;
-            description?: string;
             code: string;
             is_active?: boolean;
+            readonly materials_count: number;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         MemoryAttachment: {
-            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
+            /** Format: uuid */
+            entry: string;
+            readonly entry_name: string;
+            readonly entry_type: string;
+            /** Format: uuid */
+            readonly project_uuid: string;
             /** Format: uri */
             file: string;
+            readonly file_url: string;
+            readonly file_name: string;
             title?: string;
+            /** Format: uuid */
+            readonly uploaded_by_uuid: string;
+            readonly uploaded_by_username: string;
+            /** Format: email */
+            readonly uploaded_by_email: string;
             metadata?: unknown;
-            entry: number;
-            readonly uploaded_by: number | null;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         MemoryEntry: {
-            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
+            /** Format: uuid */
+            project: string;
             name: string;
             description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
+            /** Format: uuid */
+            folder?: string | null;
+            readonly folder_name: string;
+            /** Format: uuid */
+            readonly author_uuid: string;
+            readonly author_username: string;
+            /** Format: email */
+            readonly author_email: string;
             entry_type?: components["schemas"]["EntryTypeEnum"];
             content: string;
-            readonly project: number;
-            folder?: number | null;
-            readonly author: number | null;
-            linked_system_entity?: number | null;
-            linked_entity?: number | null;
-            linked_node?: number | null;
-            linked_analysis_run?: number | null;
-            tags?: number[];
+            tags?: string[];
+            readonly tag_details: string;
+            /** Format: uuid */
+            linked_system_entity?: string | null;
+            readonly linked_system_entity_code: string;
+            readonly linked_system_entity_name: string;
+            /** Format: uuid */
+            linked_entity?: string | null;
+            readonly linked_entity_code: string;
+            readonly linked_entity_name: string;
+            /** Format: uuid */
+            readonly linked_entity_workspace_uuid: string;
+            /** Format: uuid */
+            linked_node?: string | null;
+            readonly linked_node_code: string;
+            /** Format: uuid */
+            readonly linked_node_workspace_uuid: string;
+            /** Format: uuid */
+            linked_analysis_run?: string | null;
+            readonly linked_analysis_run_status: string;
+            /** Format: uuid */
+            readonly linked_analysis_case_uuid: string;
+            readonly linked_analysis_case_name: string;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly attachments_count: number;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         MemoryFolder: {
-            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
+            /** Format: uuid */
+            project: string;
             name: string;
             description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            readonly project: number;
-            parent?: number | null;
-        };
-        MemoryTag: {
-            readonly id: number;
             /** Format: uuid */
-            readonly uuid: string;
+            parent?: string | null;
+            readonly parent_name: string;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly children_count: number;
+            readonly entries_count: number;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
+        };
+        MemoryTag: {
+            /** Format: uuid */
+            readonly uuid: string;
+            /** Format: uuid */
+            project: string;
             name: string;
             color?: string;
-            readonly project: number;
+            readonly entries_count: number;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         /**
          * @description * `linear` - Linear
@@ -1986,23 +1978,28 @@ export interface components {
             readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
+            /** Format: uuid */
+            project: string;
+            /** Format: uuid */
+            workspace: string;
+            readonly workspace_type: string;
             code: string;
-            is_active?: boolean;
-            metadata?: unknown;
+            label?: string;
             /** Format: double */
             x: number;
             /** Format: double */
             y: number;
             /** Format: double */
             z: number;
-            label?: string;
-            project: number;
-            fem_model?: number | null;
-            coordinate_system?: number | null;
+            /** Format: uuid */
+            coordinate_system?: string | null;
+            readonly coordinate_system_name: string | null;
+            is_active?: boolean;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         PaginatedAnalysisCaseList: {
             /** @example 123 */
@@ -2183,6 +2180,21 @@ export interface components {
              */
             previous?: string | null;
             results: components["schemas"]["EntityNode"][];
+        };
+        PaginatedEntityWorkspaceList: {
+            /** @example 123 */
+            count: number;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=4
+             */
+            next?: string | null;
+            /**
+             * Format: uri
+             * @example http://api.example.org/accounts/?page=2
+             */
+            previous?: string | null;
+            results: components["schemas"]["EntityWorkspace"][];
         };
         PaginatedFemModelList: {
             /** @example 123 */
@@ -2500,64 +2512,111 @@ export interface components {
             results: components["schemas"]["SystemEntityTypeSummary"][];
         };
         PatchedAnalysisCase: {
-            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
+            /** Format: uuid */
+            project?: string;
+            name?: string;
+            description?: string;
+            /** Format: uuid */
+            analysis_model?: string;
+            readonly analysis_model_name?: string;
+            readonly analysis_model_type?: string;
+            /** Format: uuid */
+            load_case?: string | null;
+            readonly load_case_name?: string;
+            readonly load_case_code?: string;
+            /** Format: uuid */
+            load_combination?: string | null;
+            readonly load_combination_name?: string;
+            readonly load_combination_code?: string;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly runs_count?: number;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
-            name?: string;
-            description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            project?: number;
-            analysis_model?: number;
-            load_case?: number | null;
-            load_combination?: number | null;
         };
         PatchedAnalysisModel: {
-            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
+            /** Format: uuid */
+            project?: string;
+            name?: string;
+            description?: string;
+            /** Format: uuid */
+            workspace?: string | null;
+            readonly workspace_type?: string;
+            /** Format: uuid */
+            readonly workspace_system_entity_uuid?: string;
+            readonly workspace_system_entity_code?: string;
+            readonly workspace_system_entity_name?: string;
+            model_type?: components["schemas"]["ModelTypeEnum"];
+            /** Format: uuid */
+            scenario?: string | null;
+            readonly scenario_name?: string;
+            source_snapshot?: unknown;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly cases_count?: number;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
-            name?: string;
-            description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            model_type?: components["schemas"]["ModelTypeEnum"];
-            source_snapshot?: unknown;
-            project?: number;
-            scenario?: number | null;
         };
         PatchedAnalysisResult: {
-            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
+            /** Format: uuid */
+            project?: string;
             name?: string;
             description?: string;
-            metadata?: unknown;
+            /** Format: uuid */
+            run?: string;
+            readonly run_status?: string;
+            /** Format: uuid */
+            readonly analysis_case_uuid?: string;
+            readonly analysis_case_name?: string;
+            /** Format: uuid */
+            readonly analysis_model_uuid?: string;
+            readonly analysis_model_name?: string;
             result_type?: components["schemas"]["ResultTypeEnum"];
             unit?: string;
-            project?: number;
-            run?: number;
-        };
-        PatchedAnalysisResultItem: {
-            readonly id?: number;
-            /** Format: uuid */
-            readonly uuid?: string;
+            metadata?: unknown;
+            readonly items_count?: number;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
-            metadata?: unknown;
+        };
+        PatchedAnalysisResultItem: {
+            /** Format: uuid */
+            readonly uuid?: string;
+            /** Format: uuid */
+            project?: string;
+            /** Format: uuid */
+            result?: string;
+            readonly result_name?: string;
+            readonly result_type?: string;
+            /** Format: uuid */
+            node?: string | null;
+            readonly node_code?: string;
+            /** Format: uuid */
+            readonly node_workspace_uuid?: string;
+            /** Format: uuid */
+            entity?: string | null;
+            readonly entity_code?: string;
+            readonly entity_name?: string;
+            /** Format: uuid */
+            readonly entity_workspace_uuid?: string;
+            /** Format: uuid */
+            system_entity?: string | null;
+            readonly system_entity_code?: string;
+            readonly system_entity_name?: string;
+            readonly target_type?: string;
+            readonly target_label?: string;
+            readonly target_workspace_uuid?: string;
             /** Format: double */
             station?: number | null;
             component?: string;
@@ -2565,22 +2624,24 @@ export interface components {
             value?: number;
             /** Format: int64 */
             step_index?: number;
-            project?: number;
-            result?: number;
-            node?: number | null;
-            entity?: number | null;
-            system_entity?: number | null;
-        };
-        PatchedAnalysisRun: {
-            readonly id?: number;
-            /** Format: uuid */
-            readonly uuid?: string;
+            metadata?: unknown;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
-            is_active?: boolean;
-            metadata?: unknown;
+        };
+        PatchedAnalysisRun: {
+            /** Format: uuid */
+            readonly uuid?: string;
+            /** Format: uuid */
+            project?: string;
+            /** Format: uuid */
+            analysis_case?: string;
+            readonly analysis_case_name?: string;
+            /** Format: uuid */
+            readonly analysis_model_uuid?: string;
+            readonly analysis_model_name?: string;
+            readonly analysis_model_type?: string;
             status?: components["schemas"]["AnalysisRunStatusEnum"];
             /** Format: date-time */
             started_at?: string | null;
@@ -2590,19 +2651,43 @@ export interface components {
             solver_version?: string;
             log?: string;
             error_message?: string;
-            project?: number;
-            analysis_case?: number;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly result_count?: number;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedAppliedLoad: {
             readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
-            metadata?: unknown;
+            /** Format: uuid */
+            project?: string;
+            /** Format: uuid */
+            load_case?: string;
+            readonly load_case_code?: string;
+            readonly load_case_name?: string;
+            readonly load_case_type?: string;
             target_type?: components["schemas"]["AppliedLoadTargetTypeEnum"];
+            /** Format: uuid */
+            node?: string | null;
+            readonly node_code?: string | null;
+            /** Format: uuid */
+            readonly node_workspace_uuid?: string | null;
+            /** Format: uuid */
+            entity?: string | null;
+            readonly entity_code?: string | null;
+            readonly entity_name?: string | null;
+            /** Format: uuid */
+            readonly entity_workspace_uuid?: string | null;
+            /** Format: uuid */
+            system_entity?: string | null;
+            readonly system_entity_code?: string | null;
+            readonly system_entity_name?: string | null;
+            readonly target_label?: string;
+            readonly target_workspace_uuid?: string;
             distribution?: components["schemas"]["DistributionEnum"];
             direction?: string;
             /** Format: double */
@@ -2613,41 +2698,51 @@ export interface components {
             end_value?: number | null;
             /** Format: double */
             position_ratio?: number | null;
-            project?: number;
-            load_case?: number;
-            node?: number | null;
-            entity?: number | null;
-            system_entity?: number | null;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedAssembly: {
             readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
+            /** Format: uuid */
+            project?: string;
+            /** Format: uuid */
+            workspace?: string;
+            readonly workspace_type?: string;
+            /** Format: uuid */
+            parent?: string | null;
             name?: string;
             description?: string;
             is_active?: boolean;
             metadata?: unknown;
-            project?: number;
-            fem_model?: number | null;
-            parent?: number | null;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedBoundaryCondition: {
             readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
+            /** Format: uuid */
+            project?: string;
             name?: string;
             description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
             target_type?: components["schemas"]["BoundaryConditionTargetTypeEnum"];
+            /** Format: uuid */
+            node?: string | null;
+            readonly node_code?: string | null;
+            /** Format: uuid */
+            readonly node_workspace_uuid?: string | null;
+            /** Format: uuid */
+            system_entity?: string | null;
+            readonly system_entity_code?: string | null;
+            readonly system_entity_name?: string | null;
+            readonly target_label?: string;
             ux?: boolean;
             uy?: boolean;
             uz?: boolean;
@@ -2655,39 +2750,43 @@ export interface components {
             ry?: boolean;
             rz?: boolean;
             stiffness?: unknown;
-            project?: number;
-            node?: number | null;
-            system_entity?: number | null;
+            is_active?: boolean;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedConnectionEdge: {
             readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
-            metadata?: unknown;
+            /** Format: uuid */
+            project?: string;
+            /** Format: uuid */
+            source_entity?: string;
+            readonly source_entity_code?: string;
+            /** Format: uuid */
+            target_entity?: string;
+            readonly target_entity_code?: string;
             /** @default connected_to */
             relation_type: string;
             /** Format: double */
             weight?: number;
-            project?: number;
-            source_entity?: number;
-            target_entity?: number;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedCoordinateSystem: {
             readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
+            /** Format: uuid */
+            project?: string;
             name?: string;
             description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
             /** Format: double */
             origin_x?: number;
             /** Format: double */
@@ -2698,103 +2797,158 @@ export interface components {
             axis_y?: unknown;
             axis_z?: unknown;
             is_global?: boolean;
-            project?: number;
-        };
-        PatchedDesignCode: {
-            readonly id?: number;
-            /** Format: uuid */
-            readonly uuid?: string;
+            is_active?: boolean;
+            metadata?: unknown;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
+        };
+        PatchedDesignCode: {
+            /** Format: uuid */
+            readonly uuid?: string;
             name?: string;
             description?: string;
             code?: string;
-            is_active?: boolean;
-            metadata?: unknown;
             /** @default  */
             version: string;
             publisher?: string;
             country?: string;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly clauses_count?: number;
+            readonly combination_templates_count?: number;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedEntityNode: {
             readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
+            /** Format: uuid */
+            project?: string;
+            /** Format: uuid */
+            entity?: string;
+            readonly entity_code?: string;
+            /** Format: uuid */
+            node?: string;
+            readonly node_code?: string;
+            /** Format: int64 */
+            sort_order?: number;
+            metadata?: unknown;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
-            /** Format: int64 */
-            sort_order?: number;
+        };
+        PatchedEntityWorkspace: {
+            readonly id?: number;
+            /** Format: uuid */
+            readonly uuid?: string;
+            /** Format: uuid */
+            project?: string;
+            /** Format: uuid */
+            system_entity?: string;
+            readonly system_entity_code?: string;
+            readonly system_entity_name?: string;
+            workspace_type?: components["schemas"]["WorkspaceTypeEnum"];
+            name?: string;
+            description?: string;
+            /** Format: double */
+            origin_x?: number;
+            /** Format: double */
+            origin_y?: number;
+            /** Format: double */
+            origin_z?: number;
+            /** Format: double */
+            rotation_x_deg?: number;
+            /** Format: double */
+            rotation_y_deg?: number;
+            /** Format: double */
+            rotation_z_deg?: number;
+            /** Format: uuid */
+            coordinate_system?: string | null;
+            readonly coordinate_system_name?: string | null;
+            readonly has_fem_model?: string;
+            readonly has_cad_model?: string;
+            is_active?: boolean;
             metadata?: unknown;
-            project?: number;
-            entity?: number;
-            node?: number;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedFemModel: {
             readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
+            /** Format: uuid */
+            readonly project?: string;
+            readonly workspace?: components["schemas"]["FemWorkspaceSummary"];
+            /** Format: uuid */
+            workspace_uuid?: string;
+            readonly system_entity?: string;
             metadata?: unknown;
-            project?: number;
-            /** @description The system entity represented by this FEM model. */
-            system_entity?: number;
         };
         PatchedLoadCase: {
             readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
+            /** Format: uuid */
+            project?: string;
+            /** Format: uuid */
+            scenario?: string | null;
+            readonly scenario_name?: string | null;
+            code?: string;
+            name?: string;
+            description?: string;
+            load_type?: components["schemas"]["LoadTypeEnum"];
+            /** Format: double */
+            factor?: number;
+            is_active?: boolean;
+            metadata?: unknown;
+            readonly applied_loads_count?: number;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
-            name?: string;
-            description?: string;
-            code?: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            load_type?: components["schemas"]["LoadTypeEnum"];
-            /** Format: double */
-            factor?: number;
-            project?: number;
-            scenario?: number | null;
         };
         PatchedLoadCombination: {
             readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
+            /** Format: uuid */
+            project?: string;
+            /** Format: uuid */
+            scenario?: string | null;
+            readonly scenario_name?: string | null;
+            code?: string;
+            name?: string;
+            description?: string;
+            expression?: string;
+            is_active?: boolean;
+            metadata?: unknown;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
-            name?: string;
-            description?: string;
-            code?: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            expression?: string;
-            project?: number;
-            scenario?: number | null;
         };
         PatchedMaterial: {
-            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
             name?: string;
-            description?: string;
             code?: string;
-            is_active?: boolean;
-            metadata?: unknown;
+            /** Format: uuid */
+            category?: string;
+            readonly category_name?: string;
+            readonly category_code?: string;
+            /** Format: uuid */
+            standard?: string | null;
+            readonly standard_name?: string;
+            readonly standard_code?: string;
+            readonly standard_version?: string;
             /** Format: double */
             elastic_modulus?: number;
             /** Format: double */
@@ -2807,108 +2961,157 @@ export interface components {
             compressive_strength?: number | null;
             /** Format: double */
             thermal_expansion?: number | null;
-            category?: number;
-            standard?: number | null;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly section_catalogs_count?: number;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedMaterialCategory: {
-            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
             name?: string;
-            description?: string;
             code?: string;
             is_active?: boolean;
+            readonly materials_count?: number;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedMemoryAttachment: {
-            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
+            /** Format: uuid */
+            entry?: string;
+            readonly entry_name?: string;
+            readonly entry_type?: string;
+            /** Format: uuid */
+            readonly project_uuid?: string;
             /** Format: uri */
             file?: string;
+            readonly file_url?: string;
+            readonly file_name?: string;
             title?: string;
+            /** Format: uuid */
+            readonly uploaded_by_uuid?: string;
+            readonly uploaded_by_username?: string;
+            /** Format: email */
+            readonly uploaded_by_email?: string;
             metadata?: unknown;
-            entry?: number;
-            readonly uploaded_by?: number | null;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedMemoryEntry: {
-            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
+            /** Format: uuid */
+            project?: string;
             name?: string;
             description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
+            /** Format: uuid */
+            folder?: string | null;
+            readonly folder_name?: string;
+            /** Format: uuid */
+            readonly author_uuid?: string;
+            readonly author_username?: string;
+            /** Format: email */
+            readonly author_email?: string;
             entry_type?: components["schemas"]["EntryTypeEnum"];
             content?: string;
-            readonly project?: number;
-            folder?: number | null;
-            readonly author?: number | null;
-            linked_system_entity?: number | null;
-            linked_entity?: number | null;
-            linked_node?: number | null;
-            linked_analysis_run?: number | null;
-            tags?: number[];
+            tags?: string[];
+            readonly tag_details?: string;
+            /** Format: uuid */
+            linked_system_entity?: string | null;
+            readonly linked_system_entity_code?: string;
+            readonly linked_system_entity_name?: string;
+            /** Format: uuid */
+            linked_entity?: string | null;
+            readonly linked_entity_code?: string;
+            readonly linked_entity_name?: string;
+            /** Format: uuid */
+            readonly linked_entity_workspace_uuid?: string;
+            /** Format: uuid */
+            linked_node?: string | null;
+            readonly linked_node_code?: string;
+            /** Format: uuid */
+            readonly linked_node_workspace_uuid?: string;
+            /** Format: uuid */
+            linked_analysis_run?: string | null;
+            readonly linked_analysis_run_status?: string;
+            /** Format: uuid */
+            readonly linked_analysis_case_uuid?: string;
+            readonly linked_analysis_case_name?: string;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly attachments_count?: number;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedMemoryFolder: {
-            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
+            /** Format: uuid */
+            project?: string;
             name?: string;
             description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            readonly project?: number;
-            parent?: number | null;
-        };
-        PatchedMemoryTag: {
-            readonly id?: number;
             /** Format: uuid */
-            readonly uuid?: string;
+            parent?: string | null;
+            readonly parent_name?: string;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly children_count?: number;
+            readonly entries_count?: number;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
+        };
+        PatchedMemoryTag: {
+            /** Format: uuid */
+            readonly uuid?: string;
+            /** Format: uuid */
+            project?: string;
             name?: string;
             color?: string;
-            readonly project?: number;
+            readonly entries_count?: number;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedNode: {
             readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
+            /** Format: uuid */
+            project?: string;
+            /** Format: uuid */
+            workspace?: string;
+            readonly workspace_type?: string;
             code?: string;
-            is_active?: boolean;
-            metadata?: unknown;
+            label?: string;
             /** Format: double */
             x?: number;
             /** Format: double */
             y?: number;
             /** Format: double */
             z?: number;
-            label?: string;
-            project?: number;
-            fem_model?: number | null;
-            coordinate_system?: number | null;
+            /** Format: uuid */
+            coordinate_system?: string | null;
+            readonly coordinate_system_name?: string | null;
+            is_active?: boolean;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedProject: {
             /** Format: uuid */
@@ -2954,66 +3157,83 @@ export interface components {
             modeling_preferences?: unknown;
         };
         PatchedRuleClause: {
-            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
-            is_active?: boolean;
-            metadata?: unknown;
+            /** Format: uuid */
+            design_code?: string;
+            readonly design_code_name?: string;
+            readonly design_code_code?: string;
+            readonly design_code_version?: string;
             clause_number?: string;
             title?: string;
             body?: string;
-            design_code?: number;
-            parent?: number | null;
-        };
-        PatchedRuleCombinationTemplate: {
-            readonly id?: number;
             /** Format: uuid */
-            readonly uuid?: string;
+            parent?: string | null;
+            readonly parent_clause_number?: string;
+            readonly parent_title?: string;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly children_count?: number;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
+        };
+        PatchedRuleCombinationTemplate: {
+            /** Format: uuid */
+            readonly uuid?: string;
+            /** Format: uuid */
+            design_code?: string;
+            readonly design_code_name?: string;
+            readonly design_code_code?: string;
+            readonly design_code_version?: string;
             name?: string;
             description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
             /** @description Combination expression or machine-readable template. */
             expression?: string;
-            design_code?: number;
+            metadata?: unknown;
+            is_active?: boolean;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedScenario: {
             readonly id?: number;
             /** Format: uuid */
-            project?: string;
-            /** Format: uuid */
             readonly uuid?: string;
+            /** Format: uuid */
+            project?: string;
+            name?: string;
+            description?: string;
+            scenario_type?: components["schemas"]["ScenarioTypeEnum"];
+            is_active?: boolean;
+            metadata?: unknown;
+            readonly load_cases_count?: number;
+            readonly load_combinations_count?: number;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
-            name?: string;
-            description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            scenario_type?: components["schemas"]["ScenarioTypeEnum"];
         };
         PatchedSectionCatalog: {
-            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
             name?: string;
-            description?: string;
             code?: string;
-            is_active?: boolean;
-            metadata?: unknown;
+            /** Format: uuid */
+            family?: string;
+            readonly family_name?: string;
+            readonly family_code?: string;
+            /** Format: uuid */
+            material?: string | null;
+            readonly material_name?: string;
+            readonly material_code?: string;
+            /** Format: uuid */
+            standard?: string | null;
+            readonly standard_name?: string;
+            readonly standard_code?: string;
+            readonly standard_version?: string;
             /** Format: double */
             height?: number | null;
             /** Format: double */
@@ -3026,32 +3246,37 @@ export interface components {
             diameter?: number | null;
             /** Format: double */
             wall_thickness?: number | null;
-            family?: number;
-            material?: number | null;
-            standard?: number | null;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly has_properties?: string;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedSectionFamily: {
-            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
-            /** Format: date-time */
-            readonly created_at?: string;
-            /** Format: date-time */
-            readonly updated_at?: string;
             name?: string;
-            description?: string;
             code?: string;
             is_active?: boolean;
-        };
-        PatchedSectionProperty: {
-            readonly id?: number;
-            /** Format: uuid */
-            readonly uuid?: string;
+            readonly catalogs_count?: number;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
-            metadata?: unknown;
+        };
+        PatchedSectionProperty: {
+            /** Format: uuid */
+            readonly uuid?: string;
+            /** Format: uuid */
+            section?: string;
+            readonly section_name?: string;
+            readonly section_code?: string;
+            /** Format: uuid */
+            readonly family_uuid?: string;
+            readonly family_name?: string;
+            readonly family_code?: string;
             /** Format: double */
             area?: number | null;
             /** Format: double */
@@ -3068,29 +3293,41 @@ export interface components {
             radius_of_gyration_y?: number | null;
             /** Format: double */
             radius_of_gyration_z?: number | null;
-            section?: number;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at?: string;
+            /** Format: date-time */
+            readonly updated_at?: string;
         };
         PatchedStructuralEntity: {
             readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
+            /** Format: uuid */
+            project?: string;
+            /** Format: uuid */
+            workspace?: string;
+            readonly workspace_type?: string;
+            code?: string;
+            name?: string;
+            description?: string;
+            entity_type?: components["schemas"]["StructuralEntityEntityTypeEnum"];
+            /** Format: uuid */
+            assembly?: string | null;
+            readonly assembly_name?: string | null;
+            material?: number | null;
+            readonly material_name?: string | null;
+            section?: number | null;
+            readonly section_name?: string | null;
+            is_active?: boolean;
+            metadata?: unknown;
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
             readonly updated_at?: string;
-            name?: string;
-            description?: string;
-            code?: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            entity_type?: components["schemas"]["StructuralEntityEntityTypeEnum"];
-            project?: number;
-            fem_model?: number | null;
-            assembly?: number | null;
-            material?: number | null;
-            section?: number | null;
         };
         PatchedSystemEntity: {
+            readonly id?: number;
             /** Format: uuid */
             readonly uuid?: string;
             /** Format: uuid */
@@ -3100,6 +3337,7 @@ export interface components {
             readonly children?: components["schemas"]["SystemEntityTreeChild"][];
             code?: string;
             name?: string;
+            description?: string;
             /**
              * @description Presentation/representation layer type.
              *
@@ -3124,6 +3362,12 @@ export interface components {
             readonly is_leaf?: string;
             is_active?: boolean;
             metadata?: unknown;
+            readonly metadata_schema?: string;
+            readonly metadata_defaults?: string;
+            readonly effective_metadata?: string;
+            readonly allowed_workspaces?: string;
+            readonly workspace_summary?: string;
+            readonly workspaces?: components["schemas"]["EntityWorkspaceSummary"][];
             /** Format: date-time */
             readonly created_at?: string;
             /** Format: date-time */
@@ -3226,52 +3470,64 @@ export interface components {
          */
         RoleEnum: "owner" | "admin" | "engineer" | "reviewer" | "viewer";
         RuleClause: {
-            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
-            is_active?: boolean;
-            metadata?: unknown;
+            /** Format: uuid */
+            design_code: string;
+            readonly design_code_name: string;
+            readonly design_code_code: string;
+            readonly design_code_version: string;
             clause_number: string;
             title: string;
             body?: string;
-            design_code: number;
-            parent?: number | null;
-        };
-        RuleCombinationTemplate: {
-            readonly id: number;
             /** Format: uuid */
-            readonly uuid: string;
+            parent?: string | null;
+            readonly parent_clause_number: string;
+            readonly parent_title: string;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly children_count: number;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
+        };
+        RuleCombinationTemplate: {
+            /** Format: uuid */
+            readonly uuid: string;
+            /** Format: uuid */
+            design_code: string;
+            readonly design_code_name: string;
+            readonly design_code_code: string;
+            readonly design_code_version: string;
             name: string;
             description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
             /** @description Combination expression or machine-readable template. */
             expression: string;
-            design_code: number;
+            metadata?: unknown;
+            is_active?: boolean;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         Scenario: {
             readonly id: number;
             /** Format: uuid */
-            project: string;
-            /** Format: uuid */
             readonly uuid: string;
+            /** Format: uuid */
+            project: string;
+            name: string;
+            description?: string;
+            scenario_type?: components["schemas"]["ScenarioTypeEnum"];
+            is_active?: boolean;
+            metadata?: unknown;
+            readonly load_cases_count: number;
+            readonly load_combinations_count: number;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
-            name: string;
-            description?: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            scenario_type?: components["schemas"]["ScenarioTypeEnum"];
         };
         /**
          * @description * `service` - Service
@@ -3285,18 +3541,23 @@ export interface components {
          */
         ScenarioTypeEnum: "service" | "ultimate" | "seismic" | "wind" | "thermal" | "construction" | "custom";
         SectionCatalog: {
-            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
             name: string;
-            description?: string;
             code: string;
-            is_active?: boolean;
-            metadata?: unknown;
+            /** Format: uuid */
+            family: string;
+            readonly family_name: string;
+            readonly family_code: string;
+            /** Format: uuid */
+            material?: string | null;
+            readonly material_name: string;
+            readonly material_code: string;
+            /** Format: uuid */
+            standard?: string | null;
+            readonly standard_name: string;
+            readonly standard_code: string;
+            readonly standard_version: string;
             /** Format: double */
             height?: number | null;
             /** Format: double */
@@ -3309,32 +3570,37 @@ export interface components {
             diameter?: number | null;
             /** Format: double */
             wall_thickness?: number | null;
-            family: number;
-            material?: number | null;
-            standard?: number | null;
+            metadata?: unknown;
+            is_active?: boolean;
+            readonly has_properties: string;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         SectionFamily: {
-            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
-            /** Format: date-time */
-            readonly created_at: string;
-            /** Format: date-time */
-            readonly updated_at: string;
             name: string;
-            description?: string;
             code: string;
             is_active?: boolean;
-        };
-        SectionProperty: {
-            readonly id: number;
-            /** Format: uuid */
-            readonly uuid: string;
+            readonly catalogs_count: number;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
-            metadata?: unknown;
+        };
+        SectionProperty: {
+            /** Format: uuid */
+            readonly uuid: string;
+            /** Format: uuid */
+            section: string;
+            readonly section_name: string;
+            readonly section_code: string;
+            /** Format: uuid */
+            readonly family_uuid: string;
+            readonly family_name: string;
+            readonly family_code: string;
             /** Format: double */
             area?: number | null;
             /** Format: double */
@@ -3351,27 +3617,38 @@ export interface components {
             radius_of_gyration_y?: number | null;
             /** Format: double */
             radius_of_gyration_z?: number | null;
-            section: number;
+            metadata?: unknown;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly updated_at: string;
         };
         StructuralEntity: {
             readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
+            /** Format: uuid */
+            project: string;
+            /** Format: uuid */
+            workspace: string;
+            readonly workspace_type: string;
+            code: string;
+            name: string;
+            description?: string;
+            entity_type?: components["schemas"]["StructuralEntityEntityTypeEnum"];
+            /** Format: uuid */
+            assembly?: string | null;
+            readonly assembly_name: string | null;
+            material?: number | null;
+            readonly material_name: string | null;
+            section?: number | null;
+            readonly section_name: string | null;
+            is_active?: boolean;
+            metadata?: unknown;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
-            name: string;
-            description?: string;
-            code: string;
-            is_active?: boolean;
-            metadata?: unknown;
-            entity_type?: components["schemas"]["StructuralEntityEntityTypeEnum"];
-            project: number;
-            fem_model?: number | null;
-            assembly?: number | null;
-            material?: number | null;
-            section?: number | null;
         };
         /**
          * @description * `beam` - Beam
@@ -3384,6 +3661,7 @@ export interface components {
          */
         StructuralEntityEntityTypeEnum: "beam" | "column" | "brace" | "slab" | "wall" | "foundation";
         SystemEntity: {
+            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
             /** Format: uuid */
@@ -3393,6 +3671,7 @@ export interface components {
             readonly children: components["schemas"]["SystemEntityTreeChild"][];
             code: string;
             name: string;
+            description?: string;
             /**
              * @description Presentation/representation layer type.
              *
@@ -3417,12 +3696,19 @@ export interface components {
             readonly is_leaf: string;
             is_active?: boolean;
             metadata?: unknown;
+            readonly metadata_schema: string;
+            readonly metadata_defaults: string;
+            readonly effective_metadata: string;
+            readonly allowed_workspaces: string;
+            readonly workspace_summary: string;
+            readonly workspaces: components["schemas"]["EntityWorkspaceSummary"][];
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
             readonly updated_at: string;
         };
         SystemEntityTreeChild: {
+            readonly id: number;
             /** Format: uuid */
             readonly uuid: string;
             code: string;
@@ -3439,6 +3725,9 @@ export interface components {
             readonly system_type: components["schemas"]["SystemEntityTypeSummary"];
             /** Format: int64 */
             sort_order?: number;
+            readonly effective_metadata: string;
+            readonly allowed_workspaces: string;
+            readonly workspace_summary: string;
         };
         SystemEntityType: {
             /** Format: uuid */
@@ -3456,7 +3745,11 @@ export interface components {
             color_key?: string;
             render_variant?: string;
             is_active?: boolean;
+            /** @description Expected shape: {'schema': {...}, 'defaults': {...}, 'allowed_workspaces': [...]} */
             metadata?: unknown;
+            readonly metadata_schema: string;
+            readonly metadata_defaults: string;
+            readonly allowed_workspaces: string;
             /** Format: date-time */
             readonly created_at: string;
             /** Format: date-time */
@@ -3477,6 +3770,9 @@ export interface components {
             color_key?: string;
             render_variant?: string;
             is_active?: boolean;
+            readonly metadata_schema: string;
+            readonly metadata_defaults: string;
+            readonly allowed_workspaces: string;
         };
         TokenObtainPair: {
             email: string;
@@ -3521,6 +3817,16 @@ export interface components {
             password: string;
             full_name?: string;
         };
+        /**
+         * @description * `fem` - FEM
+         *     * `cad` - CAD
+         *     * `cost` - Cost
+         *     * `analysis` - Analysis
+         *     * `document` - Document
+         *     * `custom` - Custom
+         * @enum {string}
+         */
+        WorkspaceTypeEnum: "fem" | "cad" | "cost" | "analysis" | "document" | "custom";
     };
     responses: never;
     parameters: never;
@@ -5710,6 +6016,50 @@ export interface operations {
             };
         };
     };
+    entities_fem_models_bulk_status_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FemModel"];
+                "application/x-www-form-urlencoded": components["schemas"]["FemModel"];
+                "multipart/form-data": components["schemas"]["FemModel"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FemModel"];
+                };
+            };
+        };
+    };
+    entities_fem_models_status_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FemModel"];
+                };
+            };
+        };
+    };
     entities_nodes_list: {
         parameters: {
             query?: {
@@ -6179,6 +6529,148 @@ export interface operations {
             };
         };
     };
+    entities_workspaces_list: {
+        parameters: {
+            query?: {
+                /** @description A page number within the paginated result set. */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedEntityWorkspaceList"];
+                };
+            };
+        };
+    };
+    entities_workspaces_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EntityWorkspace"];
+                "application/x-www-form-urlencoded": components["schemas"]["EntityWorkspace"];
+                "multipart/form-data": components["schemas"]["EntityWorkspace"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EntityWorkspace"];
+                };
+            };
+        };
+    };
+    entities_workspaces_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EntityWorkspace"];
+                };
+            };
+        };
+    };
+    entities_workspaces_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EntityWorkspace"];
+                "application/x-www-form-urlencoded": components["schemas"]["EntityWorkspace"];
+                "multipart/form-data": components["schemas"]["EntityWorkspace"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EntityWorkspace"];
+                };
+            };
+        };
+    };
+    entities_workspaces_destroy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No response body */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    entities_workspaces_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uuid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedEntityWorkspace"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedEntityWorkspace"];
+                "multipart/form-data": components["schemas"]["PatchedEntityWorkspace"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EntityWorkspace"];
+                };
+            };
+        };
+    };
     memory_attachments_list: {
         parameters: {
             query?: {
@@ -6326,8 +6818,6 @@ export interface operations {
             query?: {
                 /** @description A page number within the paginated result set. */
                 page?: number;
-                /** @description Number of results to return per page. */
-                page_size?: number;
             };
             header?: never;
             path?: never;
@@ -6470,8 +6960,6 @@ export interface operations {
             query?: {
                 /** @description A page number within the paginated result set. */
                 page?: number;
-                /** @description Number of results to return per page. */
-                page_size?: number;
             };
             header?: never;
             path?: never;
@@ -6614,8 +7102,6 @@ export interface operations {
             query?: {
                 /** @description A page number within the paginated result set. */
                 page?: number;
-                /** @description Number of results to return per page. */
-                page_size?: number;
             };
             header?: never;
             path?: never;

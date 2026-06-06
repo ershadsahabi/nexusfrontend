@@ -1,9 +1,9 @@
 // src/components/canvas/FemLinkModal.tsx
 
+
 'use client';
 
 import { useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 import {
   AlertTriangle,
   Cpu,
@@ -17,11 +17,18 @@ import {
 import { Modal } from '@/components/common/Modal/Modal';
 import Button from '@/components/common/Button/Button';
 import { useCanvasStore } from '@/store/useCanvasStore';
-import { useFemStatus, useCreateFemModel } from '@/hooks/useFemModel';
+
+import {
+  useWorkspaceStatus,
+  useCreateWorkspace,
+} from '@/hooks/useWorkspaceModel';
+
 import {
   buildSystemEntityErrorSummary,
   parseSystemErrors,
 } from '@/lib/api/system';
+
+import { buildWorkspaceHref } from '@/lib/types/workspace.types';
 
 import styles from './FemLinkModal.module.css';
 
@@ -29,17 +36,7 @@ type Props = {
   projectUuid: string;
 };
 
-function buildFemWorkspaceHref(projectUuid: string, femModelUuid: string) {
-  /**
-   * اگر route واقعی FEM Workspace در پروژه متفاوت است،
-   * فقط همین مسیر را اصلاح کن.
-   */
-  return `/projects/${projectUuid}/fem/${femModelUuid}`;
-}
-
 export default function FemLinkModal({ projectUuid }: Props) {
-  const router = useRouter();
-
   const femModalEntityUuid = useCanvasStore((s) => s.femModalEntityUuid);
   const closeFemModal = useCanvasStore((s) => s.closeFemModal);
   const entities = useCanvasStore((s) => s.entities);
@@ -50,14 +47,14 @@ export default function FemLinkModal({ projectUuid }: Props) {
   }, [entities, femModalEntityUuid]);
 
   const {
-    data: femStatus,
+    data: workspaceStatus,
     isLoading,
     isError,
     error,
     refetch,
-  } = useFemStatus(projectUuid, femModalEntityUuid);
+  } = useWorkspaceStatus(projectUuid, femModalEntityUuid, 'FEM');
 
-  const createMutation = useCreateFemModel(projectUuid);
+  const createMutation = useCreateWorkspace(projectUuid);
 
   const createErrorSummary = useMemo(() => {
     if (!createMutation.error) return [];
@@ -88,44 +85,45 @@ export default function FemLinkModal({ projectUuid }: Props) {
     try {
       await createMutation.mutateAsync({
         systemEntityUuid: femModalEntityUuid,
+        workspaceType: 'FEM',
         metadata: {},
       });
 
-      /**
-       * این refetch باعث می‌شود:
-       * 1. useFemStatus داده جدید را بگیرد.
-       * 2. useEffect داخل useFemStatus آن را در FemStatusStore ثبت کند.
-       * 3. Badge همان node بدون refresh دستی آپدیت شود.
-       */
       await refetch();
     } catch {
-      // خطا توسط createMutation.error مدیریت می‌شود
+      // handled by mutation error state
     }
   };
 
   const handleOpenWorkspace = () => {
-    if (!femStatus?.femModelUuid) return;
+    if (!workspaceStatus?.workspaceUuid) return;
+
+    const href = buildWorkspaceHref(
+      projectUuid,
+      'FEM',
+      workspaceStatus.workspaceUuid
+    );
 
     closeFemModal();
-    router.push(buildFemWorkspaceHref(projectUuid, femStatus.femModelUuid));
+    window.open(href, '_blank', 'noopener,noreferrer');
   };
 
   const canCreate =
-    Boolean(femStatus?.femEligible) &&
-    !femStatus?.hasFemModel &&
+    Boolean(workspaceStatus?.eligible) &&
+    !workspaceStatus?.hasWorkspace &&
     !createMutation.isPending &&
     !isLoading &&
     !isError;
 
   const canOpenWorkspace = Boolean(
-    femStatus?.hasFemModel && femStatus?.femModelUuid
+    workspaceStatus?.hasWorkspace && workspaceStatus?.workspaceUuid
   );
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title="اتصال مدل FEM به موجودیت سیستمی"
+      title="اتصال Workspace نوع FEM به موجودیت سیستمی"
       size="lg"
       closeOnBackdrop={!createMutation.isPending}
     >
@@ -140,13 +138,13 @@ export default function FemLinkModal({ projectUuid }: Props) {
           </div>
 
           <div className={styles.heroText}>
-            <div className={styles.eyebrow}>ENGINEERING LINK</div>
+            <div className={styles.eyebrow}>ENGINEERING WORKSPACE</div>
             <h3 className={styles.heroTitle}>
-              ایجاد پل داده‌ای بین لایه سیستمی و مهندسی
+              ایجاد Workspace مهندسی برای موجودیت سیستمی
             </h3>
             <p className={styles.heroSubtitle}>
-              وضعیت قابلیت اتصال FEM بررسی می‌شود و در صورت مجاز بودن، مدل
-              مهندسی برای موجودیت انتخاب‌شده ساخته خواهد شد.
+              وضعیت قابلیت اتصال Workspace نوع FEM بررسی می‌شود و در صورت مجاز
+              بودن، Workspace برای موجودیت انتخاب‌شده ساخته خواهد شد.
             </p>
           </div>
         </div>
@@ -199,11 +197,11 @@ export default function FemLinkModal({ projectUuid }: Props) {
 
               <div className={styles.messageBody}>
                 <div className={styles.stateTitle}>
-                  در حال بررسی وضعیت FEM...
+                  در حال بررسی وضعیت Workspace...
                 </div>
                 <p className={styles.stateText}>
-                  سیستم در حال بررسی مجاز بودن موجودیت برای ساخت مدل مهندسی
-                  است.
+                  سیستم در حال بررسی مجاز بودن موجودیت برای ساخت Workspace نوع
+                  FEM است.
                 </p>
               </div>
             </div>
@@ -226,7 +224,7 @@ export default function FemLinkModal({ projectUuid }: Props) {
                   </ul>
                 ) : (
                   <p className={styles.stateText}>
-                    خطایی هنگام دریافت وضعیت FEM رخ داد.
+                    خطایی هنگام دریافت وضعیت Workspace رخ داد.
                   </p>
                 )}
 
@@ -241,20 +239,18 @@ export default function FemLinkModal({ projectUuid }: Props) {
                 </div>
               </div>
             </div>
-          ) : femStatus ? (
+          ) : workspaceStatus ? (
             <div className={styles.statusCard}>
               <div className={styles.statusHeader}>
                 <div className={styles.cardTitle}>
                   <ShieldCheck size={16} />
-                  <span>وضعیت اتصال مهندسی</span>
+                  <span>وضعیت Workspace مهندسی</span>
                 </div>
 
-                {femStatus.hasFemModel ? (
+                {workspaceStatus.hasWorkspace ? (
                   <span className={styles.statusPillSuccess}>متصل</span>
-                ) : femStatus.femEligible ? (
-                  <span className={styles.statusPillWarning}>
-                    آماده اتصال
-                  </span>
+                ) : workspaceStatus.eligible ? (
+                  <span className={styles.statusPillWarning}>آماده اتصال</span>
                 ) : (
                   <span className={styles.statusPillWarning}>غیرمجاز</span>
                 )}
@@ -266,50 +262,49 @@ export default function FemLinkModal({ projectUuid }: Props) {
 
                   <span
                     className={
-                      femStatus.femEligible
+                      workspaceStatus.eligible
                         ? styles.badgeSuccess
                         : styles.badgeMuted
                     }
                   >
-                    {femStatus.femEligible ? 'مجاز' : 'غیرمجاز'}
+                    {workspaceStatus.eligible ? 'مجاز' : 'غیرمجاز'}
                   </span>
                 </div>
 
                 <div className={styles.statusRow}>
-                  <span className={styles.label}>وضعیت مدل</span>
+                  <span className={styles.label}>وضعیت Workspace</span>
 
                   <span
                     className={
-                      femStatus.hasFemModel
+                      workspaceStatus.hasWorkspace
                         ? styles.badgeSuccess
                         : styles.badgeWarning
                     }
                   >
-                    {femStatus.hasFemModel ? 'ایجاد شده' : 'موجود نیست'}
+                    {workspaceStatus.hasWorkspace ? 'ایجاد شده' : 'موجود نیست'}
                   </span>
                 </div>
 
-                {femStatus.femModelUuid ? (
+                {workspaceStatus.workspaceUuid ? (
                   <div className={styles.statusRow}>
-                    <span className={styles.label}>FEM Model UUID</span>
+                    <span className={styles.label}>Workspace UUID</span>
                     <span className={styles.valueMono}>
-                      {femStatus.femModelUuid}
+                      {workspaceStatus.workspaceUuid}
                     </span>
                   </div>
                 ) : null}
               </div>
 
-              {!femStatus.femEligible ? (
+              {!workspaceStatus.eligible ? (
                 <div className={styles.infoBoxMuted}>
                   <Info size={16} />
-                  <span>این موجودیت مجاز به داشتن مدل مهندسی نیست.</span>
+                  <span>این موجودیت مجاز به داشتن Workspace نوع FEM نیست.</span>
                 </div>
-              ) : femStatus.hasFemModel ? (
+              ) : workspaceStatus.hasWorkspace ? (
                 <div className={styles.infoBoxMuted}>
                   <Info size={16} />
                   <span>
-                    مدل FEM برای این موجودیت از قبل ایجاد شده است. می‌توانید
-                    وارد فضای کاری مهندسی شوید.
+                    Workspace نوع FEM برای این موجودیت از قبل ایجاد شده است.
                   </span>
                 </div>
               ) : null}
@@ -323,7 +318,7 @@ export default function FemLinkModal({ projectUuid }: Props) {
               </div>
 
               <div className={styles.messageBody}>
-                <div className={styles.stateTitle}>خطا در ایجاد مدل</div>
+                <div className={styles.stateTitle}>خطا در ایجاد Workspace</div>
 
                 <ul className={styles.errorList}>
                   {createErrorSummary.map((item, index) => (
@@ -337,9 +332,9 @@ export default function FemLinkModal({ projectUuid }: Props) {
 
         <div className={styles.footer}>
           <div className={styles.footerHint}>
-            {femStatus?.hasFemModel
-              ? 'اتصال FEM برای این موجودیت برقرار است.'
-              : 'در صورت مجاز بودن، مدل FEM برای این موجودیت ایجاد می‌شود.'}
+            {workspaceStatus?.hasWorkspace
+              ? 'Workspace نوع FEM برای این موجودیت برقرار است.'
+              : 'در صورت مجاز بودن، Workspace نوع FEM برای این موجودیت ایجاد می‌شود.'}
           </div>
 
           <div className={styles.footerActions}>
@@ -371,7 +366,7 @@ export default function FemLinkModal({ projectUuid }: Props) {
                     در حال ایجاد...
                   </span>
                 ) : (
-                  'ایجاد مدل FEM'
+                  'ایجاد Workspace FEM'
                 )}
               </Button>
             )}

@@ -1,0 +1,219 @@
+/* src/components/fem/FemCanvas2D.module.css */
+
+.canvasShell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #020617; /* Slate 950 */
+  overflow: hidden;
+  user-select: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grabbing {
+  cursor: grabbing !important;
+}
+
+.transformationLayer {
+  position: relative;
+  width: 1px;
+  height: 1px;
+  will-change: transform;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.noTransition {
+  transition: none !important;
+}
+
+/* Grids */
+.gridLayer {
+  position: absolute;
+  pointer-events: none;
+  width: 20000px;
+  height: 20000px;
+  transform: translate(-50%, -50%);
+}
+
+.minorGrid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.majorGrid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(56, 189, 248, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+  background-size: 100px 100px;
+}
+
+/* Axes */
+.axisX {
+  position: absolute;
+  width: 4000px;
+  height: 1px;
+  left: -2000px;
+  top: 0;
+  background: rgba(244, 63, 94, 0.6); /* Red-500 */
+}
+
+.axisY {
+  position: absolute;
+  width: 1px;
+  height: 4000px;
+  top: -2000px;
+  left: 0;
+  background: rgba(16, 185, 129, 0.6); /* Emerald-500 */
+}
+
+.originDot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px #38bdf8;
+}
+
+/* HUD Panel */
+.hudTop {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hudBadge {
+  background: rgba(15, 23, 42, 0.8);
+  color: #38bdf8;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  backdrop-filter: blur(4px);
+}
+
+.hudStats {
+  background: rgba(15, 23, 42, 0.8);
+  padding: 6px 16px;
+  border-radius: 6px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  pointer-events: auto;
+}
+
+.statItem {
+  color: #f1f5f9;
+  font-size: 12px;
+}
+
+.statItem small {
+  color: #64748b;
+  margin-right: 4px;
+}
+
+.divider {
+  width: 1px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Toolbar */
+.canvasToolbar {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.9);
+  padding: 5px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.toolButton {
+  width: 34px;
+  height: 34px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.toolButton:hover {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+}
+
+.toolDivider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 5px;
+}
+
+.zoomPercent {
+  font-size: 11px;
+  color: #38bdf8;
+  padding: 0 10px;
+  font-weight: bold;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Elements */
+.placeholderElement {
+  position: absolute;
+}
+
+.nodeHandle {
+  width: 8px;
+  height: 8px;
+  background: #38bdf8;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nodeLabel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #38bdf8;
+  font-size: 10px;
+  white-space: nowrap;
+}

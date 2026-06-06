@@ -1,0 +1,72 @@
+/* src/components/fem/FemRightSidebar.module.css */
+
+.sidebar {
+  height: 100%;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.82), rgba(2, 6, 23, 0.9));
+}
+
+.card {
+  border-radius: var(--radius-lg);
+  background: rgba(30, 41, 59, 0.58);
+  border: 1px solid var(--color-border-soft);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border-soft);
+  background: rgba(17, 24, 39, 0.58);
+}
+
+.cardTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-soft);
+}
+
+.cardDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+}
+
+.rows {
+  padding: 10px 14px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(148, 163, 184, 0.12);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.value {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-main);
+}

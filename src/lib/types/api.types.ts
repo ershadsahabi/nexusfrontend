@@ -87,45 +87,5 @@ export interface ApiProjectGraphResponse {
   connections: ApiConnectionEdge[];
 }
 
-export interface ApiFemSystemEntitySummary {
-  uuid: string;
-  code: string;
-  name: string;
-  entity_type: string;
-  system_type_uuid: string | null;
-  system_type_name: string | null;
-  fem_eligible: boolean;
-}
 
-export interface ApiFemModel {
-  id: number;
-  uuid: string;
-  project: string;
-  system_entity: ApiFemSystemEntitySummary;
-  metadata?: Record<string, unknown> | null;
-}
 
-export interface ApiFemStatus {
-  system_entity_uuid: string;
-  system_entity_code: string;
-  system_entity_name: string;
-
-  system_type_uuid: string | null;
-  system_type_name: string | null;
-
-  fem_eligible: boolean;
-  has_fem_model: boolean;
-
-  fem_model_uuid: string | null;
-  fem_model_id: number | null;
-
-  entity_type: string;
-}
-
-export interface ApiFemBulkStatusRequest {
-  project_uuid?: string;
-  system_entity_uuids: string[];
-  strict?: boolean;
-}
-
-export type ApiFemBulkStatusResponse = ApiFemStatus[];

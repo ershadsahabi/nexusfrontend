@@ -8,7 +8,7 @@ import type { ThreeEvent } from '@react-three/fiber';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 
-import { useFemStatusStore } from '@/store/useFemStatusStore';
+import { useWorkspaceStatusStore } from '@/store/useWorkspaceStatusStore';
 
 import styles from './EntityNode.module.css';
 import type { CanvasEntity } from '@/lib/types/canvas.types';
@@ -73,8 +73,8 @@ export default function EntityNode({
     entity.position
   );
 
-  const femStatus = useFemStatusStore(
-    (state) => state.byEntityUuid[entity.uuid] ?? null
+  const femWorkspaceStatus = useWorkspaceStatusStore((state) =>
+    state.getByEntityUuid(entity.uuid, 'FEM')
   );
 
   const focusRingRef = useRef<THREE.Group>(null);
@@ -223,7 +223,7 @@ export default function EntityNode({
 
           <span className={styles.nodeLabelText}>{entity.name}</span>
 
-          <FemNodeBadge status={femStatus} />
+          <FemNodeBadge status={femWorkspaceStatus} />
         </div>
       </Html>
     </group>
