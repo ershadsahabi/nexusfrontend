@@ -29,26 +29,116 @@ type Props = {
   ) => void;
 };
 
+function normalizeObject(value: unknown): Record<string, unknown> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return {};
+  }
+
+  return value as Record<string, unknown>;
+}
+
+function getNumber(value: unknown): number | undefined {
+  if (typeof value === 'number' && Number.isFinite(value)) return value;
+
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+
+  return undefined;
+}
+
+function getSystemTypeField(
+  systemType: unknown,
+  snakeKey: string,
+  camelKey: string
+): unknown {
+  const raw = normalizeObject(systemType);
+  return raw[snakeKey] ?? raw[camelKey];
+}
+
+function getVisualDefinition(systemType: unknown): Record<string, unknown> {
+  return normalizeObject(
+    getSystemTypeField(systemType, 'visual_definition', 'visualDefinition')
+  );
+}
+
+function getEffectiveMetadata(entity: CanvasEntity): Record<string, unknown> {
+  const raw = entity as any;
+
+  return {
+    ...normalizeObject(raw.effective_metadata),
+    ...normalizeObject(raw.effectiveMetadata),
+    ...normalizeObject(entity.metadata),
+  };
+}
+
+function resolveVisualProps(entity: CanvasEntity): Record<string, unknown> {
+  const visualDefinition = getVisualDefinition(entity.systemType);
+  const metadata = getEffectiveMetadata(entity);
+
+  const bindings = normalizeObject(visualDefinition.bindings);
+  const staticProps = normalizeObject(
+    visualDefinition.static_props ?? visualDefinition.staticProps
+  );
+
+  const resolved: Record<string, unknown> = {
+    ...staticProps,
+  };
+
+  for (const [propName, metadataKey] of Object.entries(bindings)) {
+    if (typeof metadataKey !== 'string' || !metadataKey.trim()) continue;
+    resolved[propName] = metadata[metadataKey];
+  }
+
+  if (resolved.length === undefined && resolved.depth !== undefined) {
+    resolved.length = resolved.depth;
+  }
+
+  if (resolved.depth === undefined && resolved.length !== undefined) {
+    resolved.depth = resolved.length;
+  }
+
+  if (resolved.thickness === undefined && resolved.wallThickness !== undefined) {
+    resolved.thickness = resolved.wallThickness;
+  }
+
+  return resolved;
+}
+
 function getLabelHeight(entity: CanvasEntity) {
-  const metadata = (entity.metadata ?? {}) as Record<string, unknown>;
+  const visualProps = resolveVisualProps(entity);
+  const metadata = getEffectiveMetadata(entity);
 
-  if (typeof metadata.labelHeight === 'number') return metadata.labelHeight;
-  if (typeof metadata.height === 'number') return metadata.height + 0.5;
+  const explicitLabelHeight = getNumber(metadata.labelHeight);
+  if (explicitLabelHeight !== undefined) return explicitLabelHeight;
 
-  return 1.2;
+  const visualHeight = getNumber(visualProps.height);
+  if (visualHeight !== undefined) return visualHeight + 0.7;
+
+  const metadataHeight = getNumber(metadata.height);
+  if (metadataHeight !== undefined) return metadataHeight + 0.7;
+
+  return 1.4;
 }
 
 function getFocusRadius(entity: CanvasEntity) {
-  const metadata = (entity.metadata ?? {}) as Record<string, unknown>;
+  const visualProps = resolveVisualProps(entity);
+  const metadata = getEffectiveMetadata(entity);
 
   const radius =
-    typeof metadata.radius === 'number' ? metadata.radius : undefined;
+    getNumber(visualProps.radius) ??
+    getNumber(visualProps.radiusTop) ??
+    getNumber(visualProps.radiusBottom) ??
+    getNumber(metadata.radius);
 
-  const width =
-    typeof metadata.width === 'number' ? metadata.width : undefined;
+  const width = getNumber(visualProps.width) ?? getNumber(metadata.width);
 
   const depth =
-    typeof metadata.depth === 'number' ? metadata.depth : undefined;
+    getNumber(visualProps.depth) ??
+    getNumber(visualProps.length) ??
+    getNumber(metadata.depth) ??
+    getNumber(metadata.length);
 
   const diameterFromBox =
     width !== undefined || depth !== undefined
@@ -201,7 +291,6 @@ export default function EntityNode({
       )}
 
       <EntityShapeRenderer
-        shapeKey={entity.systemType?.shape_key}
         entity={entity}
         isSelected={isSelected}
         isEdgeSource={isEdgeSource}

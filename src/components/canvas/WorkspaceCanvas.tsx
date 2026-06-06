@@ -9,7 +9,7 @@ import CanvasScene from './CanvasScene';
 import CanvasTopBar from './CanvasTopBar';
 import CameraDock from './CameraDock';
 import CanvasStructureSidebar from './CanvasStructureSidebar';
-import FemLinkModal from './FemLinkModal';
+import FemLinkModal from './EntityWorkspaceModal';
 
 import type { CameraApi } from './CameraController';
 

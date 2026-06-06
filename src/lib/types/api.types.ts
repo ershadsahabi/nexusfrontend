@@ -7,6 +7,13 @@ export type ApiEntityType =
   | 'generic'
   | string;
 
+export interface ApiVisualDefinition {
+  renderer: string;
+  bindings?: Record<string, string>;
+  static_props?: Record<string, unknown>;
+  material?: Record<string, unknown>;
+}
+
 export interface ApiSystemEntityTypeSummary {
   uuid: string;
   code: string;
@@ -20,6 +27,10 @@ export interface ApiSystemEntityTypeSummary {
   shape_key?: string;
   color_key?: string;
   render_variant?: string;
+  visual_definition?: ApiVisualDefinition | null;
+  metadata_schema?: Record<string, unknown>;
+  metadata_defaults?: Record<string, unknown>;
+  allowed_workspaces?: string[];
   is_active: boolean;
 }
 
@@ -86,6 +97,3 @@ export interface ApiProjectGraphResponse {
   entities: ApiSystemEntity[];
   connections: ApiConnectionEdge[];
 }
-
-
-

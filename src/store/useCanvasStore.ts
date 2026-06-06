@@ -7,6 +7,7 @@ import type {
   CanvasEntity,
   CanvasMode,
 } from '@/lib/types/canvas.types';
+import type { WorkspaceType } from '@/lib/types/workspace.types';
 
 type Vec3 = [number, number, number];
 
@@ -50,7 +51,8 @@ interface CanvasStoreState {
   viewDepth: number;
   focusEntityUuid: string | null;
 
-  femModalEntityUuid: string | null;
+  workspaceModalEntityUuid: string | null;
+  workspaceModalType: WorkspaceType | null;
 
   setGraph: (
     entities: CanvasEntity[],
@@ -96,8 +98,12 @@ interface CanvasStoreState {
     uuid: string | null
   ) => void;
 
-  openFemModal: (entityUuid: string) => void;
-  closeFemModal: () => void;
+  openWorkspaceModal: (
+    entityUuid: string,
+    workspaceType: WorkspaceType
+  ) => void;
+
+  closeWorkspaceModal: () => void;
 
   reset: () => void;
 }
@@ -121,7 +127,8 @@ const initialState = {
   viewDepth: 2,
   focusEntityUuid: null as string | null,
 
-  femModalEntityUuid: null as string | null,
+  workspaceModalEntityUuid: null as string | null,
+  workspaceModalType: null as WorkspaceType | null,
 };
 
 export const useCanvasStore =
@@ -172,10 +179,16 @@ export const useCanvasStore =
               ? state.focusEntityUuid
               : null,
 
-          femModalEntityUuid:
-            state.femModalEntityUuid &&
-            entityUuidSet.has(state.femModalEntityUuid)
-              ? state.femModalEntityUuid
+          workspaceModalEntityUuid:
+            state.workspaceModalEntityUuid &&
+            entityUuidSet.has(state.workspaceModalEntityUuid)
+              ? state.workspaceModalEntityUuid
+              : null,
+
+          workspaceModalType:
+            state.workspaceModalEntityUuid &&
+            entityUuidSet.has(state.workspaceModalEntityUuid)
+              ? state.workspaceModalType
               : null,
         };
       }),
@@ -299,10 +312,15 @@ export const useCanvasStore =
               ? null
               : state.activeRootSystemUuid,
 
-          femModalEntityUuid:
-            state.femModalEntityUuid === uuid
+          workspaceModalEntityUuid:
+            state.workspaceModalEntityUuid === uuid
               ? null
-              : state.femModalEntityUuid,
+              : state.workspaceModalEntityUuid,
+
+          workspaceModalType:
+            state.workspaceModalEntityUuid === uuid
+              ? null
+              : state.workspaceModalType,
         };
       }),
 
@@ -384,14 +402,16 @@ export const useCanvasStore =
         focusEntityUuid: uuid,
       })),
 
-    openFemModal: (entityUuid) =>
+    openWorkspaceModal: (entityUuid, workspaceType) =>
       set(() => ({
-        femModalEntityUuid: entityUuid,
+        workspaceModalEntityUuid: entityUuid,
+        workspaceModalType: workspaceType,
       })),
 
-    closeFemModal: () =>
+    closeWorkspaceModal: () =>
       set(() => ({
-        femModalEntityUuid: null,
+        workspaceModalEntityUuid: null,
+        workspaceModalType: null,
       })),
 
     reset: () =>

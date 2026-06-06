@@ -3,6 +3,7 @@
 import type {
   ApiEntityType,
   ApiSystemEntityTypeSummary,
+  ApiVisualDefinition,
 } from '@/lib/types/api.types';
 
 export type CanvasMode = 'select' | 'create-edge';
@@ -17,34 +18,24 @@ export type RelationType =
 
 export type SystemEntityTypeSummary = ApiSystemEntityTypeSummary;
 
+export interface ResolvedEntityVisual {
+  renderer: string;
+  props: Record<string, unknown>;
+  material: Record<string, unknown>;
+}
+
 export interface CanvasEntity {
   id: number;
   uuid: string;
 
-  /**
-   * parentId در این پروژه در واقع UUID والد است.
-   * اسم را فعلاً برای کم‌تغییر بودن کد نگه می‌داریم.
-   */
   parentId: string | null;
-
-  /**
-   * UUID فرزندان.
-   */
   childIds: string[];
 
   name: string;
   code: string;
   description: string;
 
-  /**
-   * Presentation/representation type:
-   * macro / fem / environment / generic
-   */
   entityType: ApiEntityType;
-
-  /**
-   * Semantic/domain type from SystemEntityType catalog.
-   */
   systemType: SystemEntityTypeSummary | null;
 
   position: [number, number, number];
@@ -80,3 +71,4 @@ export interface CanvasConnection {
   updatedAt?: string;
 }
 
+export type EntityVisualDefinition = ApiVisualDefinition;

@@ -8,14 +8,20 @@ import type {
   WorkspaceType,
 } from '@/lib/types/workspace.types';
 
+import { normalizeWorkspaceType } from '@/lib/types/workspace.types';
+
 function resolveEligible(input: ApiWorkspaceStatus): boolean {
   if (typeof input.eligible === 'boolean') return input.eligible;
 
-  if (input.workspace_type === 'FEM') {
+  const workspaceType = input.workspace_type
+    ? String(input.workspace_type).toUpperCase()
+    : null;
+
+  if (workspaceType === 'FEM') {
     return Boolean(input.fem_eligible);
   }
 
-  if (input.workspace_type === 'CAD') {
+  if (workspaceType === 'CAD') {
     return Boolean(input.cad_eligible);
   }
 
@@ -25,12 +31,16 @@ function resolveEligible(input: ApiWorkspaceStatus): boolean {
 function resolveHasWorkspace(input: ApiWorkspaceStatus): boolean {
   if (typeof input.has_workspace === 'boolean') return input.has_workspace;
 
-  if (input.workspace_type === 'FEM') {
-    return Boolean(input.has_fem_model);
+  const workspaceType = input.workspace_type
+    ? String(input.workspace_type).toUpperCase()
+    : null;
+
+  if (workspaceType === 'FEM') {
+    return Boolean(input.has_fem_workspace);
   }
 
-  if (input.workspace_type === 'CAD') {
-    return Boolean(input.has_cad_model);
+  if (workspaceType === 'CAD') {
+    return Boolean(input.has_cad_workspace);
   }
 
   return false;
@@ -38,29 +48,11 @@ function resolveHasWorkspace(input: ApiWorkspaceStatus): boolean {
 
 function resolveWorkspaceUuid(input: ApiWorkspaceStatus): string | null {
   if (input.workspace_uuid) return input.workspace_uuid;
-
-  if (input.workspace_type === 'FEM') {
-    return input.fem_model_uuid ?? null;
-  }
-
-  if (input.workspace_type === 'CAD') {
-    return input.cad_model_uuid ?? null;
-  }
-
   return null;
 }
 
 function resolveWorkspaceId(input: ApiWorkspaceStatus): number | null {
   if (typeof input.workspace_id === 'number') return input.workspace_id;
-
-  if (input.workspace_type === 'FEM') {
-    return input.fem_model_id ?? null;
-  }
-
-  if (input.workspace_type === 'CAD') {
-    return input.cad_model_id ?? null;
-  }
-
   return null;
 }
 
@@ -69,14 +61,14 @@ export function mapApiWorkspaceStatusToCanvas(
 ): CanvasWorkspaceStatus {
   return {
     systemEntityUuid: input.system_entity_uuid,
-    systemEntityCode: input.system_entity_code,
-    systemEntityName: input.system_entity_name,
+    systemEntityCode: input.system_entity_code ?? null,
+    systemEntityName: input.system_entity_name ?? null,
 
-    systemTypeUuid: input.system_type_uuid,
-    systemTypeName: input.system_type_name,
-    systemTypeCode: input.system_type_code,
+    systemTypeUuid: input.system_type_uuid ?? null,
+    systemTypeName: input.system_type_name ?? null,
+    systemTypeCode: input.system_type_code ?? null,
 
-    workspaceType: input.workspace_type,
+    workspaceType: normalizeWorkspaceType(input.workspace_type ?? 'FEM'),
 
     eligible: resolveEligible(input),
     hasWorkspace: resolveHasWorkspace(input),
@@ -84,7 +76,7 @@ export function mapApiWorkspaceStatusToCanvas(
     workspaceUuid: resolveWorkspaceUuid(input),
     workspaceId: resolveWorkspaceId(input),
 
-    entityType: input.entity_type,
+    entityType: input.entity_type ?? null,
   };
 }
 
@@ -98,6 +90,7 @@ export function mapApiEntityWorkspaceToCanvas(
   input: ApiEntityWorkspace
 ): CanvasEntityWorkspace {
   const systemEntity = input.system_entity;
+  const workspaceType = normalizeWorkspaceType(input.workspace_type);
 
   return {
     id: input.id,
@@ -105,19 +98,19 @@ export function mapApiEntityWorkspaceToCanvas(
 
     projectUuid: input.project,
 
-    workspaceType: input.workspace_type,
+    workspaceType,
 
     systemEntityUuid: systemEntity.uuid,
-    systemEntityCode: systemEntity.code,
-    systemEntityName: systemEntity.name,
+    systemEntityCode: systemEntity.code ?? null,
+    systemEntityName: systemEntity.name ?? null,
 
-    systemTypeUuid: systemEntity.system_type_uuid,
-    systemTypeName: systemEntity.system_type_name,
+    systemTypeUuid: systemEntity.system_type_uuid ?? null,
+    systemTypeName: systemEntity.system_type_name ?? null,
 
     eligible:
-      input.workspace_type === 'FEM'
+      workspaceType === 'FEM'
         ? systemEntity.fem_eligible
-        : input.workspace_type === 'CAD'
+        : workspaceType === 'CAD'
           ? systemEntity.cad_eligible
           : undefined,
 

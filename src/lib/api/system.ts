@@ -71,10 +71,6 @@ export interface UpdateConnectionPayload {
   metadata?: Record<string, unknown> | null;
 }
 
-
-
-
-
 export type ApiErrorMap = {
   nonFieldErrors: string[];
   fieldErrors: Record<string, string[]>;
@@ -111,7 +107,6 @@ export const FIELD_LABELS: Record<string, string> = {
 };
 
 const BACKEND_ERROR_TRANSLATIONS: Record<string, string> = {
-  // SystemEntity validation errors
   'Parent entity must belong to the same project.':
     'والد باید متعلق به همین پروژه باشد.',
   'Entity cannot be parent of itself.':
@@ -127,7 +122,6 @@ const BACKEND_ERROR_TRANSLATIONS: Record<string, string> = {
   'Environment entities should use an environment category system type.':
     'برای موجودیت محیطی باید نوع سیستم از دسته محیطی انتخاب شود.',
 
-  // Common DRF errors
   'This field is required.':
     'این فیلد الزامی است.',
   'This field may not be blank.':
@@ -157,7 +151,6 @@ const BACKEND_ERROR_TRANSLATIONS: Record<string, string> = {
   'You do not have permission to perform this action.':
     'شما مجوز انجام این عملیات را ندارید.',
 
-  // FEM model errors
   'System entity not found.':
     'موجودیت سیستمی پیدا نشد.',
   'Selected system entity does not belong to the current project.':
@@ -177,7 +170,6 @@ const BACKEND_ERROR_TRANSLATIONS: Record<string, string> = {
   'System entity not found in current project.':
     'موجودیت سیستمی در پروژه فعلی پیدا نشد.',
 
-  // FEM bulk status errors
   'Some system entities were not found in the current project.':
     'برخی موجودیت‌های سیستمی در پروژه فعلی پیدا نشدند.',
 };
@@ -194,7 +186,6 @@ function normalizeErrorField(field: string): string {
 }
 
 function translateKnownFragments(message: string): string {
-  // برای پیام‌های DRF که بخشی از متنشان متغیر است.
   if (message.includes('Invalid pk')) {
     return 'شناسه انتخاب‌شده معتبر نیست.';
   }
@@ -348,22 +339,6 @@ export function hasSystemEntityFieldError(
   return Boolean(getFirstSystemEntityFieldError(errors, fieldName));
 }
 
-function uniqueStrings(input: string[]): string[] {
-  return [...new Set(input.filter(Boolean))];
-}
-
-function chunkArray<T>(input: T[], chunkSize: number): T[][] {
-  if (chunkSize <= 0) return [input];
-
-  const chunks: T[][] = [];
-
-  for (let index = 0; index < input.length; index += chunkSize) {
-    chunks.push(input.slice(index, index + chunkSize));
-  }
-
-  return chunks;
-}
-
 export async function fetchSystemEntityTypes(): Promise<ApiSystemEntityTypeSummary[]> {
   const { data } = await apiClient.get('/entities/system-entity-types/');
   return data.results ?? data ?? [];
@@ -406,7 +381,7 @@ export async function createSystemEntity(
 export async function updateSystemEntity(
   entityUuid: string,
   payload: UpdateSystemEntityPayload,
-  context: ApiContext
+  context: { projectUuid: string; scenarioId?: string }
 ): Promise<ApiSystemEntity> {
   if (!context?.projectUuid) {
     throw new Error('updateSystemEntity: projectUuid is required');
@@ -500,7 +475,6 @@ export async function deleteConnection(
     params: buildProjectParams(context.projectUuid),
   });
 }
-
 
 
 

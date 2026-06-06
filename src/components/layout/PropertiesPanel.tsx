@@ -3,18 +3,23 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 import { useCanvasStore } from '@/store/useCanvasStore';
+import { useWorkspaceStatusStore } from '@/store/useWorkspaceStatusStore';
+
 import { useUpdateSystemEntity } from '@/hooks/useUpdateSystemEntity';
 import { useDeleteSystemEntity } from '@/hooks/useDeleteSystemEntity';
 import { useSystemEntityTypes } from '@/hooks/useSystemEntityTypes';
 import { useWorkspaceStatus } from '@/hooks/useWorkspaceModel';
-import { useWorkspaceStatusStore } from '@/store/useWorkspaceStatusStore';
-
 
 import type { ApiEntityType } from '@/lib/types/api.types';
 import type { MetadataSchema, MetadataValues } from '@/lib/metadata/types';
+import type {
+  EnhancedCanvasWorkspaceStatus,
+  WorkspaceType,
+} from '@/lib/types/workspace.types';
+
 import { buildWorkspaceHref } from '@/lib/types/workspace.types';
 
 import {
@@ -50,6 +55,8 @@ const ENTITY_TYPE_OPTIONS: Array<{
   { value: 'generic', label: 'Generic Node' },
 ];
 
+const WORKSPACE_TYPES: WorkspaceType[] = ['FEM', 'CAD'];
+
 function toFiniteNumber(value: string, fallback = 0): number {
   if (value.trim() === '') return fallback;
   const parsed = Number(value);
@@ -65,11 +72,70 @@ function getEntityAvatarText(name: string, code: string) {
   return source.slice(0, 2).toUpperCase();
 }
 
+function getWorkspaceLabel(type: WorkspaceType) {
+  return type === 'CAD' ? 'CAD Workspace' : 'FEM Workspace';
+}
 
+function getWorkspacePersianLabel(type: WorkspaceType) {
+  return type === 'CAD' ? 'فضای CAD' : 'فضای FEM';
+}
+
+function getWorkspaceStatusText(
+  status: EnhancedCanvasWorkspaceStatus | null,
+  isLoading: boolean
+) {
+  if (isLoading) return 'در حال بررسی';
+
+  if (!status) return 'نامشخص';
+
+  if (status.status === 'ready') return 'متصل';
+  if (status.status === 'creatable') return 'قابل ایجاد';
+
+  return 'غیرمجاز';
+}
+
+function getWorkspaceStatusClassName(
+  status: EnhancedCanvasWorkspaceStatus | null,
+  isLoading: boolean
+) {
+  if (isLoading) return styles.femStatusPillMuted;
+
+  if (!status) return styles.femStatusPillMuted;
+
+  if (status.status === 'ready') return styles.femStatusPillSuccess;
+  if (status.status === 'creatable') return styles.femStatusPillWarning;
+
+  return styles.femStatusPillMuted;
+}
+
+function getWorkspaceDescription(
+  type: WorkspaceType,
+  status: EnhancedCanvasWorkspaceStatus | null,
+  isLoading: boolean
+) {
+  const label = getWorkspacePersianLabel(type);
+
+  if (isLoading) {
+    return `در حال دریافت وضعیت ${label} برای این موجودیت...`;
+  }
+
+  if (!status) {
+    return `وضعیت ${label} هنوز دریافت نشده است.`;
+  }
+
+  if (status.status === 'ready') {
+    return `${label} برای این موجودیت ساخته شده و آماده ورود است.`;
+  }
+
+  if (status.status === 'creatable') {
+    return `این موجودیت مجاز است و می‌توانید ${label} را برای آن ایجاد کنید.`;
+  }
+
+  return `این موجودیت در حال حاضر مجاز به استفاده از ${label} نیست.`;
+}
 
 export const PropertiesPanel = () => {
   const params = useParams();
-  const router = useRouter();
 
   const projectUuid =
     typeof params?.projectId === 'string'
@@ -81,60 +147,73 @@ export const PropertiesPanel = () => {
   const scenarioId =
     typeof params?.scenarioId === 'string' ? params.scenarioId : undefined;
 
-  const {
-    selectedEntity: selectedEntityId,
-    entities,
-    removeEntity,
-    clearSelection,
-    updateEntityInStore,
-  } = useCanvasStore();
+  const selectedEntityId = useCanvasStore((s) => s.selectedEntity);
+  const entities = useCanvasStore((s) => s.entities);
+  const removeEntity = useCanvasStore((s) => s.removeEntity);
+  const clearSelection = useCanvasStore((s) => s.clearSelection);
+  const updateEntityProps = useCanvasStore((s) => s.updateEntityProps);
+  const openWorkspaceModal = useCanvasStore((s) => s.openWorkspaceModal);
 
-  const selectedEntity = entities.find(
-    (entity) => entity.uuid === selectedEntityId
-  );
+  const selectedEntity = useMemo(() => {
+    if (!selectedEntityId) return null;
+    return entities.find((entity) => entity.uuid === selectedEntityId) ?? null;
+  }, [entities, selectedEntityId]);
 
-    // --- FEM Workspace Integration ---
-  const cachedWorkspaceStatus = useWorkspaceStatusStore((state) =>
+  const cachedFemWorkspaceStatus = useWorkspaceStatusStore((state) =>
     selectedEntity?.uuid
       ? state.getByEntityUuid(selectedEntity.uuid, 'FEM')
       : null
   );
 
-  const {
-    data: fetchedWorkspaceStatus,
-    isLoading: isWorkspaceStatusLoading,
-  } = useWorkspaceStatus(projectUuid, selectedEntity?.uuid ?? null, 'FEM');
-
-  const femWorkspaceStatus =
-    fetchedWorkspaceStatus ?? cachedWorkspaceStatus ?? null;
-
-  const isFemEligible =
-    femWorkspaceStatus?.eligible ??
-    selectedEntity?.systemType?.fem_eligible ??
-    false;
-
-  const canOpenFemWorkspace = Boolean(
-    projectUuid &&
-      femWorkspaceStatus?.hasWorkspace &&
-      femWorkspaceStatus?.workspaceUuid
+  const cachedCadWorkspaceStatus = useWorkspaceStatusStore((state) =>
+    selectedEntity?.uuid
+      ? state.getByEntityUuid(selectedEntity.uuid, 'CAD')
+      : null
   );
 
-  const handleOpenFemWorkspace = () => {
-    if (!projectUuid || !femWorkspaceStatus?.workspaceUuid) return;
+  const {
+    data: fetchedFemWorkspaceStatus,
+    isLoading: isFemWorkspaceStatusLoading,
+  } = useWorkspaceStatus(projectUuid, selectedEntity?.uuid ?? null, 'FEM');
 
-    const href = buildWorkspaceHref(
-      projectUuid,
-      'FEM',
-      femWorkspaceStatus.workspaceUuid
-    );
+  const {
+    data: fetchedCadWorkspaceStatus,
+    isLoading: isCadWorkspaceStatusLoading,
+  } = useWorkspaceStatus(projectUuid, selectedEntity?.uuid ?? null, 'CAD');
 
-    window.open(href, '_blank', 'noopener,noreferrer');
+  const femWorkspaceStatus =
+    fetchedFemWorkspaceStatus ?? cachedFemWorkspaceStatus ?? null;
+
+  const cadWorkspaceStatus =
+    fetchedCadWorkspaceStatus ?? cachedCadWorkspaceStatus ?? null;
+
+  const workspaceStatuses: Record<
+    WorkspaceType,
+    {
+      status: EnhancedCanvasWorkspaceStatus | null;
+      isLoading: boolean;
+    }
+  > = {
+    FEM: {
+      status: femWorkspaceStatus,
+      isLoading: isFemWorkspaceStatusLoading,
+    },
+    CAD: {
+      status: cadWorkspaceStatus,
+      isLoading: isCadWorkspaceStatusLoading,
+    },
   };
 
+  const readyWorkspaceCount = WORKSPACE_TYPES.filter(
+    (type) => workspaceStatuses[type].status?.status === 'ready'
+  ).length;
 
+  const creatableWorkspaceCount = WORKSPACE_TYPES.filter(
+    (type) => workspaceStatuses[type].status?.status === 'creatable'
+  ).length;
 
-
-  // --------------------------------
+  const isAnyWorkspaceLoading =
+    isFemWorkspaceStatusLoading || isCadWorkspaceStatusLoading;
 
   const updateEntityMutation = useUpdateSystemEntity(projectUuid, scenarioId);
   const deleteEntityMutation = useDeleteSystemEntity(projectUuid, scenarioId);
@@ -163,7 +242,7 @@ export const PropertiesPanel = () => {
 
   const currentSystemType = useMemo(() => {
     if (!systemTypeUuid) return null;
-    return systemEntityTypes.find((t: any) => t.uuid === systemTypeUuid) ?? null;
+    return systemEntityTypes.find((type: any) => type.uuid === systemTypeUuid) ?? null;
   }, [systemTypeUuid, systemEntityTypes]);
 
   const currentMetadataConfig = useMemo(() => {
@@ -187,16 +266,6 @@ export const PropertiesPanel = () => {
   const currentMetadataSchema = currentMetadataConfig.schema as MetadataSchema;
   const currentMetadataDefaults =
     currentMetadataConfig.defaults as MetadataValues;
-
-  const availableParents = useMemo(() => {
-    if (!selectedEntity) return [];
-
-    return entities.filter((entity) => {
-      if (!entity?.uuid) return false;
-      if (entity.uuid === selectedEntity.uuid) return false;
-      return true;
-    });
-  }, [entities, selectedEntity]);
 
   const generalSaveErrors = useMemo(() => {
     if (!saveError) return [];
@@ -222,24 +291,6 @@ export const PropertiesPanel = () => {
     saveError,
     'description'
   );
-  const entityTypeError = getFirstSystemEntityFieldError(
-    saveError,
-    'entity_type'
-  );
-  const systemTypeUuidError = getFirstSystemEntityFieldError(
-    saveError,
-    'system_type_uuid'
-  );
-  const parentError = getFirstSystemEntityFieldError(saveError, 'parent');
-  const sortOrderError = getFirstSystemEntityFieldError(
-    saveError,
-    'sort_order'
-  );
-  const isActiveError = getFirstSystemEntityFieldError(saveError, 'is_active');
-  const posXError = getFirstSystemEntityFieldError(saveError, 'pos_x');
-  const posYError = getFirstSystemEntityFieldError(saveError, 'pos_y');
-  const posZError = getFirstSystemEntityFieldError(saveError, 'pos_z');
-  const metadataError = getFirstSystemEntityFieldError(saveError, 'metadata');
 
   useEffect(() => {
     setSaveError(null);
@@ -320,6 +371,27 @@ export const PropertiesPanel = () => {
     );
   };
 
+  const handleOpenWorkspaceManager = () => {
+    if (!selectedEntity?.uuid || isBusy) return;
+    openWorkspaceModal(selectedEntity.uuid, null);
+  };
+
+  const handleQuickOpenWorkspace = (workspaceType: WorkspaceType) => {
+    if (!projectUuid || !selectedEntity) return;
+
+    const status = workspaceStatuses[workspaceType].status;
+
+    if (!status?.workspaceUuid) return;
+
+    const href = buildWorkspaceHref(
+      projectUuid,
+      workspaceType,
+      status.workspaceUuid
+    );
+
+    window.open(href, '_blank', 'noopener,noreferrer');
+  };
+
   const handleSave = async () => {
     if (!selectedEntity || isBusy) return;
 
@@ -374,12 +446,86 @@ export const PropertiesPanel = () => {
 
       setSaveError(null);
 
-      if (updateEntityInStore) {
-        updateEntityInStore(selectedEntity.uuid, {
-          ...selectedEntity,
-          ...updated,
-        });
-      }
+const selectedSystemType =
+  systemEntityTypes.find((type: any) => type.uuid === systemTypeUuid) ??
+  selectedEntity.systemType ??
+  null;
+
+const nextMetadata =
+  (updated as any).effective_metadata ??
+  (updated as any).effectiveMetadata ??
+  cleanedMetadata ??
+  metadataValues ??
+  selectedEntity.metadata ??
+  {};
+
+    updateEntityProps(selectedEntity.uuid, {
+      name: (updated as any).name ?? payload.name ?? selectedEntity.name,
+      code: (updated as any).code ?? payload.code ?? selectedEntity.code,
+      description:
+        (updated as any).description ??
+        payload.description ??
+        selectedEntity.description,
+
+      entityType:
+        ((updated as any).entity_type as any) ??
+        (updated as any).entityType ??
+        payload.entity_type ??
+        selectedEntity.entityType,
+
+      position: [
+        (updated as any).pos_x ??
+          (updated as any).posX ??
+          payload.pos_x ??
+          selectedEntity.position?.[0] ??
+          0,
+        (updated as any).pos_y ??
+          (updated as any).posY ??
+          payload.pos_y ??
+          selectedEntity.position?.[1] ??
+          0,
+        (updated as any).pos_z ??
+          (updated as any).posZ ??
+          payload.pos_z ??
+          selectedEntity.position?.[2] ??
+          0,
+      ],
+
+      sortOrder:
+        (updated as any).sort_order ??
+        (updated as any).sortOrder ??
+        payload.sort_order ??
+        selectedEntity.sortOrder,
+
+      isActive:
+        (updated as any).is_active ??
+        (updated as any).isActive ??
+        payload.is_active ??
+        selectedEntity.isActive,
+
+      parentId:
+        (updated as any).parent ??
+        (updated as any).parent_uuid ??
+        (updated as any).parentUuid ??
+        payload.parent ??
+        selectedEntity.parentId ??
+        null,
+
+      systemType:
+        (updated as any).system_type ??
+        (updated as any).systemType ??
+        selectedSystemType,
+
+      metadata: nextMetadata,
+
+      effective_metadata: nextMetadata,
+      effectiveMetadata: nextMetadata,
+
+      updatedAt:
+        (updated as any).updated_at ??
+        (updated as any).updatedAt ??
+        new Date().toISOString(),
+    } as any);
     } catch (error) {
       const parsed = parseSystemErrors(error);
       setSaveError(parsed);
@@ -482,54 +628,136 @@ export const PropertiesPanel = () => {
             </div>
           </div>
 
-          {/* --- FEM Workspace Integration Card --- */}
           <div className={styles.femWorkspaceCard}>
             <div className={styles.femWorkspaceHeader}>
               <div>
-                <span className={styles.femWorkspaceEyebrow}>FEM WORKSPACE</span>
-                <strong>فضای تحلیل مهندسی</strong>
+                <span className={styles.femWorkspaceEyebrow}>
+                  ENGINEERING WORKSPACES
+                </span>
+                <strong>فضاهای مهندسی</strong>
               </div>
 
-              {isWorkspaceStatusLoading ? (
-                <span className={styles.femStatusPillMuted}>در حال بررسی...</span>
-              ) : femWorkspaceStatus?.hasWorkspace ? (
-                <span className={styles.femStatusPillSuccess}>متصل</span>
-              ) : isFemEligible ? (
-                <span className={styles.femStatusPillWarning}>آماده اتصال</span>
+              {isAnyWorkspaceLoading ? (
+                <span className={styles.femStatusPillMuted}>
+                  در حال بررسی...
+                </span>
+              ) : readyWorkspaceCount > 0 ? (
+                <span className={styles.femStatusPillSuccess}>
+                  {readyWorkspaceCount} متصل
+                </span>
+              ) : creatableWorkspaceCount > 0 ? (
+                <span className={styles.femStatusPillWarning}>
+                  {creatableWorkspaceCount} قابل ایجاد
+                </span>
               ) : (
                 <span className={styles.femStatusPillMuted}>غیرمجاز</span>
               )}
-
             </div>
 
             <p className={styles.femWorkspaceText}>
-              {isWorkspaceStatusLoading
-                ? 'در حال دریافت وضعیت Workspace نوع FEM برای این موجودیت...'
-                : femWorkspaceStatus?.hasWorkspace
-                ? 'Workspace نوع FEM برای این موجودیت ساخته شده است و می‌توانید وارد فضای تحلیل شوید.'
-                : isFemEligible
-                ? 'این موجودیت قابلیت FEM دارد، اما هنوز Workspace نوع FEM برای آن ساخته نشده است.'
-                : 'این موجودیت قابلیت اتصال به FEM Workspace را ندارد.'}
+              وضعیت Workspaceهای FEM و CAD این موجودیت را بررسی کنید، Workspace
+              جدید بسازید یا وارد Workspace موجود شوید.
             </p>
 
-                {femWorkspaceStatus?.workspaceUuid && (
-                  <code className={styles.femModelUuid}>
-                    {femWorkspaceStatus.workspaceUuid}
-                  </code>
-                )}
+            <div style={{ display: 'grid', gap: 8, marginTop: 10 }}>
+              {WORKSPACE_TYPES.map((workspaceType) => {
+                const item = workspaceStatuses[workspaceType];
+                const status = item.status;
+                const canQuickOpen = Boolean(
+                  projectUuid &&
+                    status?.status === 'ready' &&
+                    status.workspaceUuid
+                );
 
+                return (
+                  <div
+                    key={workspaceType}
+                    style={{
+                      display: 'grid',
+                      gap: 6,
+                      padding: '10px 12px',
+                      borderRadius: 12,
+                      border: '1px solid rgba(148, 163, 184, 0.14)',
+                      background:
+                        'linear-gradient(180deg, rgba(15, 23, 42, 0.42), rgba(2, 6, 23, 0.22))',
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: 10,
+                      }}
+                    >
+                      <strong style={{ fontSize: 12 }}>
+                        {getWorkspaceLabel(workspaceType)}
+                      </strong>
+
+                      <span
+                        className={getWorkspaceStatusClassName(
+                          status,
+                          item.isLoading
+                        )}
+                      >
+                        {getWorkspaceStatusText(status, item.isLoading)}
+                      </span>
+                    </div>
+
+                    <span
+                      style={{
+                        color: 'var(--text-muted, rgba(203, 213, 225, 0.72))',
+                        fontSize: 11,
+                        lineHeight: 1.7,
+                      }}
+                    >
+                      {getWorkspaceDescription(
+                        workspaceType,
+                        status,
+                        item.isLoading
+                      )}
+                    </span>
+
+                    {status?.workspaceUuid ? (
+                      <code className={styles.femModelUuid}>
+                        {status.workspaceUuid}
+                      </code>
+                    ) : null}
+
+                    {canQuickOpen ? (
+                      <button
+                        type="button"
+                        className={styles.femWorkspaceBtn}
+                        onClick={() => handleQuickOpenWorkspace(workspaceType)}
+                        disabled={isBusy}
+                      >
+                        ورود به {getWorkspacePersianLabel(workspaceType)}
+                        <span
+                          style={{
+                            marginRight: '8px',
+                            fontSize: '0.9em',
+                            opacity: 0.8,
+                          }}
+                        >
+                          ↗
+                        </span>
+                      </button>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
 
             <button
               type="button"
               className={styles.femWorkspaceBtn}
-              onClick={handleOpenFemWorkspace}
-              disabled={!canOpenFemWorkspace || isBusy}
+              onClick={handleOpenWorkspaceManager}
+              disabled={!selectedEntity || isBusy}
+              style={{ marginTop: 12 }}
             >
-              ورود به فضای FEM
-            <span style={{ marginRight: '8px', fontSize: '0.9em', opacity: 0.8 }}>↗</span>
+              مدیریت Workspaceها
             </button>
           </div>
-          {/* -------------------------------------- */}
 
           <div className={styles.uuidBox}>
             <span className={styles.propertyLabel}>UUID</span>
@@ -541,12 +769,14 @@ export const PropertiesPanel = () => {
             <input
               type="text"
               value={editName}
-              onChange={(e) => setEditName(e.target.value)}
+              onChange={(event) => setEditName(event.target.value)}
               className={getInputClassName('name')}
               placeholder="نام سیستم"
               disabled={isBusy}
             />
-            {nameError && <span className={styles.fieldError}>{nameError}</span>}
+            {nameError ? (
+              <span className={styles.fieldError}>{nameError}</span>
+            ) : null}
           </div>
 
           <div className={styles.formGroup}>
@@ -554,45 +784,57 @@ export const PropertiesPanel = () => {
             <input
               type="text"
               value={editCode}
-              onChange={(e) => setEditCode(e.target.value)}
+              onChange={(event) => setEditCode(event.target.value)}
               className={getInputClassName('code')}
               placeholder="کد اختیاری"
               disabled={isBusy}
             />
-            {codeError && <span className={styles.fieldError}>{codeError}</span>}
+            {codeError ? (
+              <span className={styles.fieldError}>{codeError}</span>
+            ) : null}
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.propertyLabel}>{FIELD_LABELS.description}</label>
+            <label className={styles.propertyLabel}>
+              {FIELD_LABELS.description}
+            </label>
             <textarea
               value={editDescription}
-              onChange={(e) => setEditDescription(e.target.value)}
+              onChange={(event) => setEditDescription(event.target.value)}
               className={getTextareaClassName('description')}
               placeholder="توضیحات اختیاری..."
               disabled={isBusy}
             />
-            {descriptionError && <span className={styles.fieldError}>{descriptionError}</span>}
+            {descriptionError ? (
+              <span className={styles.fieldError}>{descriptionError}</span>
+            ) : null}
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.propertyLabel}>{FIELD_LABELS.entity_type}</label>
+            <label className={styles.propertyLabel}>
+              {FIELD_LABELS.entity_type}
+            </label>
             <select
               value={editType}
-              onChange={(e) => setEditType(e.target.value as EntityType)}
+              onChange={(event) => setEditType(event.target.value as EntityType)}
               className={getInputClassName('entity_type')}
               disabled={isBusy}
             >
               {ENTITY_TYPE_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
               ))}
             </select>
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.propertyLabel}>{FIELD_LABELS.system_type_uuid}</label>
+            <label className={styles.propertyLabel}>
+              {FIELD_LABELS.system_type_uuid}
+            </label>
             <select
               value={systemTypeUuid ?? ''}
-              onChange={(e) => setSystemTypeUuid(e.target.value || null)}
+              onChange={(event) => setSystemTypeUuid(event.target.value || null)}
               className={getInputClassName('system_type_uuid')}
               disabled={isBusy}
             >
@@ -609,6 +851,7 @@ export const PropertiesPanel = () => {
 
           <div className={styles.coordinateSection}>
             <span className={styles.sectionTitle}>مختصات فضایی</span>
+
             <div className={styles.coordinatesGrid}>
               <div className={styles.coordInputGroup}>
                 <label>X</label>
@@ -616,29 +859,37 @@ export const PropertiesPanel = () => {
                   type="number"
                   step="0.5"
                   value={posX}
-                  onChange={(e) => setPosX(toFiniteNumber(e.target.value))}
+                  onChange={(event) =>
+                    setPosX(toFiniteNumber(event.target.value))
+                  }
                   className={getInputClassName('pos_x')}
                   disabled={isBusy}
                 />
               </div>
+
               <div className={styles.coordInputGroup}>
                 <label>Y</label>
                 <input
                   type="number"
                   step="0.5"
                   value={posY}
-                  onChange={(e) => setPosY(toFiniteNumber(e.target.value))}
+                  onChange={(event) =>
+                    setPosY(toFiniteNumber(event.target.value))
+                  }
                   className={getInputClassName('pos_y')}
                   disabled={isBusy}
                 />
               </div>
+
               <div className={styles.coordInputGroup}>
                 <label>Z</label>
                 <input
                   type="number"
                   step="0.5"
                   value={posZ}
-                  onChange={(e) => setPosZ(toFiniteNumber(e.target.value))}
+                  onChange={(event) =>
+                    setPosZ(toFiniteNumber(event.target.value))
+                  }
                   className={getInputClassName('pos_z')}
                   disabled={isBusy}
                 />
@@ -650,6 +901,7 @@ export const PropertiesPanel = () => {
 
           <div className={styles.formGroup}>
             <label className={styles.propertyLabel}>Metadata</label>
+
             {Object.keys(currentMetadataSchema).length === 0 ? (
               <pre className={styles.metadataBox}>
                 {JSON.stringify(selectedEntity.metadata ?? {}, null, 2)}
@@ -676,6 +928,7 @@ export const PropertiesPanel = () => {
             >
               {isUpdating ? 'در حال همگام‌سازی...' : 'اعمال تغییرات'}
             </button>
+
             <button
               type="button"
               onClick={handleDelete}

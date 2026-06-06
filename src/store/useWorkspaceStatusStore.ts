@@ -3,35 +3,52 @@
 import { create } from 'zustand';
 
 import type {
-  CanvasWorkspaceStatus,
+  EnhancedCanvasWorkspaceStatus,
   WorkspaceType,
 } from '@/lib/types/workspace.types';
 
 type WorkspaceStatusKey = string;
 
-type WorkspaceStatusByKey = Record<WorkspaceStatusKey, CanvasWorkspaceStatus>;
+type WorkspaceStatusByKey = Record<
+  WorkspaceStatusKey,
+  EnhancedCanvasWorkspaceStatus
+>;
+
+function normalizeWorkspaceType(type: WorkspaceType): WorkspaceType {
+  return type === 'CAD' ? 'CAD' : 'FEM';
+}
 
 function buildKey(
   systemEntityUuid: string,
   workspaceType: WorkspaceType
 ): WorkspaceStatusKey {
-  return `${workspaceType}:${systemEntityUuid}`;
+  return `${normalizeWorkspaceType(workspaceType)}:${systemEntityUuid}`;
 }
 
 type WorkspaceStatusState = {
   byKey: WorkspaceStatusByKey;
 
-  setOne: (status: CanvasWorkspaceStatus) => void;
-  setMany: (statuses: CanvasWorkspaceStatus[]) => void;
+  setOne: (status: EnhancedCanvasWorkspaceStatus) => void;
 
-  remove: (systemEntityUuid: string, workspaceType: WorkspaceType) => void;
+  setMany: (statuses: EnhancedCanvasWorkspaceStatus[]) => void;
+
+  remove: (
+    systemEntityUuid: string,
+    workspaceType: WorkspaceType
+  ) => void;
+
+  removeEntity: (systemEntityUuid: string) => void;
 
   clear: () => void;
 
   getByEntityUuid: (
     systemEntityUuid: string,
     workspaceType: WorkspaceType
-  ) => CanvasWorkspaceStatus | null;
+  ) => EnhancedCanvasWorkspaceStatus | null;
+
+  getEntityStatuses: (
+    systemEntityUuid: string
+  ) => Partial<Record<WorkspaceType, EnhancedCanvasWorkspaceStatus>>;
 };
 
 export const useWorkspaceStatusStore = create<WorkspaceStatusState>(
@@ -57,6 +74,10 @@ export const useWorkspaceStatusStore = create<WorkspaceStatusState>(
         };
 
         for (const status of statuses) {
+          if (!status.systemEntityUuid || !status.workspaceType) {
+            continue;
+          }
+
           next[buildKey(status.systemEntityUuid, status.workspaceType)] =
             status;
         }
@@ -85,6 +106,27 @@ export const useWorkspaceStatusStore = create<WorkspaceStatusState>(
         };
       }),
 
+    removeEntity: (systemEntityUuid) =>
+      set((state) => {
+        const femKey = buildKey(systemEntityUuid, 'FEM');
+        const cadKey = buildKey(systemEntityUuid, 'CAD');
+
+        if (!state.byKey[femKey] && !state.byKey[cadKey]) {
+          return state;
+        }
+
+        const next: WorkspaceStatusByKey = {
+          ...state.byKey,
+        };
+
+        delete next[femKey];
+        delete next[cadKey];
+
+        return {
+          byKey: next,
+        };
+      }),
+
     clear: () =>
       set({
         byKey: {},
@@ -92,6 +134,13 @@ export const useWorkspaceStatusStore = create<WorkspaceStatusState>(
 
     getByEntityUuid: (systemEntityUuid, workspaceType) => {
       return get().byKey[buildKey(systemEntityUuid, workspaceType)] ?? null;
+    },
+
+    getEntityStatuses: (systemEntityUuid) => {
+      return {
+        FEM: get().byKey[buildKey(systemEntityUuid, 'FEM')],
+        CAD: get().byKey[buildKey(systemEntityUuid, 'CAD')],
+      };
     },
   })
 );

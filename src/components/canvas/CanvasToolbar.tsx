@@ -6,14 +6,8 @@ import { useMemo, useState } from 'react';
 
 import Button from '@/components/common/Button/Button';
 import { useCanvasStore } from '@/store/useCanvasStore';
-import {
-  getWorkspaceStatusStoreKey,
-  useWorkspaceStatusStore,
-} from '@/store/useWorkspaceStatusStore';
 
 import AddEntityModal from './AddEntityModal';
-
-import { buildWorkspaceHref } from '@/lib/types/workspace.types';
 
 import styles from './canvasToolbar.module.css';
 
@@ -32,64 +26,19 @@ export default function CanvasToolbar({ projectUuid, scenarioId }: Props) {
   const clearSelection = useCanvasStore((s) => s.clearSelection);
   const selectedEntityUuid = useCanvasStore((s) => s.selectedEntity);
   const entities = useCanvasStore((s) => s.entities);
-  const openFemModal = useCanvasStore((s) => s.openFemModal);
+  const openWorkspaceModal = useCanvasStore((s) => s.openWorkspaceModal);
 
   const selectedEntity = useMemo(() => {
     if (!selectedEntityUuid) return null;
     return entities.find((entity) => entity.uuid === selectedEntityUuid) ?? null;
   }, [entities, selectedEntityUuid]);
 
-  const selectedFemWorkspaceStatus = useWorkspaceStatusStore((s) => {
-    if (!selectedEntityUuid) return null;
+  const workspaceButtonDisabled = !selectedEntity;
+  const workspaceButtonLabel = 'مدیریت Workspace';
 
-    const key = getWorkspaceStatusStoreKey(selectedEntityUuid, 'FEM');
-    return s.byKey[key] ?? null;
-  });
-
-  const selectedHasFemWorkspace = Boolean(
-    selectedFemWorkspaceStatus?.hasWorkspace
-  );
-
-  const selectedFemWorkspaceUuid =
-    selectedFemWorkspaceStatus?.workspaceUuid ?? null;
-
-  /**
-   * نکته مهم:
-   * فعلاً eligibility باعث disabled شدن دکمه نمی‌شود.
-   * چون مشکل فعلی دقیقاً از همین false/null شدن eligibility می‌آید.
-   */
-  const femButtonDisabled = !selectedEntity;
-
-  const femButtonLabel =
-    selectedEntity && selectedHasFemWorkspace ? 'ورود به FEM' : 'اتصال FEM';
-
-  const handleFemAction = () => {
+  const handleWorkspaceAction = () => {
     if (!selectedEntity) return;
-
-    if (selectedHasFemWorkspace) {
-      if (!selectedFemWorkspaceUuid) {
-        console.error(
-          'CanvasToolbar: hasWorkspace=true but workspaceUuid is missing',
-          {
-            selectedEntityUuid: selectedEntity.uuid,
-            selectedFemWorkspaceStatus,
-          }
-        );
-
-        return;
-      }
-
-      const href = buildWorkspaceHref(
-        projectUuid,
-        'FEM',
-        selectedFemWorkspaceUuid
-      );
-
-      window.open(href, '_blank', 'noopener,noreferrer');
-      return;
-    }
-
-    openFemModal(selectedEntity.uuid);
+    openWorkspaceModal(selectedEntity.uuid, null);
   };
 
   const handleToggleEdgeMode = () => {
@@ -118,14 +67,10 @@ export default function CanvasToolbar({ projectUuid, scenarioId }: Props) {
     }
 
     if (!selectedEntity) {
-      return 'حالت انتخابگر فعال است.';
+      return 'برای مدیریت Workspace ابتدا یک موجودیت را انتخاب کنید.';
     }
 
-    if (selectedHasFemWorkspace) {
-      return 'برای موجودیت انتخاب‌شده Workspace نوع FEM موجود است.';
-    }
-
-    return 'برای موجودیت انتخاب‌شده می‌توان Workspace نوع FEM ایجاد کرد.';
+    return 'برای انتخاب، ایجاد یا ورود به Workspaceهای FEM و CAD از این بخش استفاده کنید.';
   };
 
   return (
@@ -142,15 +87,12 @@ export default function CanvasToolbar({ projectUuid, scenarioId }: Props) {
 
         <Button
           size="sm"
-          variant={selectedHasFemWorkspace ? 'primary' : 'secondary'}
+          variant="secondary"
           className={styles.toolbarButton}
-          onClick={handleFemAction}
-          disabled={femButtonDisabled}
+          onClick={handleWorkspaceAction}
+          disabled={workspaceButtonDisabled}
         >
-          {femButtonLabel}
-          {selectedHasFemWorkspace && (
-            <span style={{ marginRight: '6px' }}>↗</span>
-          )}
+          {workspaceButtonLabel}
         </Button>
 
         <Button

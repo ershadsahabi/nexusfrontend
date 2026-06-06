@@ -11,6 +11,11 @@ import type {
   WorkspaceType,
 } from '@/lib/types/workspace.types';
 
+import {
+  normalizeWorkspaceType,
+  workspaceTypeToSlug,
+} from '@/lib/types/workspace.types';
+
 function buildProjectParams(projectUuid: string) {
   return {
     project: projectUuid,
@@ -33,9 +38,27 @@ function chunkArray<T>(input: T[], chunkSize: number): T[][] {
   return chunks;
 }
 
-/**
- * دریافت لیست Workspaceها.
- */
+function normalizeEntityWorkspace(
+  workspace: ApiEntityWorkspace
+): ApiEntityWorkspace {
+  return {
+    ...workspace,
+    workspace_type: normalizeWorkspaceType(workspace.workspace_type),
+  };
+}
+
+function normalizeEntityWorkspaceList(input: unknown): ApiEntityWorkspace[] {
+  const list = Array.isArray(input)
+    ? input
+    : input &&
+        typeof input === 'object' &&
+        Array.isArray((input as { results?: unknown }).results)
+      ? (input as { results: unknown[] }).results
+      : [];
+
+  return list.map((item) => normalizeEntityWorkspace(item as ApiEntityWorkspace));
+}
+
 export async function fetchEntityWorkspaces(
   projectUuid: string,
   options: {
@@ -56,19 +79,16 @@ export async function fetchEntityWorkspaces(
   }
 
   if (options.workspaceType) {
-    params.workspace_type = options.workspaceType;
+    params.workspace_type = workspaceTypeToSlug(options.workspaceType);
   }
 
   const { data } = await apiClient.get('/entities/workspaces/', {
     params,
   });
 
-  return data.results ?? data ?? [];
+  return normalizeEntityWorkspaceList(data);
 }
 
-/**
- * دریافت یک Workspace.
- */
 export async function fetchEntityWorkspace(
   projectUuid: string,
   workspaceUuid: string
@@ -88,18 +108,9 @@ export async function fetchEntityWorkspace(
     }
   );
 
-  return data;
+  return normalizeEntityWorkspace(data);
 }
 
-/**
- * ایجاد Workspace عمومی.
- *
- * برای FEM:
- * workspace_type: 'FEM'
- *
- * برای CAD:
- * workspace_type: 'CAD'
- */
 export async function createEntityWorkspace(
   projectUuid: string,
   payload: CreateEntityWorkspacePayload
@@ -116,21 +127,27 @@ export async function createEntityWorkspace(
     throw new Error('createEntityWorkspace: workspace_type is required');
   }
 
+  const name = String(payload.name ?? '').trim();
+
+  if (!name) {
+    throw new Error('createEntityWorkspace: name is required');
+  }
+
   const body = {
-    ...payload,
     project: projectUuid,
+    system_entity: payload.system_entity_uuid,
+    workspace_type: workspaceTypeToSlug(payload.workspace_type),
+    name,
+    metadata: payload.metadata ?? {},
   };
 
   const { data } = await apiClient.post('/entities/workspaces/', body, {
     params: buildProjectParams(projectUuid),
   });
 
-  return data;
+  return normalizeEntityWorkspace(data);
 }
 
-/**
- * وضعیت یک Workspace برای یک SystemEntity.
- */
 export async function fetchWorkspaceStatus(
   projectUuid: string,
   systemEntityUuid: string,
@@ -144,20 +161,22 @@ export async function fetchWorkspaceStatus(
     throw new Error('fetchWorkspaceStatus: systemEntityUuid is required');
   }
 
-  const { data } = await apiClient.get('/entities/fem-models/status/', {
+  const normalizedWorkspaceType = normalizeWorkspaceType(workspaceType);
+
+  const { data } = await apiClient.get('/entities/workspaces/status/', {
     params: {
       ...buildProjectParams(projectUuid),
       system_entity: systemEntityUuid,
-      workspace_type: workspaceType,
+      workspace_type: workspaceTypeToSlug(normalizedWorkspaceType),
     },
   });
 
-  return data;
+  return {
+    ...data,
+    workspace_type: normalizedWorkspaceType,
+  };
 }
 
-/**
- * وضعیت Bulk برای Canvas.
- */
 export async function fetchWorkspaceBulkStatus(
   projectUuid: string,
   systemEntityUuids: string[],
@@ -174,16 +193,17 @@ export async function fetchWorkspaceBulkStatus(
     return [];
   }
 
+  const normalizedWorkspaceType = normalizeWorkspaceType(workspaceType);
   const chunks = chunkArray(uniqueUuids, 500);
 
   const responses = await Promise.all(
     chunks.map(async (chunk) => {
       const { data } = await apiClient.post<ApiWorkspaceBulkStatusResponse>(
-        '/entities/fem-models/bulk-status/',
+        '/entities/workspaces/bulk-status/',
         {
           project_uuid: projectUuid,
           system_entity_uuids: chunk,
-          workspace_type: workspaceType,
+          workspace_type: workspaceTypeToSlug(normalizedWorkspaceType),
           strict: options.strict ?? false,
         },
         {
@@ -191,7 +211,10 @@ export async function fetchWorkspaceBulkStatus(
         }
       );
 
-      return data;
+      return data.map((item) => ({
+        ...item,
+        workspace_type: normalizedWorkspaceType,
+      }));
     })
   );
 

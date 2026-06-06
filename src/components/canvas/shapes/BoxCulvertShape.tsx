@@ -5,26 +5,31 @@ import * as THREE from 'three';
 import type { EntityShapeProps } from './ShapeRegistry';
 import { EntityMaterial } from './SharedMaterial';
 
-type BoxCulvertMetadata = {
-  width?: number;
-  height?: number;
-  length?: number;
-  thickness?: number;
-};
+function getNumber(value: unknown, fallback: number): number {
+  if (typeof value === 'number' && Number.isFinite(value)) return value;
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return fallback;
+}
 
 export default function BoxCulvertShape({
   entity,
   isSelected,
   isEdgeSource,
+  visualProps,
+  materialProps,
 }: EntityShapeProps) {
-  const {
-    width = 2,
-    height = 2,
-    length = 4,
-    thickness = 0.2,
-  } = ((entity.metadata ?? {}) as BoxCulvertMetadata);
+  const width = getNumber(visualProps?.width, 2);
+  const height = getNumber(visualProps?.height, 2);
+  const length = getNumber(visualProps?.length, 4);
+  const thickness = getNumber(visualProps?.thickness, 0.2);
 
-  const safeThickness = Math.min(thickness, width / 2 - 0.01, height / 2 - 0.01);
+  const safeThickness = Math.max(
+    0.01,
+    Math.min(thickness, width / 2 - 0.01, height / 2 - 0.01)
+  );
 
   const shape = useMemo(() => {
     const outer = new THREE.Shape();
@@ -59,6 +64,16 @@ export default function BoxCulvertShape({
     [length]
   );
 
+  const materialColor =
+    typeof materialProps?.color === 'string' && materialProps.color.trim()
+      ? materialProps.color
+      : entity.systemType?.color_key;
+
+  const materialVariant =
+    typeof materialProps?.variant === 'string' && materialProps.variant.trim()
+      ? materialProps.variant
+      : entity.systemType?.render_variant ?? entity.render_variant;
+
   return (
     <mesh
       castShadow
@@ -68,10 +83,10 @@ export default function BoxCulvertShape({
     >
       <extrudeGeometry args={[shape, extrudeSettings]} />
       <EntityMaterial
-        color={entity.systemType?.color_key}
+        color={materialColor}
         isSelected={isSelected}
         isEdgeSource={isEdgeSource}
-        variant={entity.render_variant}
+        variant={materialVariant}
       />
     </mesh>
   );

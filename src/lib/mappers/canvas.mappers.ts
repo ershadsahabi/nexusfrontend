@@ -35,32 +35,23 @@ export function mapApiEntityToCanvas(entity: ApiSystemEntity): CanvasEntity {
   return {
     id: entity.id,
     uuid: entity.uuid,
-
     parentId: entity.parent ?? null,
     childIds: (entity.children ?? []).map((child) => child.uuid),
-
     name: entity.name ?? '',
     code: entity.code ?? '',
     description: entity.description ?? '',
-
     entityType: entity.entity_type ?? 'generic',
     systemType: entity.system_type ?? null,
-
     position: [
       Number(entity.pos_x ?? 0),
       Number(entity.pos_y ?? 0),
       Number(entity.pos_z ?? 0),
     ],
-
     sortOrder: Number(entity.sort_order ?? 0),
-
     isActive: Boolean(entity.is_active),
-
     metadata: normalizeMetadata(entity.metadata),
-
     isRoot: Boolean(entity.is_root),
     isLeaf: Boolean(entity.is_leaf),
-
     createdAt: entity.created_at,
     updatedAt: entity.updated_at,
   };
@@ -80,17 +71,12 @@ export function mapApiConnectionToCanvas(
   return {
     id: edge.id,
     uuid: buildConnectionUuid(edge),
-
     sourceId: edge.source_entity,
     targetId: edge.target_entity,
-
     sourceUuid,
     targetUuid,
-
     relationType: normalizeRelationType(edge),
-
     metadata: normalizeMetadata(edge.metadata),
-
     createdAt: edge.created_at,
     updatedAt: edge.updated_at,
   };
