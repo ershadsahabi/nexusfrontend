@@ -1,0 +1,343 @@
+/* src/components/cad/CadWorkspaceShell.module.css */
+
+.workspace {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 76px 54px 1fr 34px;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 34%),
+    linear-gradient(135deg, #020617 0%, #07111f 48%, #020617 100%);
+  color: #e5e7eb;
+  overflow: hidden;
+}
+
+.loading,
+.error {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 15px;
+}
+
+.error {
+  color: #fecaca;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(18px);
+}
+
+.headerGroup,
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brandBadge {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #0891b2, #22d3ee);
+  color: #00111a;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  box-shadow: 0 18px 50px rgba(34, 211, 238, 0.18);
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.subtitle {
+  margin: 5px 0 0;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(34, 197, 94, 0.24);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: #bbf7d0;
+  background: rgba(22, 163, 74, 0.08);
+  font-size: 12px;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #22c55e;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.8);
+}
+
+.primaryButton,
+.iconButton,
+.toolButton,
+.toolButtonActive {
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.primaryButton {
+  border-radius: 12px;
+  padding: 10px 14px;
+  background: #0ea5e9;
+  color: #00111a;
+  font-weight: 800;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 18px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(15, 23, 42, 0.64);
+}
+
+.toolButton,
+.toolButtonActive {
+  height: 34px;
+  border-radius: 11px;
+  padding: 0 12px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  color: #cbd5e1;
+  font-size: 12px;
+}
+
+.toolButtonActive {
+  background: rgba(14, 165, 233, 0.18);
+  border-color: rgba(56, 189, 248, 0.48);
+  color: #7dd3fc;
+}
+
+.mainGrid {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr) 320px;
+  gap: 12px;
+  padding: 12px;
+}
+
+.leftPane,
+.rightPane,
+.canvasPane {
+  min-height: 0;
+}
+
+.panel {
+  height: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.78);
+  overflow: hidden;
+}
+
+.panelHeader {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  font-weight: 800;
+}
+
+.iconButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.14);
+  color: #7dd3fc;
+}
+
+.layerList,
+.propertyList {
+  padding: 12px;
+}
+
+.layerRow,
+.propertyRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 13px;
+  padding: 11px 10px;
+  color: #cbd5e1;
+  background: rgba(2, 6, 23, 0.24);
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.layerColor {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.layerOn,
+.layerOff {
+  margin-right: auto;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.layerOn {
+  color: #86efac;
+}
+
+.layerOff {
+  color: #94a3b8;
+}
+
+.propertyRow {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.propertyRow span {
+  color: #94a3b8;
+}
+
+.propertyRow strong {
+  max-width: 170px;
+  text-align: left;
+  direction: ltr;
+  color: #e5e7eb;
+  word-break: break-all;
+}
+
+.monoValue {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+}
+
+.canvas {
+  position: relative;
+  height: 100%;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 22px;
+  background: #020617;
+  overflow: hidden;
+  box-shadow: inset 0 0 90px rgba(56, 189, 248, 0.06);
+}
+
+.gridOverlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(56, 189, 248, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.13) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+}
+
+.drawing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.axisLine {
+  stroke: #38bdf8;
+  stroke-width: 1.5;
+  stroke-dasharray: 7 7;
+  opacity: 0.85;
+}
+
+.shapeMain {
+  fill: rgba(14, 165, 233, 0.08);
+  stroke: #67e8f9;
+  stroke-width: 3;
+}
+
+.shapeCut {
+  fill: rgba(2, 6, 23, 0.95);
+  stroke: #22c55e;
+  stroke-width: 3;
+}
+
+.dimensionLine {
+  stroke: #f59e0b;
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+}
+
+.dimensionText {
+  fill: #fbbf24;
+  font-size: 18px;
+  text-anchor: middle;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.canvasBadge {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  display: grid;
+  gap: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: rgba(2, 6, 23, 0.78);
+  backdrop-filter: blur(14px);
+}
+
+.canvasBadge span {
+  color: #7dd3fc;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.canvasBadge strong {
+  font-size: 13px;
+}
+
+.bottomBar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 16px;
+  border-top: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(2, 6, 23, 0.8);
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.bottomAccent {
+  margin-right: auto;
+  color: #7dd3fc;
+}
+
+@media (max-width: 1100px) {
+  .mainGrid {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .rightPane {
+    display: none;
+  }
+}

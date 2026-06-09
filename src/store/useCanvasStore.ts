@@ -68,9 +68,7 @@ interface CanvasStoreState {
 
   removeEntity: (uuid: string) => void;
 
-  addConnection: (
-    connection: CanvasConnection
-  ) => void;
+  addConnection: (connection: CanvasConnection) => void;
 
   removeConnection: (uuid: string) => void;
 
@@ -88,19 +86,15 @@ interface CanvasStoreState {
 
   setMouseWorld: (position: Vec3) => void;
 
-  setActiveRootSystem: (
-    uuid: string | null
-  ) => void;
+  setActiveRootSystem: (uuid: string | null) => void;
 
   setViewDepth: (depth: number) => void;
 
-  setFocusEntity: (
-    uuid: string | null
-  ) => void;
+  setFocusEntity: (uuid: string | null) => void;
 
   openWorkspaceModal: (
     entityUuid: string,
-    workspaceType: WorkspaceType
+    workspaceType: WorkspaceType | null
   ) => void;
 
   closeWorkspaceModal: () => void;
@@ -118,10 +112,9 @@ const initialState = {
   selectedConnection: null as string | null,
 
   mode: 'select' as CanvasMode,
-
   edgeCreationSourceUuid: null as string | null,
 
-  mouseWorld: DEFAULT_MOUSE_WORLD as Vec3,
+  mouseWorld: DEFAULT_MOUSE_WORLD,
 
   activeRootSystemUuid: null as string | null,
   viewDepth: 2,
@@ -131,291 +124,256 @@ const initialState = {
   workspaceModalType: null as WorkspaceType | null,
 };
 
-export const useCanvasStore =
-  create<CanvasStoreState>((set) => ({
-    ...initialState,
+export const useCanvasStore = create<CanvasStoreState>((set) => ({
+  ...initialState,
 
-    setGraph: (entities, connections) =>
-      set((state) => {
-        const entityUuidSet = new Set(
-          entities.map((entity) => entity.uuid)
+  setGraph: (entities, connections) =>
+    set((state) => {
+      const entityUuidSet = new Set(entities.map((entity) => entity.uuid));
+      const connectionUuidSet = new Set(
+        connections.map((connection) => connection.uuid)
+      );
+
+      const isSelectedEntityValid =
+        state.selectedEntity !== null && entityUuidSet.has(state.selectedEntity);
+
+      const isSelectedConnectionValid =
+        state.selectedConnection !== null &&
+        connectionUuidSet.has(state.selectedConnection);
+
+      const isEdgeCreationSourceValid =
+        state.edgeCreationSourceUuid !== null &&
+        entityUuidSet.has(state.edgeCreationSourceUuid);
+
+      const isActiveRootSystemValid =
+        state.activeRootSystemUuid !== null &&
+        entityUuidSet.has(state.activeRootSystemUuid);
+
+      const isFocusEntityValid =
+        state.focusEntityUuid !== null &&
+        entityUuidSet.has(state.focusEntityUuid);
+
+      const isWorkspaceModalEntityValid =
+        state.workspaceModalEntityUuid !== null &&
+        entityUuidSet.has(state.workspaceModalEntityUuid);
+
+      return {
+        entities,
+        connections,
+
+        selectedEntity: isSelectedEntityValid ? state.selectedEntity : null,
+        selectedConnection: isSelectedConnectionValid
+          ? state.selectedConnection
+          : null,
+
+        edgeCreationSourceUuid: isEdgeCreationSourceValid
+          ? state.edgeCreationSourceUuid
+          : null,
+
+        activeRootSystemUuid: isActiveRootSystemValid
+          ? state.activeRootSystemUuid
+          : null,
+
+        focusEntityUuid: isFocusEntityValid ? state.focusEntityUuid : null,
+
+        workspaceModalEntityUuid: isWorkspaceModalEntityValid
+          ? state.workspaceModalEntityUuid
+          : null,
+
+        workspaceModalType: isWorkspaceModalEntityValid
+          ? state.workspaceModalType
+          : null,
+      };
+    }),
+
+  addEntity: (entity) =>
+    set((state) => ({
+      entities: [...state.entities, entity],
+    })),
+
+  updateEntityProps: (uuid, updates) =>
+    set((state) => ({
+      entities: state.entities.map((entity) =>
+        entity.uuid === uuid
+          ? {
+              ...entity,
+              ...(updates.name !== undefined ? { name: updates.name } : {}),
+              ...(updates.code !== undefined ? { code: updates.code } : {}),
+              ...(updates.description !== undefined
+                ? { description: updates.description }
+                : {}),
+              ...(updates.entityType !== undefined
+                ? { entityType: updates.entityType }
+                : {}),
+              ...(updates.systemType !== undefined
+                ? { systemType: updates.systemType }
+                : {}),
+              ...(updates.parentId !== undefined
+                ? { parentId: updates.parentId }
+                : {}),
+              ...(updates.childIds !== undefined
+                ? { childIds: updates.childIds }
+                : {}),
+              ...(updates.position !== undefined
+                ? { position: updates.position }
+                : {}),
+              ...(updates.metadata !== undefined
+                ? { metadata: updates.metadata }
+                : {}),
+              ...(updates.sortOrder !== undefined
+                ? { sortOrder: updates.sortOrder }
+                : {}),
+              ...(updates.isActive !== undefined
+                ? { isActive: updates.isActive }
+                : {}),
+              ...(updates.isRoot !== undefined ? { isRoot: updates.isRoot } : {}),
+              ...(updates.isLeaf !== undefined ? { isLeaf: updates.isLeaf } : {}),
+              ...(updates.updatedAt !== undefined
+                ? { updatedAt: updates.updatedAt }
+                : {}),
+            }
+          : entity
+      ),
+    })),
+
+  removeEntity: (uuid) =>
+    set((state) => {
+      const remainingEntities = state.entities.filter(
+        (entity) => entity.uuid !== uuid
+      );
+
+      const remainingConnections = state.connections.filter(
+        (connection) =>
+          connection.sourceUuid !== uuid && connection.targetUuid !== uuid
+      );
+
+      const selectedConnectionStillExists =
+        state.selectedConnection !== null &&
+        remainingConnections.some(
+          (connection) => connection.uuid === state.selectedConnection
         );
 
-        const connectionUuidSet = new Set(
-          connections.map((connection) => connection.uuid)
-        );
+      const isRemovingWorkspaceModalEntity =
+        state.workspaceModalEntityUuid === uuid;
 
-        return {
-          entities,
-          connections,
+      return {
+        entities: remainingEntities,
+        connections: remainingConnections,
 
-          selectedEntity:
-            state.selectedEntity &&
-            entityUuidSet.has(state.selectedEntity)
-              ? state.selectedEntity
-              : null,
+        selectedEntity:
+          state.selectedEntity === uuid ? null : state.selectedEntity,
 
-          selectedConnection:
-            state.selectedConnection &&
-            connectionUuidSet.has(state.selectedConnection)
-              ? state.selectedConnection
-              : null,
+        selectedConnection: selectedConnectionStillExists
+          ? state.selectedConnection
+          : null,
 
-          edgeCreationSourceUuid:
-            state.edgeCreationSourceUuid &&
-            entityUuidSet.has(state.edgeCreationSourceUuid)
-              ? state.edgeCreationSourceUuid
-              : null,
-
-          activeRootSystemUuid:
-            state.activeRootSystemUuid &&
-            entityUuidSet.has(state.activeRootSystemUuid)
-              ? state.activeRootSystemUuid
-              : null,
-
-          focusEntityUuid:
-            state.focusEntityUuid &&
-            entityUuidSet.has(state.focusEntityUuid)
-              ? state.focusEntityUuid
-              : null,
-
-          workspaceModalEntityUuid:
-            state.workspaceModalEntityUuid &&
-            entityUuidSet.has(state.workspaceModalEntityUuid)
-              ? state.workspaceModalEntityUuid
-              : null,
-
-          workspaceModalType:
-            state.workspaceModalEntityUuid &&
-            entityUuidSet.has(state.workspaceModalEntityUuid)
-              ? state.workspaceModalType
-              : null,
-        };
-      }),
-
-    addEntity: (entity) =>
-      set((state) => ({
-        entities: [...state.entities, entity],
-      })),
-
-    updateEntityProps: (uuid, updates) =>
-      set((state) => ({
-        entities: state.entities.map((entity) =>
-          entity.uuid === uuid
-            ? {
-                ...entity,
-
-                ...(updates.name !== undefined
-                  ? { name: updates.name }
-                  : {}),
-
-                ...(updates.code !== undefined
-                  ? { code: updates.code }
-                  : {}),
-
-                ...(updates.description !== undefined
-                  ? { description: updates.description }
-                  : {}),
-
-                ...(updates.entityType !== undefined
-                  ? { entityType: updates.entityType }
-                  : {}),
-
-                ...(updates.systemType !== undefined
-                  ? { systemType: updates.systemType }
-                  : {}),
-
-                ...(updates.parentId !== undefined
-                  ? { parentId: updates.parentId }
-                  : {}),
-
-                ...(updates.childIds !== undefined
-                  ? { childIds: updates.childIds }
-                  : {}),
-
-                ...(updates.position !== undefined
-                  ? { position: updates.position }
-                  : {}),
-
-                ...(updates.metadata !== undefined
-                  ? { metadata: updates.metadata }
-                  : {}),
-
-                ...(updates.sortOrder !== undefined
-                  ? { sortOrder: updates.sortOrder }
-                  : {}),
-
-                ...(updates.isActive !== undefined
-                  ? { isActive: updates.isActive }
-                  : {}),
-
-                ...(updates.isRoot !== undefined
-                  ? { isRoot: updates.isRoot }
-                  : {}),
-
-                ...(updates.isLeaf !== undefined
-                  ? { isLeaf: updates.isLeaf }
-                  : {}),
-
-                ...(updates.updatedAt !== undefined
-                  ? { updatedAt: updates.updatedAt }
-                  : {}),
-              }
-            : entity
-        ),
-      })),
-
-    removeEntity: (uuid) =>
-      set((state) => {
-        const remainingEntities =
-          state.entities.filter(
-            (entity) => entity.uuid !== uuid
-          );
-
-        const remainingConnections =
-          state.connections.filter(
-            (connection) =>
-              connection.sourceUuid !== uuid &&
-              connection.targetUuid !== uuid
-          );
-
-        return {
-          entities: remainingEntities,
-
-          connections: remainingConnections,
-
-          selectedEntity:
-            state.selectedEntity === uuid
-              ? null
-              : state.selectedEntity,
-
-          selectedConnection:
-            remainingConnections.some(
-              (connection) =>
-                connection.uuid === state.selectedConnection
-            )
-              ? state.selectedConnection
-              : null,
-
-          edgeCreationSourceUuid:
-            state.edgeCreationSourceUuid === uuid
-              ? null
-              : state.edgeCreationSourceUuid,
-
-          focusEntityUuid:
-            state.focusEntityUuid === uuid
-              ? null
-              : state.focusEntityUuid,
-
-          activeRootSystemUuid:
-            state.activeRootSystemUuid === uuid
-              ? null
-              : state.activeRootSystemUuid,
-
-          workspaceModalEntityUuid:
-            state.workspaceModalEntityUuid === uuid
-              ? null
-              : state.workspaceModalEntityUuid,
-
-          workspaceModalType:
-            state.workspaceModalEntityUuid === uuid
-              ? null
-              : state.workspaceModalType,
-        };
-      }),
-
-    addConnection: (connection) =>
-      set((state) => ({
-        connections: [
-          ...state.connections,
-          connection,
-        ],
-      })),
-
-    removeConnection: (uuid) =>
-      set((state) => ({
-        connections:
-          state.connections.filter(
-            (connection) =>
-              connection.uuid !== uuid
-          ),
-
-        selectedConnection:
-          state.selectedConnection === uuid
+        edgeCreationSourceUuid:
+          state.edgeCreationSourceUuid === uuid
             ? null
-            : state.selectedConnection,
-      })),
+            : state.edgeCreationSourceUuid,
 
-    selectEntity: (uuid) =>
-      set(() => ({
-        selectedEntity: uuid,
-        selectedConnection: null,
-      })),
+        focusEntityUuid:
+          state.focusEntityUuid === uuid ? null : state.focusEntityUuid,
 
-    selectConnection: (uuid) =>
-      set(() => ({
-        selectedConnection: uuid,
-        selectedEntity: null,
-      })),
+        activeRootSystemUuid:
+          state.activeRootSystemUuid === uuid
+            ? null
+            : state.activeRootSystemUuid,
 
-    clearSelection: () =>
-      set(() => ({
-        selectedEntity: null,
-        selectedConnection: null,
-      })),
+        workspaceModalEntityUuid: isRemovingWorkspaceModalEntity
+          ? null
+          : state.workspaceModalEntityUuid,
 
-    setMode: (mode) =>
-      set(() => ({
-        mode,
-      })),
+        workspaceModalType: isRemovingWorkspaceModalEntity
+          ? null
+          : state.workspaceModalType,
+      };
+    }),
 
-    startEdgeCreation: (uuid) =>
-      set(() => ({
-        edgeCreationSourceUuid: uuid,
-        mode: 'create-edge',
-        selectedEntity: uuid,
-        selectedConnection: null,
-      })),
+  addConnection: (connection) =>
+    set((state) => ({
+      connections: [...state.connections, connection],
+    })),
 
-    cancelEdgeCreation: () =>
-      set(() => ({
-        edgeCreationSourceUuid: null,
-      })),
+  removeConnection: (uuid) =>
+    set((state) => ({
+      connections: state.connections.filter(
+        (connection) => connection.uuid !== uuid
+      ),
+      selectedConnection:
+        state.selectedConnection === uuid ? null : state.selectedConnection,
+    })),
 
-    setMouseWorld: (position) =>
-      set(() => ({
-        mouseWorld: position,
-      })),
+  selectEntity: (uuid) =>
+    set(() => ({
+      selectedEntity: uuid,
+      selectedConnection: null,
+    })),
 
-    setActiveRootSystem: (uuid) =>
-      set(() => ({
-        activeRootSystemUuid: uuid,
-      })),
+  selectConnection: (uuid) =>
+    set(() => ({
+      selectedConnection: uuid,
+      selectedEntity: null,
+    })),
 
-    setViewDepth: (depth) =>
-      set(() => ({
-        viewDepth: Math.max(0, depth),
-      })),
+  clearSelection: () =>
+    set(() => ({
+      selectedEntity: null,
+      selectedConnection: null,
+    })),
 
-    setFocusEntity: (uuid) =>
-      set(() => ({
-        focusEntityUuid: uuid,
-      })),
+  setMode: (mode) =>
+    set(() => ({
+      mode,
+    })),
 
-    openWorkspaceModal: (entityUuid, workspaceType) =>
-      set(() => ({
-        workspaceModalEntityUuid: entityUuid,
-        workspaceModalType: workspaceType,
-      })),
+  startEdgeCreation: (uuid) =>
+    set(() => ({
+      edgeCreationSourceUuid: uuid,
+      mode: 'create-edge',
+      selectedEntity: uuid,
+      selectedConnection: null,
+    })),
 
-    closeWorkspaceModal: () =>
-      set(() => ({
-        workspaceModalEntityUuid: null,
-        workspaceModalType: null,
-      })),
+  cancelEdgeCreation: () =>
+    set(() => ({
+      edgeCreationSourceUuid: null,
+    })),
 
-    reset: () =>
-      set(() => ({
-        ...initialState,
-      })),
-  }));
+  setMouseWorld: (position) =>
+    set(() => ({
+      mouseWorld: position,
+    })),
+
+  setActiveRootSystem: (uuid) =>
+    set(() => ({
+      activeRootSystemUuid: uuid,
+    })),
+
+  setViewDepth: (depth) =>
+    set(() => ({
+      viewDepth: Math.max(0, depth),
+    })),
+
+  setFocusEntity: (uuid) =>
+    set(() => ({
+      focusEntityUuid: uuid,
+    })),
+
+  openWorkspaceModal: (entityUuid, workspaceType) =>
+    set(() => ({
+      workspaceModalEntityUuid: entityUuid,
+      workspaceModalType: workspaceType,
+    })),
+
+  closeWorkspaceModal: () =>
+    set(() => ({
+      workspaceModalEntityUuid: null,
+      workspaceModalType: null,
+    })),
+
+  reset: () =>
+    set(() => ({
+      ...initialState,
+    })),
+}));

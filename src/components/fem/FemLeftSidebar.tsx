@@ -1,80 +1,46 @@
 // src/components/fem/FemLeftSidebar.tsx
 
-
 'use client';
 
+import { useFemSectionEditor } from './context/FemSectionEditorContext';
 import styles from './FemLeftSidebar.module.css';
 
-const treeItems = [
-  {
-    title: 'Model Root',
-    meta: '1 مجموعه',
-  },
-  {
-    title: 'Nodes',
-    meta: '0 مورد',
-  },
-  {
-    title: 'Elements',
-    meta: '0 مورد',
-  },
-  {
-    title: 'Materials',
-    meta: '0 مورد',
-  },
-  {
-    title: 'Sections',
-    meta: '0 مورد',
-  },
-  {
-    title: 'Boundary Conditions',
-    meta: '0 مورد',
-  },
-  {
-    title: 'Loads',
-    meta: '0 مورد',
-  },
-  {
-    title: 'Combinations',
-    meta: '0 مورد',
-  },
-];
-
 export default function FemLeftSidebar() {
+  const { section, draft, issues } = useFemSectionEditor();
+
   return (
     <div className={styles.sidebar}>
-      <div className={styles.header}>
-        <div>
-          <div className={styles.title}>Model Explorer</div>
-          <div className={styles.subtitle}>ساختار سلسله‌مراتبی مدل FEM</div>
+      <section className={styles.card}>
+        <div className={styles.cardTitle}>اطلاعات مقطع</div>
+
+        <div className={styles.list}>
+          <Row label="نام" value={draft?.label || section?.label || '—'} />
+          <Row label="نوع" value={draft?.kind || section?.kind || '—'} />
+          <Row label="واحد" value={draft?.units || section?.units || '—'} />
+          <Row label="منبع" value={section?.source || '—'} />
         </div>
-        <button type="button" className={styles.iconButton}>
-          +
-        </button>
-      </div>
+      </section>
 
-      <div className={styles.searchBox}>
-        <input
-          className={styles.searchInput}
-          placeholder="جستجو در اجزای مدل..."
-        />
-      </div>
+      <section className={styles.card}>
+        <div className={styles.cardTitle}>وضعیت</div>
 
-      <div className={styles.section}>
-        <div className={styles.sectionTitle}>درخت مدل</div>
-
-        <div className={styles.tree}>
-          {treeItems.map((item, index) => (
-            <button key={item.title} type="button" className={styles.treeItem}>
-              <div className={styles.treeIcon}>{index === 0 ? '◈' : '•'}</div>
-              <div className={styles.treeContent}>
-                <div className={styles.treeTitle}>{item.title}</div>
-                <div className={styles.treeMeta}>{item.meta}</div>
-              </div>
-            </button>
-          ))}
+        <div className={styles.list}>
+          <Row label="Issue Count" value={String(issues.length)} />
+          <Row
+            label="Selection"
+            value={section ? 'Section Ready' : 'Not Ready'}
+          />
         </div>
-      </div>
+      </section>
+    </div>
+  );
+}
+
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className={styles.row}>
+      <span className={styles.label}>{label}</span>
+      <span className={styles.value}>{value}</span>
     </div>
   );
 }

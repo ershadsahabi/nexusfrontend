@@ -89,34 +89,27 @@ export function mapApiWorkspaceStatusesToCanvas(
 export function mapApiEntityWorkspaceToCanvas(
   input: ApiEntityWorkspace
 ): CanvasEntityWorkspace {
-  const systemEntity = input.system_entity;
-  const workspaceType = normalizeWorkspaceType(input.workspace_type);
-
   return {
     id: input.id,
     uuid: input.uuid,
 
     projectUuid: input.project,
 
-    workspaceType,
+    workspaceType: normalizeWorkspaceType(input.workspace_type),
 
-    systemEntityUuid: systemEntity.uuid,
-    systemEntityCode: systemEntity.code ?? null,
-    systemEntityName: systemEntity.name ?? null,
+    systemEntityUuid: input.system_entity,
+    systemEntityCode: input.system_entity_code ?? null,
+    systemEntityName: input.system_entity_name ?? null,
 
-    systemTypeUuid: systemEntity.system_type_uuid ?? null,
-    systemTypeName: systemEntity.system_type_name ?? null,
+    systemTypeUuid: null,
+    systemTypeName: null,
 
-    eligible:
-      workspaceType === 'FEM'
-        ? systemEntity.fem_eligible
-        : workspaceType === 'CAD'
-          ? systemEntity.cad_eligible
-          : undefined,
+    eligible: undefined,
 
     metadata: input.metadata ?? {},
   };
 }
+
 
 export function createEmptyWorkspaceStatus(
   systemEntityUuid: string,

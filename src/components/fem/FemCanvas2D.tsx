@@ -3,7 +3,12 @@
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from 'react';
+import type { MouseEvent as ReactMouseEvent, PointerEvent as ReactPointerEvent } from 'react';
 import { Minus, Plus, Crosshair, RotateCcw } from 'lucide-react';
+
+import FemSectionPreview from '@/features/fem/section/FemSectionPreview';
+import { useFemSectionEditor } from './context/FemSectionEditorContext';
+
 import styles from './FemCanvas2D.module.css';
 
 type Point = { x: number; y: number };
@@ -13,160 +18,294 @@ const MAX_ZOOM = 50;
 const ZOOM_SENSITIVITY = 0.0015;
 
 export default function FemCanvas2D() {
+  const {
+    draft,
+    issues,
+    isLoading,
+    isError,
+    canvasState,
+    setCanvasPosition,
+    setSelected,
+  } = useFemSectionEditor();
+
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // States
   const [offset, setOffset] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [mousePos, setMousePos] = useState<Point>({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
+  const [isDraggingSection, setIsDraggingSection] = useState(false);
 
-  // Refs for smooth panning performance
   const panRef = useRef({ active: false, lastX: 0, lastY: 0 });
+  const dragRef = useRef({
+    active: false,
+    pointerId: -1,
+    startClientX: 0,
+    startClientY: 0,
+    startX: 0,
+    startY: 0,
+  });
 
-  // --- Logic: coordinate conversion ---
-  const updateMouseWorldPosition = useCallback((clientX: number, clientY: number) => {
-    const container = containerRef.current;
-    if (!container) return;
-    const rect = container.getBoundingClientRect();
-    
-    // تبدیل مختصات پیکسل به مختصات جهانی (World Space)
-    const worldX = (clientX - rect.left - rect.width / 2 - offset.x) / zoom;
-    const worldY = -(clientY - rect.top - rect.height / 2 - offset.y) / zoom;
-    setMousePos({ x: worldX, y: worldY });
-  }, [offset, zoom]);
+  const updateMouseWorldPosition = useCallback(
+    (clientX: number, clientY: number) => {
+      const container = containerRef.current;
+      if (!container) return;
 
-  // --- Actions ---
-  const zoomIn = () => setZoom(prev => Math.min(MAX_ZOOM, prev * 1.25));
-  const zoomOut = () => setZoom(prev => Math.max(MIN_ZOOM, prev * 0.8));
+      const rect = container.getBoundingClientRect();
 
-  // تفکیک دکمه‌ها طبق درخواست شما:
-  const focusOrigin = () => setOffset({ x: 0, y: 0 }); // فقط جابجایی به مرکز
-  const resetZoom = () => setZoom(1);              // فقط بازگشت به مقیاس ۱۰۰٪
+      const worldX = (clientX - rect.left - rect.width / 2 - offset.x) / zoom;
+      const worldY = -(clientY - rect.top - rect.height / 2 - offset.y) / zoom;
 
-  // --- Handlers ---
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.button === 1 || e.button === 2) { // Middle or Right click
-      e.preventDefault();
-      panRef.current = { active: true, lastX: e.clientX, lastY: e.clientY };
+      setMousePos({ x: worldX, y: worldY });
+    },
+    [offset, zoom]
+  );
+
+  const zoomIn = () => {
+    setZoom((prev) => Math.min(MAX_ZOOM, prev * 1.25));
+  };
+
+  const zoomOut = () => {
+    setZoom((prev) => Math.max(MIN_ZOOM, prev * 0.8));
+  };
+
+  const focusOrigin = () => {
+    setOffset({ x: 0, y: 0 });
+  };
+
+  const resetZoom = () => {
+    setZoom(1);
+  };
+
+  const handleCanvasMouseDown = (event: ReactMouseEvent<HTMLDivElement>) => {
+    if (event.button === 0) {
+      setSelected(false);
+    }
+
+    if (event.button === 1 || event.button === 2) {
+      event.preventDefault();
+
+      panRef.current = {
+        active: true,
+        lastX: event.clientX,
+        lastY: event.clientY,
+      };
+
       setIsPanning(true);
     }
   };
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    updateMouseWorldPosition(e.clientX, e.clientY);
+  const handleSectionPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-    if (!panRef.current.active) return;
+    setSelected(true);
+    setIsDraggingSection(true);
 
-    const dx = e.clientX - panRef.current.lastX;
-    const dy = e.clientY - panRef.current.lastY;
+    dragRef.current = {
+      active: true,
+      pointerId: event.pointerId,
+      startClientX: event.clientX,
+      startClientY: event.clientY,
+      startX: canvasState.x,
+      startY: canvasState.y,
+    };
 
-    setOffset(prev => ({ x: prev.x + dx, y: prev.y + dy }));
-    panRef.current.lastX = e.clientX;
-    panRef.current.lastY = e.clientY;
-  }, [updateMouseWorldPosition]);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleMouseMove = useCallback(
+    (event: ReactMouseEvent<HTMLDivElement>) => {
+      updateMouseWorldPosition(event.clientX, event.clientY);
+
+      if (dragRef.current.active) {
+        const dx = (event.clientX - dragRef.current.startClientX) / zoom;
+        const dy = (event.clientY - dragRef.current.startClientY) / zoom;
+
+        setCanvasPosition(
+          dragRef.current.startX + dx,
+          dragRef.current.startY - dy
+        );
+        return;
+      }
+
+      if (!panRef.current.active) return;
+
+      const dx = event.clientX - panRef.current.lastX;
+      const dy = event.clientY - panRef.current.lastY;
+
+      setOffset((prev) => ({
+        x: prev.x + dx,
+        y: prev.y + dy,
+      }));
+
+      panRef.current.lastX = event.clientX;
+      panRef.current.lastY = event.clientY;
+    },
+    [setCanvasPosition, updateMouseWorldPosition, zoom]
+  );
 
   const stopPanning = useCallback(() => {
     panRef.current.active = false;
     setIsPanning(false);
   }, []);
 
-  // --- Wheel Zoom (Engineering Style: Zoom at Mouse Point) ---
+  const stopDraggingSection = useCallback(() => {
+    dragRef.current.active = false;
+    dragRef.current.pointerId = -1;
+    setIsDraggingSection(false);
+  }, []);
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      
-      const rect = container.getBoundingClientRect();
-      const zoomFactor = Math.exp(-e.deltaY * ZOOM_SENSITIVITY);
-      const newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom * zoomFactor));
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
 
-      // محاسبه آفست جدید برای اینکه نقطه زیر ماوس ثابت بماند
-      const mouseX = e.clientX - rect.left - rect.width / 2;
-      const mouseY = e.clientY - rect.top - rect.height / 2;
+      const rect = container.getBoundingClientRect();
+      const zoomFactor = Math.exp(-event.deltaY * ZOOM_SENSITIVITY);
+      const newZoom = Math.max(
+        MIN_ZOOM,
+        Math.min(MAX_ZOOM, zoom * zoomFactor)
+      );
+
+      const mouseX = event.clientX - rect.left - rect.width / 2;
+      const mouseY = event.clientY - rect.top - rect.height / 2;
 
       const newOffsetX = mouseX - (mouseX - offset.x) * (newZoom / zoom);
       const newOffsetY = mouseY - (mouseY - offset.y) * (newZoom / zoom);
 
       setZoom(newZoom);
-      setOffset({ x: newOffsetX, y: newOffsetY });
+      setOffset({
+        x: newOffsetX,
+        y: newOffsetY,
+      });
     };
 
     container.addEventListener('wheel', handleWheel, { passive: false });
-    return () => container.removeEventListener('wheel', handleWheel);
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+    };
   }, [zoom, offset]);
 
-  // --- Browser Event Preventers ---
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    const preventDefault = (e: Event) => e.preventDefault();
+
+    const preventDefault = (event: Event) => {
+      event.preventDefault();
+    };
+
     container.addEventListener('contextmenu', preventDefault);
-    return () => container.removeEventListener('contextmenu', preventDefault);
+
+    return () => {
+      container.removeEventListener('contextmenu', preventDefault);
+    };
   }, []);
+
+  const previewIssues = [
+    ...issues,
+    ...(isError
+      ? [
+          {
+            level: 'error' as const,
+            message: 'دریافت اطلاعات مقطع FEM با خطا مواجه شد.',
+          },
+        ]
+      : []),
+    ...(isLoading
+      ? [
+          {
+            level: 'info' as const,
+            message: 'در حال دریافت اطلاعات مقطع...',
+          },
+        ]
+      : []),
+  ];
 
   return (
     <div className={styles.canvasShell}>
-      {/* HUD Info */}
       <div className={styles.hudTop}>
-        <div className={styles.hudBadge}>FEM 2D ENGINE</div>
+        <div className={styles.hudBadge}>FEM 2D</div>
+
         <div className={styles.hudStats}>
-          <span className={styles.statItem}><small>X</small> {mousePos.x.toFixed(2)}</span>
-          <span className={styles.statItem}><small>Y</small> {mousePos.y.toFixed(2)}</span>
+          <span className={styles.statItem}>
+            <small>X</small> {mousePos.x.toFixed(2)}
+          </span>
+          <span className={styles.statItem}>
+            <small>Y</small> {mousePos.y.toFixed(2)}
+          </span>
           <div className={styles.divider} />
-          <span className={styles.statItem}><small>Z</small> {(zoom * 100).toFixed(0)}%</span>
+          <span className={styles.statItem}>
+            <small>Z</small> {(zoom * 100).toFixed(0)}%
+          </span>
         </div>
       </div>
 
-      {/* Professional Toolbar */}
       <div className={styles.canvasToolbar}>
-        <button className={styles.toolButton} onClick={zoomIn} title="Zoom In"><Plus size={16} /></button>
-        <button className={styles.toolButton} onClick={zoomOut} title="Zoom Out"><Minus size={16} /></button>
-        
+        <button className={styles.toolButton} onClick={zoomIn} type="button">
+          <Plus size={16} />
+        </button>
+        <button className={styles.toolButton} onClick={zoomOut} type="button">
+          <Minus size={16} />
+        </button>
         <div className={styles.toolDivider} />
-
-        <button className={styles.toolButton} onClick={focusOrigin} title="Focus Origin (Center)">
+        <button className={styles.toolButton} onClick={focusOrigin} type="button">
           <Crosshair size={16} />
         </button>
-        <button className={styles.toolButton} onClick={resetZoom} title="Reset Zoom (100%)">
+        <button className={styles.toolButton} onClick={resetZoom} type="button">
           <RotateCcw size={16} />
         </button>
-
         <div className={styles.zoomPercent}>{(zoom * 100).toFixed(0)}%</div>
       </div>
 
-      {/* Main Viewport */}
-      <div 
+      <div
         ref={containerRef}
         className={`${styles.viewport} ${isPanning ? styles.grabbing : ''}`}
-        onMouseDown={handleMouseDown}
+        onMouseDown={handleCanvasMouseDown}
         onMouseMove={handleMouseMove}
-        onMouseUp={stopPanning}
-        onMouseLeave={stopPanning}
+        onMouseUp={() => {
+          stopPanning();
+          stopDraggingSection();
+        }}
+        onMouseLeave={() => {
+          stopPanning();
+          stopDraggingSection();
+        }}
       >
-        <div 
-          className={`${styles.transformationLayer} ${isPanning ? styles.noTransition : ''}`}
-          style={{ transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})` }}
+        <div
+          className={`${styles.transformationLayer} ${
+            isPanning || isDraggingSection ? styles.noTransition : ''
+          }`}
+          style={{
+            transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
+          }}
         >
-          {/* Engineering Grids */}
           <div className={styles.gridLayer}>
             <div className={styles.majorGrid} />
             <div className={styles.minorGrid} />
           </div>
 
-          {/* Core Axes */}
           <div className={styles.axes}>
             <div className={styles.axisX} />
             <div className={styles.axisY} />
             <div className={styles.originDot} />
           </div>
 
-          {/* Reference Node */}
-          <div className={styles.placeholderElement} style={{ left: 150, top: -150 }}>
-            <div className={styles.nodeHandle} />
-            <span className={styles.nodeLabel}>REF_NODE_01</span>
+          <div
+            className={styles.sectionLayer}
+            style={{
+              transform: `translate(${canvasState.x}px, ${-canvasState.y}px)`,
+            }}
+          >
+            <FemSectionPreview
+              section={draft}
+              issues={previewIssues}
+              selected={canvasState.selected}
+              onPointerDown={handleSectionPointerDown}
+            />
           </div>
         </div>
       </div>

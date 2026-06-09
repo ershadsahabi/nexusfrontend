@@ -43,7 +43,19 @@ function normalizeEntityWorkspace(
 ): ApiEntityWorkspace {
   return {
     ...workspace,
-    workspace_type: normalizeWorkspaceType(workspace.workspace_type),
+    workspace_type: workspaceTypeToSlug(
+      normalizeWorkspaceType(workspace.workspace_type)
+    ),
+  };
+}
+
+function normalizeWorkspaceStatus(
+  status: ApiWorkspaceStatus,
+  workspaceType: WorkspaceType
+): ApiWorkspaceStatus {
+  return {
+    ...status,
+    workspace_type: workspaceTypeToSlug(workspaceType),
   };
 }
 
@@ -108,7 +120,7 @@ export async function fetchEntityWorkspace(
     }
   );
 
-  return normalizeEntityWorkspace(data);
+  return normalizeEntityWorkspace(data as ApiEntityWorkspace);
 }
 
 export async function createEntityWorkspace(
@@ -145,7 +157,7 @@ export async function createEntityWorkspace(
     params: buildProjectParams(projectUuid),
   });
 
-  return normalizeEntityWorkspace(data);
+  return normalizeEntityWorkspace(data as ApiEntityWorkspace);
 }
 
 export async function fetchWorkspaceStatus(
@@ -171,10 +183,10 @@ export async function fetchWorkspaceStatus(
     },
   });
 
-  return {
-    ...data,
-    workspace_type: normalizedWorkspaceType,
-  };
+  return normalizeWorkspaceStatus(
+    data as ApiWorkspaceStatus,
+    normalizedWorkspaceType
+  );
 }
 
 export async function fetchWorkspaceBulkStatus(
@@ -211,10 +223,9 @@ export async function fetchWorkspaceBulkStatus(
         }
       );
 
-      return data.map((item) => ({
-        ...item,
-        workspace_type: normalizedWorkspaceType,
-      }));
+      return data.map((item) =>
+        normalizeWorkspaceStatus(item, normalizedWorkspaceType)
+      );
     })
   );
 

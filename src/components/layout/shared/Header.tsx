@@ -171,11 +171,15 @@ export const Header = ({ projectUuid, scenarioId }: HeaderProps) => {
 
   const workspaceProjectLabel = workspaceContext.isLoading
     ? 'Loading project...'
-    : workspaceContext.projectName ?? 'Unnamed Project';
+    : workspaceContext.projectName ??
+      workspaceContext.projectUuid ??
+      'Unnamed Project';
 
   const workspaceScenarioLabel = workspaceContext.isLoading
     ? 'Loading scenario...'
-    : workspaceContext.scenarioName ?? 'Unnamed Scenario';
+    : workspaceContext.scenarioName ??
+      workspaceContext.scenarioId ??
+      'Unnamed Scenario';
 
   const workspaceProjectTitle =
     workspaceContext.projectUuid ?? workspaceProjectLabel;

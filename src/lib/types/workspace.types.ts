@@ -50,37 +50,36 @@ export interface ApiEntityWorkspace {
 
   project: string;
 
-  system_entity: ApiWorkspaceSystemEntitySummary;
+  system_entity: string;
+  system_entity_code?: string | null;
+  system_entity_name?: string | null;
 
-  workspace_type: WorkspaceType | WorkspaceTypeSlug;
+  workspace_type: WorkspaceTypeSlug;
 
   name?: string | null;
-  code?: string | null;
+  description?: string | null;
 
+  coordinate_system?: string | null;
+  coordinate_system_name?: string | null;
+
+  origin_x?: number | null;
+  origin_y?: number | null;
+  origin_z?: number | null;
+
+  rotation_x_deg?: number | null;
+  rotation_y_deg?: number | null;
+  rotation_z_deg?: number | null;
+
+  has_fem_model?: boolean;
+  has_cad_model?: boolean;
+
+  is_active?: boolean;
   metadata?: Record<string, unknown> | null;
 
   created_at?: string;
   updated_at?: string;
-
-  fem_model?: {
-    id: number;
-    uuid: string;
-  } | null;
-
-  cad_model?: {
-    id: number;
-    uuid: string;
-  } | null;
-
-  fem_model_uuid?: string | null;
-  fem_model_id?: number | null;
-
-  cad_model_uuid?: string | null;
-  cad_model_id?: number | null;
-
-  model_uuid?: string | null;
-  model_id?: number | null;
 }
+
 
 export interface ApiWorkspaceStatus {
   system_entity_uuid: string;
@@ -194,14 +193,18 @@ export interface CanvasEntityWorkspace {
 }
 
 export function workspaceTypeToSlug(type: WorkspaceType): WorkspaceTypeSlug {
-  return type.toLowerCase() as WorkspaceTypeSlug;
+  if (type === 'FEM') return 'fem';
+  return 'cad';
 }
+
 
 export function workspaceSlugToType(slug: string): WorkspaceType {
   const normalized = String(slug).trim().toLowerCase();
 
+  if (normalized === 'fem') return 'FEM';
   if (normalized === 'cad') return 'CAD';
-  return 'FEM';
+
+  throw new Error(`Invalid workspace slug: ${slug}`);
 }
 
 export function normalizeWorkspaceType(
@@ -209,8 +212,10 @@ export function normalizeWorkspaceType(
 ): WorkspaceType {
   const normalized = String(value).trim().toLowerCase();
 
+  if (normalized === 'fem') return 'FEM';
   if (normalized === 'cad') return 'CAD';
-  return 'FEM';
+
+  throw new Error(`Invalid workspace type: ${value}`);
 }
 
 export function buildWorkspaceHref(

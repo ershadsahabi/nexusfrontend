@@ -2,34 +2,109 @@
 
 'use client';
 
+import { use } from 'react';
+
+import CadWorkspaceShell from '@/components/cad/CadWorkspaceShell';
 import FemWorkspaceShell from '@/components/fem/FemWorkspaceShell';
 import { workspaceSlugToType } from '@/lib/types/workspace.types';
+import type { WorkspaceType } from '@/lib/types/workspace.types';
+
+type PageParams = {
+  projectId: string;
+  workspaceType: string;
+  workspaceUuid: string;
+};
 
 type PageProps = {
-  params: {
-    projectId: string;
-    workspaceType: string;
-    workspaceUuid: string;
-  };
+  params: Promise<PageParams>;
 };
 
 export default function EntityWorkspacePage({ params }: PageProps) {
-  const workspaceType = workspaceSlugToType(params.workspaceType);
+  const { projectId, workspaceType, workspaceUuid } = use(params);
+  const resolvedWorkspaceType = resolveWorkspaceType(workspaceType);
 
-  if (workspaceType === 'FEM') {
+  if (!resolvedWorkspaceType) {
+    return (
+      <WorkspaceFallback
+        badge="INVALID WORKSPACE"
+        title="Workspace نامعتبر است"
+        description="نوع Workspace در مسیر معتبر نیست. لطفا از مسیر معتبر FEM یا CAD استفاده کنید."
+        workspaceType={workspaceType}
+        workspaceUuid={workspaceUuid}
+        tone="error"
+      />
+    );
+  }
+
+  if (resolvedWorkspaceType === 'FEM') {
     return (
       <FemWorkspaceShell
-        projectUuid={params.projectId}
-        femModelUuid={params.workspaceUuid}
+        projectUuid={projectId}
+        workspaceUuid={workspaceUuid}
+      />
+    );
+  }
+
+  if (resolvedWorkspaceType === 'CAD') {
+    return (
+      <CadWorkspaceShell
+        projectUuid={projectId}
+        workspaceUuid={workspaceUuid}
       />
     );
   }
 
   return (
-    <div
+    <WorkspaceFallback
+      badge="COMING SOON"
+      title={`Workspace نوع ${resolvedWorkspaceType}`}
+      description="این نوع Workspace در قرارداد API معتبر است، اما Shell اختصاصی آن هنوز در فرانت‌اند پیاده‌سازی نشده است."
+      workspaceType={resolvedWorkspaceType}
+      workspaceUuid={workspaceUuid}
+      tone="info"
+    />
+  );
+}
+
+function resolveWorkspaceType(value: string): WorkspaceType | null {
+  try {
+    return workspaceSlugToType(value);
+  } catch {
+    return null;
+  }
+}
+
+function WorkspaceFallback({
+  badge,
+  title,
+  description,
+  workspaceType,
+  workspaceUuid,
+  tone,
+}: {
+  badge: string;
+  title: string;
+  description: string;
+  workspaceType: string;
+  workspaceUuid: string;
+  tone: 'info' | 'error';
+}) {
+  const accentColor = tone === 'error' ? '#fb7185' : '#38bdf8';
+  const accentBackground =
+    tone === 'error'
+      ? 'rgba(251, 113, 133, 0.12)'
+      : 'rgba(56, 189, 248, 0.12)';
+  const accentBorder =
+    tone === 'error'
+      ? 'rgba(251, 113, 133, 0.28)'
+      : 'rgba(56, 189, 248, 0.28)';
+
+  return (
+    <main
       style={{
         minHeight: '100vh',
-        background: '#020617',
+        background:
+          'radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 34%), linear-gradient(135deg, #020617 0%, #0f172a 48%, #020617 100%)',
         color: '#e5e7eb',
         display: 'flex',
         alignItems: 'center',
@@ -38,63 +113,131 @@ export default function EntityWorkspacePage({ params }: PageProps) {
         padding: 32,
       }}
     >
-      <div
+      <section
         style={{
-          maxWidth: 520,
-          border: '1px solid rgba(148, 163, 184, 0.25)',
-          borderRadius: 18,
-          padding: 24,
-          background: 'rgba(15, 23, 42, 0.9)',
-          boxShadow: '0 24px 80px rgba(0,0,0,0.35)',
+          width: '100%',
+          maxWidth: 620,
+          border: '1px solid rgba(148, 163, 184, 0.22)',
+          borderRadius: 24,
+          padding: 28,
+          background: 'rgba(15, 23, 42, 0.86)',
+          boxShadow: '0 28px 90px rgba(0, 0, 0, 0.42)',
+          backdropFilter: 'blur(18px)',
         }}
       >
         <div
           style={{
-            fontSize: 12,
-            letterSpacing: '0.16em',
-            color: '#38bdf8',
-            marginBottom: 10,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            border: `1px solid ${accentBorder}`,
+            borderRadius: 999,
+            padding: '7px 11px',
+            background: accentBackground,
+            color: accentColor,
+            fontSize: 11,
+            fontWeight: 800,
+            letterSpacing: '0.12em',
             textTransform: 'uppercase',
+            marginBottom: 18,
+            direction: 'ltr',
           }}
         >
-          ENTITY WORKSPACE
+          <span
+            style={{
+              width: 7,
+              height: 7,
+              borderRadius: 999,
+              background: accentColor,
+              boxShadow: `0 0 18px ${accentColor}`,
+            }}
+          />
+          {badge}
         </div>
 
         <h1
           style={{
-            fontSize: 22,
-            marginBottom: 12,
+            margin: 0,
+            fontSize: 26,
+            lineHeight: 1.5,
+            fontWeight: 900,
+            color: '#f8fafc',
           }}
         >
-          Workspace نوع {workspaceType}
+          {title}
         </h1>
 
         <p
           style={{
+            margin: '12px 0 22px',
             color: '#94a3b8',
             lineHeight: 1.9,
-            marginBottom: 16,
+            fontSize: 14,
           }}
         >
-          مسیر عمومی Workspace فعال است. برای CAD هنوز Shell اختصاصی پیاده‌سازی
-          نشده است.
+          {description}
         </p>
 
-        <code
+        <div
           style={{
-            display: 'block',
-            padding: 12,
-            borderRadius: 12,
-            background: 'rgba(15, 23, 42, 1)',
-            color: '#bae6fd',
-            direction: 'ltr',
-            textAlign: 'left',
-            wordBreak: 'break-all',
+            display: 'grid',
+            gap: 10,
           }}
         >
-          {params.workspaceUuid}
-        </code>
-      </div>
+          <WorkspaceMetaRow label="Workspace Type" value={workspaceType} />
+          <WorkspaceMetaRow label="Workspace UUID" value={workspaceUuid} />
+        </div>
+      </section>
+    </main>
+  );
+}
+
+function WorkspaceMetaRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gap: 6,
+        border: '1px solid rgba(148, 163, 184, 0.14)',
+        borderRadius: 16,
+        padding: 14,
+        background: 'rgba(2, 6, 23, 0.38)',
+      }}
+    >
+      <span
+        style={{
+          color: '#64748b',
+          fontSize: 11,
+          fontWeight: 800,
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          direction: 'ltr',
+          textAlign: 'left',
+        }}
+      >
+        {label}
+      </span>
+
+      <code
+        style={{
+          color: '#bae6fd',
+          fontSize: 12,
+          lineHeight: 1.7,
+          direction: 'ltr',
+          textAlign: 'left',
+          wordBreak: 'break-all',
+          fontFamily:
+            'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+        }}
+      >
+        {value}
+      </code>
     </div>
   );
 }
