@@ -1,19 +1,19 @@
 // src/hooks/useScenarios.ts
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import ScenariosService from '@/lib/api/services/scenarios.service';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import ScenariosService from "@/lib/api/services/scenarios.service";
 import type {
   Scenario,
   ScenarioRequest,
   PaginatedScenarioList,
-} from '@/lib/api/types';
+} from "@/lib/api/types";
 
 export const scenarioKeys = {
-  all: ['scenarios'] as const,
-  lists: () => [...scenarioKeys.all, 'list'] as const,
+  all: ["scenarios"] as const,
+  lists: () => [...scenarioKeys.all, "list"] as const,
   list: (projectUuid: string) =>
     [...scenarioKeys.lists(), { projectUuid }] as const,
-  details: () => [...scenarioKeys.all, 'detail'] as const,
+  details: () => [...scenarioKeys.all, "detail"] as const,
   detail: (uuid: string) => [...scenarioKeys.details(), uuid] as const,
 };
 
@@ -21,7 +21,7 @@ export const useScenariosList = (projectUuid?: string) => {
   return useQuery<PaginatedScenarioList, Error, Scenario[]>({
     queryKey: projectUuid
       ? scenarioKeys.list(projectUuid)
-      : [...scenarioKeys.lists(), 'disabled'],
+      : [...scenarioKeys.lists(), "disabled"],
     queryFn: () => ScenariosService.getAll(projectUuid!),
     enabled: !!projectUuid,
     select: (paginatedData) => paginatedData.results,
@@ -32,7 +32,7 @@ export const useScenarioDetail = (uuid?: string) => {
   return useQuery<Scenario, Error>({
     queryKey: uuid
       ? scenarioKeys.detail(uuid)
-      : [...scenarioKeys.details(), 'disabled'],
+      : [...scenarioKeys.details(), "disabled"],
     queryFn: () => ScenariosService.getById(uuid!),
     enabled: !!uuid,
   });
@@ -46,11 +46,17 @@ export const useCreateScenario = (projectUuid?: string) => {
       ScenariosService.create(scenarioData),
 
     onSuccess: (createdScenario) => {
-      if (projectUuid) {
+      const effectiveProjectUuid = projectUuid || createdScenario?.project;
+
+      if (effectiveProjectUuid) {
         queryClient.invalidateQueries({
-          queryKey: scenarioKeys.list(projectUuid),
+          queryKey: scenarioKeys.list(effectiveProjectUuid),
         });
       }
+
+      queryClient.invalidateQueries({
+        queryKey: scenarioKeys.lists(),
+      });
 
       if (createdScenario?.uuid) {
         queryClient.setQueryData(
@@ -58,6 +64,10 @@ export const useCreateScenario = (projectUuid?: string) => {
           createdScenario
         );
       }
+    },
+
+    onError: (error) => {
+      console.error("Failed to create scenario:", error);
     },
   });
 };
@@ -76,6 +86,10 @@ export const useUpdateScenario = (projectUuid: string) => {
 
       queryClient.setQueryData(scenarioKeys.detail(uuid), updatedScenario);
     },
+
+    onError: (error, variables) => {
+      console.error(`Failed to update scenario ${variables.uuid}:`, error);
+    },
   });
 };
 
@@ -93,6 +107,10 @@ export const useDeleteScenario = (projectUuid: string) => {
       queryClient.removeQueries({
         queryKey: scenarioKeys.detail(uuid),
       });
+    },
+
+    onError: (error, uuid) => {
+      console.error(`Failed to delete scenario ${uuid}:`, error);
     },
   });
 };

@@ -1,20 +1,22 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+// src\hooks\useLogout.ts
+
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { authSession } from "@/lib/api/authSession";
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   const logout = () => {
-    // پاک کردن توکن‌ها
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    
-    // پاک کردن دیتای کش شده (پروژه‌ها و غیره)
+    // ✅ clear session centralized
+    authSession.clearTokens();
+
+    // ✅ پاک کردن cache
     queryClient.clear();
-    
-    // هدایت به لاگین
-    router.push('/login');
+
+    // ✅ خروج قطعی
+    router.replace("/login");
   };
 
   return logout;
