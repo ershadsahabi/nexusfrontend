@@ -1,6 +1,16 @@
 // src/lib/api/types.ts
 
 import type { components } from './schema';
+
+import type {
+  ApiConnectionEdge,
+  ApiCreateSystemEntityPayload,
+  ApiProjectGraphResponse,
+  ApiSystemEntity,
+  ApiSystemEntityTypeSummary,
+  ApiUpdateSystemEntityPayload,
+} from '@/lib/types/api.types';
+
 export type { TokenResponse, LoginCredentials, UserProfile } from './types/auth';
 
 // ==========================================
@@ -29,60 +39,20 @@ export type EntityNode = Schemas['EntityNode'];
 export type PaginatedEntityNodeList = Schemas['PaginatedEntityNodeList'];
 export type Assembly = Schemas['Assembly'];
 
-// --- اضافه شده: مدل‌های مربوط به SystemEntityType ---
-export interface SystemEntityTypeSummary {
-  id: number;
-  uuid: string;
-  name: string;
-  code: string;
-  category: string;
-  fem_eligible: boolean;
-}
-
-export interface SystemEntityType extends SystemEntityTypeSummary {
-  description: string | null;
-  is_root_allowed: boolean;
-  can_have_children: boolean;
-  metadata_schema: Record<string, unknown> | null;
-}
+// ==========================================
+// System entity API contract
+// ==========================================
+export type SystemEntityTypeSummary = ApiSystemEntityTypeSummary;
+export type SystemEntityType = ApiSystemEntityTypeSummary;
+export type SystemEntity = ApiSystemEntity;
+export type ConnectionEdge = ApiConnectionEdge;
+export type ProjectGraphResponse = ApiProjectGraphResponse;
 
 export interface PaginatedSystemEntityTypeList {
   count: number;
   next: string | null;
   previous: string | null;
   results: SystemEntityType[];
-}
-// ---------------------------------------------------
-
-export type RelationType =
-  | 'connected_to'
-  | 'supports'
-  | 'transfers_load_to'
-  | 'adjacent_to'
-  | 'contains';
-
-export interface SystemEntity {
-  id: number;
-  uuid: string;
-  project: string;
-  scenario?: string | null;
-  name: string;
-  code?: string | null;
-  // entity_type حذف شد و system_type جایگزین شد (طبق بک‌اند)
-  system_type: SystemEntityTypeSummary; 
-  pos_x: number;
-  pos_y: number;
-  pos_z: number;
-}
-
-export interface ConnectionEdge {
-  id: number;
-  uuid: string;
-  project: string;
-  scenario?: string | null;
-  source_entity: number;
-  target_entity: number;
-  relation_type: RelationType;
 }
 
 export interface PaginatedSystemEntityList {
@@ -99,11 +69,19 @@ export interface PaginatedConnectionEdgeList {
   results: ConnectionEdge[];
 }
 
+export type RelationType =
+  | 'connected_to'
+  | 'supports'
+  | 'transfers_load_to'
+  | 'adjacent_to'
+  | 'contains'
+  | string;
+
 // ==========================================
 // Request compatibility aliases
 // ==========================================
-export type SystemEntityRequest = SystemEntity;
-export type PatchedSystemEntityRequest = Partial<SystemEntity>;
+export type SystemEntityRequest = ApiCreateSystemEntityPayload;
+export type PatchedSystemEntityRequest = ApiUpdateSystemEntityPayload;
 
 export type ConnectionEdgeRequest = ConnectionEdge;
 export type PatchedConnectionEdgeRequest = Partial<ConnectionEdge>;

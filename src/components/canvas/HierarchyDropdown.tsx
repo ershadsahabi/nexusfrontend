@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 import { useCanvasStore } from '@/store/useCanvasStore';
-import { buildChildrenMap, buildEntityMap } from '@/lib/graph/systemTree';
+import { buildSystemTree } from '@/lib/graph/systemTree';
 
 import styles from './controls.module.css';
 
@@ -29,7 +29,12 @@ type HierarchyNodeProps = {
   entityMap: Map<string, EntityLike>;
 };
 
-function HierarchyNode({ uuid, level, childrenMap, entityMap }: HierarchyNodeProps) {
+function HierarchyNode({
+  uuid,
+  level,
+  childrenMap,
+  entityMap,
+}: HierarchyNodeProps) {
   const entity = entityMap.get(uuid);
   const focusEntityUuid = useCanvasStore((s) => s.focusEntityUuid);
   const setFocusEntity = useCanvasStore((s) => s.setFocusEntity);
@@ -42,12 +47,17 @@ function HierarchyNode({ uuid, level, childrenMap, entityMap }: HierarchyNodePro
   const isFocused = focusEntityUuid === uuid;
   const hasChildren = children.length > 0;
 
+  const handleNodeClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    setFocusEntity(isFocused ? null : uuid);
+  };
+
   return (
     <div className={styles.nodeWrapper}>
       <div
         className={`${styles.nodeItem} ${isFocused ? styles.nodeFocused : ''}`}
         style={{ paddingRight: `${level * 16}px` }}
-        onClick={() => setFocusEntity(uuid)}
+        onClick={handleNodeClick}
         title={entity.name}
       >
         <button
@@ -55,7 +65,9 @@ function HierarchyNode({ uuid, level, childrenMap, entityMap }: HierarchyNodePro
           className={styles.nodeToggleButton}
           onClick={(event) => {
             event.stopPropagation();
-            if (hasChildren) setExpanded((prev) => !prev);
+            if (hasChildren) {
+              setExpanded((prev) => !prev);
+            }
           }}
           aria-label={hasChildren ? 'باز و بسته کردن شاخه' : 'گره بدون فرزند'}
         >
@@ -101,8 +113,32 @@ export default function HierarchyDropdown() {
   const focusEntityUuid = useCanvasStore((s) => s.focusEntityUuid);
   const setFocusEntity = useCanvasStore((s) => s.setFocusEntity);
 
-  const childrenMap = useMemo(() => buildChildrenMap(entities), [entities]);
-  const entityMap = useMemo(() => buildEntityMap(entities), [entities]);
+  const { childrenMap, entityMap } = useMemo(() => {
+    const tree = buildSystemTree(entities);
+
+    const nextChildrenMap = new Map<string, EntityLike[]>();
+    const nextEntityMap = new Map<string, EntityLike>();
+
+    for (const [uuid, node] of tree.nodesByUuid.entries()) {
+      nextEntityMap.set(uuid, {
+        uuid: node.entity.uuid,
+        name: node.entity.name,
+      });
+
+      nextChildrenMap.set(
+        uuid,
+        node.children.map((childNode) => ({
+          uuid: childNode.uuid,
+          name: childNode.entity.name,
+        }))
+      );
+    }
+
+    return {
+      childrenMap: nextChildrenMap,
+      entityMap: nextEntityMap,
+    };
+  }, [entities]);
 
   if (!activeRootSystemUuid) {
     return (
@@ -115,6 +151,22 @@ export default function HierarchyDropdown() {
 
         <div className={styles.hierarchyEmptyText}>
           برای مشاهده سلسله‌مراتب، ابتدا یک سیستم ریشه انتخاب کنید.
+        </div>
+      </div>
+    );
+  }
+
+  if (!entityMap.has(activeRootSystemUuid)) {
+    return (
+      <div className={styles.hierarchyEmptyState} dir="rtl">
+        <div className={styles.hierarchyEmptyIcon}>
+          <Network size={18} />
+        </div>
+
+        <div className={styles.hierarchyEmptyTitle}>ریشه انتخاب‌شده یافت نشد</div>
+
+        <div className={styles.hierarchyEmptyText}>
+          داده‌های ساختار به‌روزرسانی شده‌اند. یک سیستم ریشه جدید انتخاب کنید.
         </div>
       </div>
     );
@@ -139,7 +191,9 @@ export default function HierarchyDropdown() {
             <span>بازنشانی</span>
           </button>
         ) : (
-          <span className={styles.hierarchyHeaderHint}>انتخاب یک نود، فوکوس را فعال می‌کند</span>
+          <span className={styles.hierarchyHeaderHint}>
+            انتخاب یک نود، فوکوس را فعال می‌کند
+          </span>
         )}
       </div>
 

@@ -138,11 +138,16 @@ export const PropertiesPanel = () => {
   const params = useParams();
 
   const projectUuid =
-    typeof params?.projectId === 'string'
-      ? params.projectId
-      : typeof params?.id === 'string'
-        ? params.id
-        : '';
+    typeof params?.projectUuid === 'string'
+      ? params.projectUuid
+      : typeof params?.projectId === 'string'
+        ? params.projectId
+        : typeof params?.id === 'string'
+          ? params.id
+          : typeof params?.uuid === 'string'
+            ? params.uuid
+            : '';
+
 
   const scenarioId =
     typeof params?.scenarioId === 'string' ? params.scenarioId : undefined;
@@ -151,8 +156,8 @@ export const PropertiesPanel = () => {
   const entities = useCanvasStore((s) => s.entities);
   const removeEntity = useCanvasStore((s) => s.removeEntity);
   const clearSelection = useCanvasStore((s) => s.clearSelection);
-  const updateEntityProps = useCanvasStore((s) => s.updateEntityProps);
   const openWorkspaceModal = useCanvasStore((s) => s.openWorkspaceModal);
+  const updateEntityProps = useCanvasStore((s) => s.updateEntityProps);
 
   const selectedEntity = useMemo(() => {
     if (!selectedEntityId) return null;
@@ -242,7 +247,10 @@ export const PropertiesPanel = () => {
 
   const currentSystemType = useMemo(() => {
     if (!systemTypeUuid) return null;
-    return systemEntityTypes.find((type: any) => type.uuid === systemTypeUuid) ?? null;
+    return (
+      systemEntityTypes.find((type: any) => type.uuid === systemTypeUuid) ??
+      null
+    );
   }, [systemTypeUuid, systemEntityTypes]);
 
   const currentMetadataConfig = useMemo(() => {
@@ -327,8 +335,10 @@ export const PropertiesPanel = () => {
         ? selectedEntity.isActive
         : true
     );
-    setParentUuid(selectedEntity.parentId ?? null);
-    setSystemTypeUuid(selectedEntity.systemType?.uuid ?? null);
+    setParentUuid(selectedEntity.parentUuid ?? null);
+    setSystemTypeUuid(
+      selectedEntity.systemType?.uuid ?? selectedEntity.systemTypeUuid ?? null
+    );
   }, [selectedEntity]);
 
   useEffect(() => {
@@ -338,9 +348,7 @@ export const PropertiesPanel = () => {
     }
 
     const effectiveMetadata =
-      (selectedEntity as any).effective_metadata ??
-      selectedEntity.metadata ??
-      {};
+      selectedEntity.effectiveMetadata ?? selectedEntity.metadata ?? {};
 
     const nextMetadata = getMetadataInitialValues({
       schema: currentMetadataSchema,
@@ -392,6 +400,7 @@ export const PropertiesPanel = () => {
     window.open(href, '_blank', 'noopener,noreferrer');
   };
 
+
   const handleSave = async () => {
     if (!selectedEntity || isBusy) return;
 
@@ -413,6 +422,8 @@ export const PropertiesPanel = () => {
 
     setSaveError(null);
 
+    const previousEntity = selectedEntity;
+
     const cleanedMetadata = sanitizeMetadataForSubmit(
       currentMetadataSchema,
       metadataValues
@@ -423,14 +434,53 @@ export const PropertiesPanel = () => {
       cleanedMetadata
     );
 
+    const nextPosition: [number, number, number] = [
+      Number.isFinite(posX) ? posX : 0,
+      Number.isFinite(posY) ? posY : 0,
+      Number.isFinite(posZ) ? posZ : 0,
+    ];
+
+    const nextSystemType =
+      systemTypeUuid
+        ? systemEntityTypes.find((type: any) => type.uuid === systemTypeUuid) ??
+          null
+        : null;
+
+    const optimisticUpdates = {
+      name: editName.trim() || '',
+      code: editCode.trim() || '',
+      description: editDescription.trim() || '',
+      entityType: editType as ApiEntityType,
+
+      position: nextPosition,
+
+      sortOrder: Number.isFinite(sortOrder) ? sortOrder : 0,
+      isActive,
+
+      parentUuid: parentUuid ?? null,
+
+      systemTypeUuid: nextSystemType?.uuid ?? null,
+      systemTypeCode: nextSystemType?.code ?? null,
+      systemTypeName: nextSystemType?.name ?? null,
+
+      systemType: nextSystemType,
+      visualDefinition: nextSystemType?.visual_definition ?? null,
+      renderVariant: nextSystemType?.render_variant ?? null,
+      colorKey: nextSystemType?.color_key ?? null,
+      shapeKey: nextSystemType?.shape_key ?? null,
+
+      metadata: metadataOverrides,
+      effectiveMetadata: cleanedMetadata,
+    };
+
     const payload: UpdateSystemEntityPayload = {
       name: editName.trim() || undefined,
       code: editCode.trim() || undefined,
       description: editDescription.trim() || undefined,
       entity_type: editType as ApiEntityType,
-      pos_x: Number.isFinite(posX) ? posX : 0,
-      pos_y: Number.isFinite(posY) ? posY : 0,
-      pos_z: Number.isFinite(posZ) ? posZ : 0,
+      pos_x: nextPosition[0],
+      pos_y: nextPosition[1],
+      pos_z: nextPosition[2],
       sort_order: Number.isFinite(sortOrder) ? sortOrder : 0,
       is_active: isActive,
       parent: parentUuid ?? null,
@@ -438,99 +488,119 @@ export const PropertiesPanel = () => {
       metadata: metadataOverrides,
     };
 
+    /**
+     * 1) فوری UI/Zustand را آپدیت کن.
+     * Canvas و PropertiesPanel هر دو از همین store می‌خوانند.
+     */
+    updateEntityProps(selectedEntity.uuid, optimisticUpdates);
+
     try {
-      const updated = await updateEntityMutation.mutateAsync({
+      const updatedEntity = await updateEntityMutation.mutateAsync({
         entityUuid: selectedEntity.uuid,
         payload,
       });
 
+      /**
+       * 2) بعد از موفقیت، اگر API entity آپدیت‌شده را برگرداند،
+       * مقدار دقیق backend را هم روی store بنشان.
+       */
+      const serverSystemType =
+        updatedEntity.system_type && typeof updatedEntity.system_type === 'object'
+          ? updatedEntity.system_type
+          : nextSystemType;
+
+      updateEntityProps(selectedEntity.uuid, {
+        name: updatedEntity.name ?? optimisticUpdates.name,
+        code: updatedEntity.code ?? optimisticUpdates.code,
+        description: updatedEntity.description ?? optimisticUpdates.description,
+
+        entityType: updatedEntity.entity_type ?? optimisticUpdates.entityType,
+
+        position: [
+          Number(updatedEntity.pos_x ?? nextPosition[0]),
+          Number(updatedEntity.pos_y ?? nextPosition[1]),
+          Number(updatedEntity.pos_z ?? nextPosition[2]),
+        ],
+
+        sortOrder: Number(updatedEntity.sort_order ?? optimisticUpdates.sortOrder),
+        isActive:
+          typeof updatedEntity.is_active === 'boolean'
+            ? updatedEntity.is_active
+            : optimisticUpdates.isActive,
+
+        parentUuid:
+          typeof updatedEntity.parent === 'string'
+            ? updatedEntity.parent
+            : updatedEntity.parent &&
+                typeof updatedEntity.parent === 'object' &&
+                'uuid' in updatedEntity.parent
+              ? String((updatedEntity.parent as any).uuid)
+              : parentUuid ?? null,
+
+        systemTypeUuid: serverSystemType?.uuid ?? null,
+        systemTypeCode: serverSystemType?.code ?? null,
+        systemTypeName: serverSystemType?.name ?? null,
+
+        systemType: serverSystemType ?? null,
+        visualDefinition: serverSystemType?.visual_definition ?? null,
+        renderVariant: serverSystemType?.render_variant ?? null,
+        colorKey: serverSystemType?.color_key ?? null,
+        shapeKey: serverSystemType?.shape_key ?? null,
+
+        metadata:
+          updatedEntity.metadata && typeof updatedEntity.metadata === 'object'
+            ? updatedEntity.metadata
+            : metadataOverrides,
+
+        effectiveMetadata:
+          updatedEntity.effective_metadata &&
+          typeof updatedEntity.effective_metadata === 'object'
+            ? updatedEntity.effective_metadata
+            : cleanedMetadata,
+
+        updatedAt: updatedEntity.updated_at,
+      });
+
       setSaveError(null);
-
-const selectedSystemType =
-  systemEntityTypes.find((type: any) => type.uuid === systemTypeUuid) ??
-  selectedEntity.systemType ??
-  null;
-
-const nextMetadata =
-  (updated as any).effective_metadata ??
-  (updated as any).effectiveMetadata ??
-  cleanedMetadata ??
-  metadataValues ??
-  selectedEntity.metadata ??
-  {};
-
-    updateEntityProps(selectedEntity.uuid, {
-      name: (updated as any).name ?? payload.name ?? selectedEntity.name,
-      code: (updated as any).code ?? payload.code ?? selectedEntity.code,
-      description:
-        (updated as any).description ??
-        payload.description ??
-        selectedEntity.description,
-
-      entityType:
-        ((updated as any).entity_type as any) ??
-        (updated as any).entityType ??
-        payload.entity_type ??
-        selectedEntity.entityType,
-
-      position: [
-        (updated as any).pos_x ??
-          (updated as any).posX ??
-          payload.pos_x ??
-          selectedEntity.position?.[0] ??
-          0,
-        (updated as any).pos_y ??
-          (updated as any).posY ??
-          payload.pos_y ??
-          selectedEntity.position?.[1] ??
-          0,
-        (updated as any).pos_z ??
-          (updated as any).posZ ??
-          payload.pos_z ??
-          selectedEntity.position?.[2] ??
-          0,
-      ],
-
-      sortOrder:
-        (updated as any).sort_order ??
-        (updated as any).sortOrder ??
-        payload.sort_order ??
-        selectedEntity.sortOrder,
-
-      isActive:
-        (updated as any).is_active ??
-        (updated as any).isActive ??
-        payload.is_active ??
-        selectedEntity.isActive,
-
-      parentId:
-        (updated as any).parent ??
-        (updated as any).parent_uuid ??
-        (updated as any).parentUuid ??
-        payload.parent ??
-        selectedEntity.parentId ??
-        null,
-
-      systemType:
-        (updated as any).system_type ??
-        (updated as any).systemType ??
-        selectedSystemType,
-
-      metadata: nextMetadata,
-
-      effective_metadata: nextMetadata,
-      effectiveMetadata: nextMetadata,
-
-      updatedAt:
-        (updated as any).updated_at ??
-        (updated as any).updatedAt ??
-        new Date().toISOString(),
-    } as any);
     } catch (error) {
+      /**
+       * 3) اگر backend خطا داد، state قبلی را برگردان.
+       */
+      updateEntityProps(previousEntity.uuid, {
+        name: previousEntity.name,
+        code: previousEntity.code,
+        description: previousEntity.description,
+        entityType: previousEntity.entityType,
+
+        position: previousEntity.position,
+
+        sortOrder: previousEntity.sortOrder,
+        isActive: previousEntity.isActive,
+
+        parentUuid: previousEntity.parentUuid,
+
+        systemTypeUuid: previousEntity.systemTypeUuid,
+        systemTypeCode: previousEntity.systemTypeCode,
+        systemTypeName: previousEntity.systemTypeName,
+
+        systemType: previousEntity.systemType,
+        visualDefinition: previousEntity.visualDefinition,
+        renderVariant: previousEntity.renderVariant,
+        colorKey: previousEntity.colorKey,
+        shapeKey: previousEntity.shapeKey,
+
+        metadata: previousEntity.metadata,
+        effectiveMetadata: previousEntity.effectiveMetadata,
+
+        updatedAt: previousEntity.updatedAt,
+      });
+
       const parsed = parseSystemErrors(error);
       setSaveError(parsed);
     }
   };
+
+
 
   const handleDelete = async () => {
     if (!selectedEntity || isBusy) return;

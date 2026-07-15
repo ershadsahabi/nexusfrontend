@@ -100,6 +100,14 @@ export const FIELD_LABELS: Record<string, string> = {
   system_entity: 'موجودیت سیستمی',
   system_entity_uuid: 'موجودیت سیستمی',
   system_entity_uuids: 'موجودیت‌های سیستمی',
+
+  source_entity: 'موجودیت مبدا',
+  target_entity: 'موجودیت مقصد',
+  relation_type: 'نوع ارتباط',
+  weight: 'وزن ارتباط',
+  connection: 'ارتباط',
+  connection_uuid: 'ارتباط',
+
   missing: 'موارد پیدا نشده',
 
   detail: 'خطا',
@@ -121,6 +129,9 @@ const BACKEND_ERROR_TRANSLATIONS: Record<string, string> = {
     'نوع سیستم انتخاب‌شده برای FEM مجاز نیست.',
   'Environment entities should use an environment category system type.':
     'برای موجودیت محیطی باید نوع سیستم از دسته محیطی انتخاب شود.',
+
+  'Metadata must be a JSON object.':
+    'متادیتا باید یک آبجکت JSON معتبر باشد.',
 
   'This field is required.':
     'این فیلد الزامی است.',
@@ -180,12 +191,76 @@ function buildProjectParams(projectUuid: string) {
   };
 }
 
+function normalizeOptionalUuid(
+  value: string | null | undefined
+): string | null | undefined {
+  if (value == null) {
+    return value;
+  }
+
+  const trimmedValue = value.trim();
+
+  return trimmedValue.length > 0 ? trimmedValue : null;
+}
+
+function normalizeRequiredUuid(value: string, fieldName: string): string {
+  if (!value || typeof value !== 'string') {
+    throw new Error(`${fieldName} is required`);
+  }
+
+  const trimmedValue = value.trim();
+
+  if (!trimmedValue) {
+    throw new Error(`${fieldName} is required`);
+  }
+
+  return trimmedValue;
+}
+
 function normalizeErrorField(field: string): string {
   if (field === 'system_type') return 'system_type_uuid';
   return field;
 }
 
+function translateMetadataValueMessage(message: string): string | null {
+  const isMetadataValue = message.startsWith('Metadata value for `');
+  const isDefaultValue = message.startsWith('Default value for `');
+
+  if (!isMetadataValue && !isDefaultValue) {
+    return null;
+  }
+
+  const valueLabel = isMetadataValue ? 'مقدار متادیتا' : 'مقدار پیش‌فرض';
+
+  if (message.endsWith('must be a string.')) {
+    return `${valueLabel} باید رشته باشد.`;
+  }
+
+  if (message.endsWith('must be a number.')) {
+    return `${valueLabel} باید عدد معتبر باشد.`;
+  }
+
+  if (message.endsWith('must be an integer.')) {
+    return `${valueLabel} باید عدد صحیح باشد.`;
+  }
+
+  if (message.endsWith('must be a boolean.')) {
+    return `${valueLabel} باید بولی باشد.`;
+  }
+
+  if (message.endsWith('must be one of the declared options.')) {
+    return `${valueLabel} باید یکی از گزینه‌های تعریف‌شده باشد.`;
+  }
+
+  return null;
+}
+
 function translateKnownFragments(message: string): string {
+  const metadataValueMessage = translateMetadataValueMessage(message);
+  if (metadataValueMessage) {
+    return metadataValueMessage;
+  }
+
   if (message.includes('Invalid pk')) {
     return 'شناسه انتخاب‌شده معتبر نیست.';
   }
@@ -339,7 +414,9 @@ export function hasSystemEntityFieldError(
   return Boolean(getFirstSystemEntityFieldError(errors, fieldName));
 }
 
-export async function fetchSystemEntityTypes(): Promise<ApiSystemEntityTypeSummary[]> {
+export async function fetchSystemEntityTypes(): Promise<
+  ApiSystemEntityTypeSummary[]
+> {
   const { data } = await apiClient.get('/entities/system-entity-types/');
   return data.results ?? data ?? [];
 }
@@ -348,7 +425,12 @@ export async function fetchProjectGraph(
   projectUuid: string,
   _scenarioId?: string
 ): Promise<ApiProjectGraphResponse> {
-  const params = buildProjectParams(projectUuid);
+  const normalizedProjectUuid = normalizeRequiredUuid(
+    projectUuid,
+    'fetchProjectGraph: projectUuid'
+  );
+
+  const params = buildProjectParams(normalizedProjectUuid);
 
   const [entitiesRes, connectionsRes] = await Promise.all([
     apiClient.get('/entities/system-entities/', { params }),
@@ -366,13 +448,24 @@ export async function createSystemEntity(
   payload: CreateSystemEntityPayload,
   _scenarioId?: string
 ): Promise<ApiSystemEntity> {
-  const body = {
+  const normalizedProjectUuid = normalizeRequiredUuid(
+    projectUuid,
+    'createSystemEntity: projectUuid'
+  );
+
+  if (!payload || typeof payload !== 'object') {
+    throw new Error('createSystemEntity: payload is required');
+  }
+
+  const body: CreateSystemEntityPayload & { project: string } = {
     ...payload,
-    project: projectUuid,
+    project: normalizedProjectUuid,
+    parent: normalizeOptionalUuid(payload.parent),
+    system_type_uuid: normalizeOptionalUuid(payload.system_type_uuid),
   };
 
   const { data } = await apiClient.post('/entities/system-entities/', body, {
-    params: buildProjectParams(projectUuid),
+    params: buildProjectParams(normalizedProjectUuid),
   });
 
   return data;
@@ -381,21 +474,37 @@ export async function createSystemEntity(
 export async function updateSystemEntity(
   entityUuid: string,
   payload: UpdateSystemEntityPayload,
-  context: { projectUuid: string; scenarioId?: string }
+  context: ApiContext
 ): Promise<ApiSystemEntity> {
   if (!context?.projectUuid) {
     throw new Error('updateSystemEntity: projectUuid is required');
   }
 
-  if (!entityUuid || typeof entityUuid !== 'string') {
-    throw new Error('updateSystemEntity: entityUuid is required');
+  const normalizedProjectUuid = normalizeRequiredUuid(
+    context.projectUuid,
+    'updateSystemEntity: projectUuid'
+  );
+
+  const normalizedEntityUuid = normalizeRequiredUuid(
+    entityUuid,
+    'updateSystemEntity: entityUuid'
+  );
+
+  if (!payload || typeof payload !== 'object') {
+    throw new Error('updateSystemEntity: payload is required');
   }
 
+  const body: UpdateSystemEntityPayload = {
+    ...payload,
+    parent: normalizeOptionalUuid(payload.parent),
+    system_type_uuid: normalizeOptionalUuid(payload.system_type_uuid),
+  };
+
   const { data } = await apiClient.patch(
-    `/entities/system-entities/${entityUuid}/`,
-    payload,
+    `/entities/system-entities/${normalizedEntityUuid}/`,
+    body,
     {
-      params: buildProjectParams(context.projectUuid),
+      params: buildProjectParams(normalizedProjectUuid),
     }
   );
 
@@ -410,12 +519,18 @@ export async function deleteSystemEntity(
     throw new Error('deleteSystemEntity: projectUuid is required');
   }
 
-  if (!entityUuid || typeof entityUuid !== 'string') {
-    throw new Error('deleteSystemEntity: entityUuid is required');
-  }
+  const normalizedProjectUuid = normalizeRequiredUuid(
+    context.projectUuid,
+    'deleteSystemEntity: projectUuid'
+  );
 
-  await apiClient.delete(`/entities/system-entities/${entityUuid}/`, {
-    params: buildProjectParams(context.projectUuid),
+  const normalizedEntityUuid = normalizeRequiredUuid(
+    entityUuid,
+    'deleteSystemEntity: entityUuid'
+  );
+
+  await apiClient.delete(`/entities/system-entities/${normalizedEntityUuid}/`, {
+    params: buildProjectParams(normalizedProjectUuid),
   });
 }
 
@@ -423,13 +538,22 @@ export async function createConnection(
   projectUuid: string,
   payload: CreateConnectionPayload
 ): Promise<ApiConnectionEdge> {
+  const normalizedProjectUuid = normalizeRequiredUuid(
+    projectUuid,
+    'createConnection: projectUuid'
+  );
+
+  if (!payload || typeof payload !== 'object') {
+    throw new Error('createConnection: payload is required');
+  }
+
   const body = {
     ...payload,
-    project: projectUuid,
+    project: normalizedProjectUuid,
   };
 
   const { data } = await apiClient.post('/entities/connections/', body, {
-    params: buildProjectParams(projectUuid),
+    params: buildProjectParams(normalizedProjectUuid),
   });
 
   return data;
@@ -444,15 +568,25 @@ export async function updateConnection(
     throw new Error('updateConnection: projectUuid is required');
   }
 
-  if (!connectionUuid || typeof connectionUuid !== 'string') {
-    throw new Error('updateConnection: connectionUuid is required');
+  const normalizedProjectUuid = normalizeRequiredUuid(
+    context.projectUuid,
+    'updateConnection: projectUuid'
+  );
+
+  const normalizedConnectionUuid = normalizeRequiredUuid(
+    connectionUuid,
+    'updateConnection: connectionUuid'
+  );
+
+  if (!payload || typeof payload !== 'object') {
+    throw new Error('updateConnection: payload is required');
   }
 
   const { data } = await apiClient.patch(
-    `/entities/connections/${connectionUuid}/`,
+    `/entities/connections/${normalizedConnectionUuid}/`,
     payload,
     {
-      params: buildProjectParams(context.projectUuid),
+      params: buildProjectParams(normalizedProjectUuid),
     }
   );
 
@@ -467,15 +601,17 @@ export async function deleteConnection(
     throw new Error('deleteConnection: projectUuid is required');
   }
 
-  if (!connectionUuid || typeof connectionUuid !== 'string') {
-    throw new Error('deleteConnection: connectionUuid is required');
-  }
+  const normalizedProjectUuid = normalizeRequiredUuid(
+    context.projectUuid,
+    'deleteConnection: projectUuid'
+  );
 
-  await apiClient.delete(`/entities/connections/${connectionUuid}/`, {
-    params: buildProjectParams(context.projectUuid),
+  const normalizedConnectionUuid = normalizeRequiredUuid(
+    connectionUuid,
+    'deleteConnection: connectionUuid'
+  );
+
+  await apiClient.delete(`/entities/connections/${normalizedConnectionUuid}/`, {
+    params: buildProjectParams(normalizedProjectUuid),
   });
 }
-
-
-
-

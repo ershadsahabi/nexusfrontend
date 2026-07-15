@@ -5,20 +5,24 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { Modal } from '@/components/common/Modal/Modal';
-import { useCreateSystemEntity } from '@/hooks/useCreateSystemEntity';
-import { useCanvasStore } from '@/store/useCanvasStore';
-import { useSystemEntityTypes } from '@/hooks/useSystemEntityTypes';
 import MetadataForm from '@/components/metadata/MetadataForm';
-
+import { useCreateSystemEntity } from '@/hooks/useCreateSystemEntity';
+import { useSystemEntityTypes } from '@/hooks/useSystemEntityTypes';
+import {
+  buildSystemEntityErrorSummary,
+  parseSystemErrors,
+} from '@/lib/api/system';
+import type { CreateSystemEntityPayload } from '@/lib/api/system';
 import type { SystemEntityType } from '@/lib/api/types';
 import type { MetadataSchema, MetadataValues } from '@/lib/metadata/types';
-
 import {
   buildMetadataOverrides,
   ensureMetadataConfig,
   getMetadataInitialValues,
   sanitizeMetadataForSubmit,
 } from '@/lib/metadata/utils';
+import type { CanvasEntity } from '@/lib/types/canvas.types';
+import { useCanvasStore } from '@/store/useCanvasStore';
 
 import styles from './AddEntityModal.module.css';
 
@@ -35,30 +39,6 @@ type AddEntityModalProps = {
   } | null;
 };
 
-type ExistingCanvasEntity = {
-  uuid: string;
-  name?: string;
-  code?: string;
-  systemType?: {
-    uuid?: string;
-    code?: string;
-    name?: string;
-    allows_children?: boolean;
-    allowsChildren?: boolean;
-  } | null;
-  system_type?: {
-    uuid?: string;
-    code?: string;
-    name?: string;
-    allows_children?: boolean;
-    allowsChildren?: boolean;
-  } | null;
-  allows_children?: boolean;
-  allowsChildren?: boolean;
-  isActive?: boolean;
-  is_active?: boolean;
-};
-
 function parseNumberOrNull(value: string): number | null {
   if (value.trim() === '') return null;
 
@@ -69,115 +49,38 @@ function parseNumberOrNull(value: string): number | null {
   return parsed;
 }
 
-function getBackendErrorMessage(error: any): string {
-  const backendError =
-    error?.response?.data ??
-    error?.data ??
-    error?.message ??
-    null;
-
-  if (!backendError) {
-    return 'خطا در ایجاد سیستم.';
+function normalizeOptionalUuid(value: string | null | undefined): string | null {
+  if (typeof value !== 'string') {
+    return null;
   }
 
-  if (typeof backendError === 'string') {
-    return backendError;
-  }
+  const trimmedValue = value.trim();
 
-  if (Array.isArray(backendError)) {
-    return backendError.map(String).join(' | ');
-  }
-
-  if (typeof backendError === 'object') {
-    const detail = backendError.detail;
-
-    if (typeof detail === 'string') {
-      return detail;
-    }
-
-    const message = Object.entries(backendError)
-      .map(([field, msgs]) => {
-        if (Array.isArray(msgs)) {
-          return `${field}: ${msgs.join('، ')}`;
-        }
-
-        if (msgs && typeof msgs === 'object') {
-          return `${field}: ${JSON.stringify(msgs)}`;
-        }
-
-        return `${field}: ${String(msgs)}`;
-      })
-      .join(' | ');
-
-    return message || 'خطا در ایجاد سیستم.';
-  }
-
-  return 'خطا در ایجاد سیستم.';
+  return trimmedValue.length > 0 ? trimmedValue : null;
 }
 
-function getEntityDisplayName(entity: ExistingCanvasEntity): string {
-  const name = entity.name?.trim() || 'Untitled';
-  const code = entity.code?.trim();
+function getEntityDisplayName(entity: CanvasEntity): string {
+  const name = entity.name.trim() || 'Untitled';
+  const code = entity.code.trim();
 
   return code ? `${name} (${code})` : name;
 }
 
-function getEntitySystemType(entity: ExistingCanvasEntity) {
-  return entity.systemType ?? entity.system_type ?? null;
-}
-
-function getEntityAllowsChildren(entity: ExistingCanvasEntity): boolean {
-  const direct =
-    entity.allows_children ??
-    entity.allowsChildren;
-
-  if (typeof direct === 'boolean') {
-    return direct;
-  }
-
-  const systemType = getEntitySystemType(entity);
-
-  const fromType =
-    systemType?.allows_children ??
-    systemType?.allowsChildren;
-
-  if (typeof fromType === 'boolean') {
-    return fromType;
-  }
-
-  /**
-   * Backward-compatible fallback:
-   * اگر دیتای canvas هنوز allows_children را ندارد،
-   * اجازه می‌دهیم parent انتخاب شود و validation اصلی با backend باشد.
-   */
-  return true;
+function getEntityAllowsChildren(entity: CanvasEntity): boolean {
+  return entity.systemType?.allows_children ?? true;
 }
 
 function getSystemTypeAllowsChildren(type: SystemEntityType | null): boolean {
-  if (!type) return true;
-
-  const value =
-    (type as any).allows_children ??
-    (type as any).allowsChildren;
-
-  if (typeof value === 'boolean') return value;
-
-  return true;
+  return type?.allows_children ?? true;
 }
 
 function getSystemTypeIsRootAllowed(type: SystemEntityType): boolean {
-  const value =
-    (type as any).is_root_allowed ??
-    (type as any).isRootAllowed;
-
-  if (typeof value === 'boolean') return value;
-
-  return false;
+  return type.is_root_allowed;
 }
 
 function getSystemTypeLabel(type: SystemEntityType): string {
-  const name = (type as any).name ?? 'Unnamed Type';
-  const code = (type as any).code;
+  const name = type.name || 'Unnamed Type';
+  const code = type.code;
 
   return code ? `${name} (${code})` : name;
 }
@@ -195,19 +98,15 @@ export default function AddEntityModal({
 
   const existingEntities = useCanvasStore((state) => state.entities);
 
-  const {
-    data: entityTypes,
-    isLoading: isTypesLoading,
-  } = useSystemEntityTypes();
+  const { data: entityTypes, isLoading: isTypesLoading } =
+    useSystemEntityTypes();
 
   const normalizedEntityTypes = useMemo<SystemEntityType[]>(() => {
     return Array.isArray(entityTypes) ? entityTypes : [];
   }, [entityTypes]);
 
-  const normalizedExistingEntities = useMemo<ExistingCanvasEntity[]>(() => {
-    return Array.isArray(existingEntities)
-      ? (existingEntities as ExistingCanvasEntity[])
-      : [];
+  const normalizedExistingEntities = useMemo<CanvasEntity[]>(() => {
+    return Array.isArray(existingEntities) ? existingEntities : [];
   }, [existingEntities]);
 
   const [name, setName] = useState('');
@@ -249,43 +148,16 @@ export default function AddEntityModal({
 
   const availableParents = useMemo(() => {
     return normalizedExistingEntities.filter((entity) => {
-      if (!entity?.uuid) return false;
+      if (!entity.uuid) return false;
 
-      /**
-       * اگر entity غیرفعال است، بهتر است در لیست parent نیاید.
-       * اگر این فیلد وجود ندارد، backward-compatible رفتار می‌کنیم.
-       */
-      const isActive =
-        entity.isActive ??
-        entity.is_active;
-
-      if (typeof isActive === 'boolean' && !isActive) {
+      if (!entity.isActive) {
         return false;
       }
 
-      /**
-       * Parentهایی که اجازه child ندارند را از لیست حذف نمی‌کنیم،
-       * چون ممکن است کاربر بخواهد وضعیت را ببیند.
-       * اما بعداً type selection و submit را کنترل می‌کنیم.
-       */
       return true;
     });
   }, [normalizedExistingEntities]);
 
-  /**
-   * ارتباط اصلی Parent -> Type:
-   *
-   * - اگر parent نداریم یعنی entity جدید root است.
-   *   پس فقط typeهایی مجازند که is_root_allowed=true دارند.
-   *
-   * - اگر parent داریم یعنی entity جدید child است.
-   *   پس root restriction دیگر اعمال نمی‌شود.
-   *
-   * نکته:
-   * در این مرحله constraint تخصصی parent-child type نداریم،
-   * چون مدل فعلی relationship matrix ندارد.
-   * validation نهایی با backend است.
-   */
   const availableTypes = useMemo(() => {
     if (isTypesLoading) return [];
 
@@ -310,18 +182,25 @@ export default function AddEntityModal({
   ]);
 
   const selectedType = useMemo(() => {
-    if (!systemTypeUuid.trim()) return null;
+    const normalizedSystemTypeUuid = systemTypeUuid.trim();
+
+    if (!normalizedSystemTypeUuid) return null;
 
     return (
-      normalizedEntityTypes.find((type) => type.uuid === systemTypeUuid) ??
-      null
+      normalizedEntityTypes.find(
+        (type) => type.uuid === normalizedSystemTypeUuid
+      ) ?? null
     );
   }, [normalizedEntityTypes, systemTypeUuid]);
 
   const selectedTypeExistsInAvailableTypes = useMemo(() => {
-    if (!systemTypeUuid.trim()) return false;
+    const normalizedSystemTypeUuid = systemTypeUuid.trim();
 
-    return availableTypes.some((type) => type.uuid === systemTypeUuid);
+    if (!normalizedSystemTypeUuid) return false;
+
+    return availableTypes.some(
+      (type) => type.uuid === normalizedSystemTypeUuid
+    );
   }, [availableTypes, systemTypeUuid]);
 
   const metadataConfig = useMemo(() => {
@@ -329,17 +208,14 @@ export default function AddEntityModal({
       return { schema: {}, defaults: {} };
     }
 
-    const explicitSchema = (selectedType as any).metadata_schema;
-    const explicitDefaults = (selectedType as any).metadata_defaults;
-
-    if (explicitSchema || explicitDefaults) {
+    if (selectedType.metadata_schema || selectedType.metadata_defaults) {
       return {
-        schema: explicitSchema ?? {},
-        defaults: explicitDefaults ?? {},
+        schema: selectedType.metadata_schema ?? {},
+        defaults: selectedType.metadata_defaults ?? {},
       };
     }
 
-    return ensureMetadataConfig((selectedType as any).metadata);
+    return ensureMetadataConfig(selectedType.metadata);
   }, [selectedType]);
 
   const currentMetadataSchema = metadataConfig.schema as MetadataSchema;
@@ -401,9 +277,6 @@ export default function AddEntityModal({
     selectedParentAllowsChildren,
   ]);
 
-  /**
-   * Reset فرم هنگام باز شدن modal
-   */
   useEffect(() => {
     if (!isOpen) return;
 
@@ -422,10 +295,6 @@ export default function AddEntityModal({
     setError(null);
   }, [isOpen, initialParent, initialPosition]);
 
-  /**
-   * وقتی parent یا لیست typeها تغییر کرد،
-   * type فعلی را با availableTypes هماهنگ می‌کنیم.
-   */
   useEffect(() => {
     if (!isOpen) return;
 
@@ -452,9 +321,6 @@ export default function AddEntityModal({
     selectedTypeExistsInAvailableTypes,
   ]);
 
-  /**
-   * وقتی type عوض می‌شود، metadata form باید از defaults همان type ساخته شود.
-   */
   useEffect(() => {
     if (!isOpen) return;
 
@@ -479,12 +345,7 @@ export default function AddEntityModal({
       systemTypeUuid.trim().length > 0 &&
       selectedParentAllowsChildren
     );
-  }, [
-    name,
-    code,
-    systemTypeUuid,
-    selectedParentAllowsChildren,
-  ]);
+  }, [name, code, systemTypeUuid, selectedParentAllowsChildren]);
 
   const handleClose = () => {
     if (isPending) return;
@@ -494,13 +355,6 @@ export default function AddEntityModal({
   const handleParentChange = (nextParent: string) => {
     setParent(nextParent);
     setError(null);
-
-    /**
-     * اینجا عمداً systemTypeUuid را مستقیم reset نمی‌کنیم،
-     * چون useEffect بالا تصمیم می‌گیرد type فعلی هنوز معتبر هست یا نه.
-     * این باعث می‌شود اگر child/root تغییر کند و type هنوز valid باشد،
-     * تجربه کاربری نرم‌تر شود.
-     */
   };
 
   const handleSystemTypeChange = (nextSystemTypeUuid: string) => {
@@ -541,11 +395,6 @@ export default function AddEntityModal({
       return;
     }
 
-    /**
-     * اگر parent نداریم، یعنی سیستم root ساخته می‌شود.
-     * پس frontend-side هم root_allowed را کنترل می‌کنیم.
-     * validation اصلی همچنان backend است.
-     */
     if (!parent.trim() && !getSystemTypeIsRootAllowed(selectedType)) {
       setError('این نوع موجودیت اجازه ساخته شدن به‌عنوان Root را ندارد.');
       return;
@@ -567,22 +416,17 @@ export default function AddEntityModal({
       metadataValues
     );
 
-    /**
-     * فقط overrideها ذخیره می‌شوند.
-     * defaults از SystemEntityType می‌آیند.
-     */
     const metadataPayload = buildMetadataOverrides(
       currentMetadataDefaults,
       cleanedMetadata
     );
 
-    const payload = {
-      project: projectUuid,
+    const payload: CreateSystemEntityPayload = {
       name: name.trim(),
       code: code.trim(),
       description: description.trim() || undefined,
 
-      system_type_uuid: systemTypeUuid,
+      system_type_uuid: normalizeOptionalUuid(systemTypeUuid),
 
       pos_x: parsedX,
       pos_y: parsedY,
@@ -590,14 +434,17 @@ export default function AddEntityModal({
 
       metadata: metadataPayload,
 
-      ...(parent.trim() ? { parent: parent.trim() } : {}),
+      parent: normalizeOptionalUuid(parent),
     };
 
     try {
       await createSystemEntity(payload);
       onClose();
-    } catch (e: any) {
-      setError(getBackendErrorMessage(e));
+    } catch (e: unknown) {
+      const parsedErrors = parseSystemErrors(e);
+      const summary = buildSystemEntityErrorSummary(parsedErrors);
+
+      setError(summary.join(' | ') || 'خطا در ایجاد سیستم.');
     }
   };
 
@@ -669,9 +516,7 @@ export default function AddEntityModal({
             })}
           </select>
 
-          <span className={styles.hint}>
-            {parentHint}
-          </span>
+          <span className={styles.hint}>{parentHint}</span>
         </div>
 
         <div className={styles.formGroup}>
@@ -709,9 +554,7 @@ export default function AddEntityModal({
             )}
           </select>
 
-          <span className={styles.hint}>
-            {typeHint}
-          </span>
+          <span className={styles.hint}>{typeHint}</span>
         </div>
 
         <div className={styles.formGroup}>
@@ -807,11 +650,7 @@ export default function AddEntityModal({
           </div>
         </div>
 
-        {error ? (
-          <div className={styles.errorBox}>
-            {error}
-          </div>
-        ) : null}
+        {error ? <div className={styles.errorBox}>{error}</div> : null}
 
         <div className={styles.actions}>
           <button

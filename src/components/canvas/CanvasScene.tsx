@@ -14,7 +14,7 @@ import { AlertCircle, Loader2 } from 'lucide-react';
 // --- Hooks & Store ---
 import { useProjectGraph } from '@/hooks/useProjectGraph';
 import { useCreateConnection } from '@/hooks/useCreateConnection';
-import { useUpdateSystemEntity } from '@/hooks/useUpdateSystemEntity';
+import { useUpdateEntityPosition } from '@/hooks/useUpdateEntityPosition';
 import { useDeleteConnection } from '@/hooks/useDeleteConnection';
 import { useWorkspaceBulkStatus } from '@/hooks/useWorkspaceModel';
 import { useCanvasStore } from '@/store/useCanvasStore';
@@ -56,9 +56,15 @@ export default function CanvasScene({
   rotateEnabled,
 }: CanvasSceneProps) {
   // === Queries & Mutations ===
-  const { data, isLoading, isError } = useProjectGraph(projectUuid, scenarioId);
+  const {
+    data: graphData,
+    dataUpdatedAt,
+    isLoading,
+    isError,
+  } = useProjectGraph(projectUuid, scenarioId);
+
   const createConnection = useCreateConnection(projectUuid, scenarioId);
-  const updateEntity = useUpdateSystemEntity(projectUuid, scenarioId);
+  const updateEntityPosition = useUpdateEntityPosition(projectUuid, scenarioId);
   const deleteConnection = useDeleteConnection(projectUuid, scenarioId);
 
   // === Global Store ===
@@ -66,6 +72,7 @@ export default function CanvasScene({
     entities,
     connections,
     setGraph,
+    updateEntityProps,
     activeRootSystemUuid,
     viewDepth,
     focusEntityUuid,
@@ -92,23 +99,21 @@ export default function CanvasScene({
   const tempPoint = useMemo(() => new THREE.Vector3(), []);
 
   useEffect(() => {
-    if (data) {
-      setGraph(data.entities, data.connections);
-    }
-  }, [data, setGraph]);
+    if (!graphData) return;
+
+    setGraph(graphData.entities, graphData.connections);
+  }, [graphData, dataUpdatedAt, setGraph]);
 
   const entityMap = useMemo(() => {
     return new Map(entities.map((entity) => [entity.uuid, entity]));
   }, [entities]);
 
   const visibleGraph = useMemo(() => {
-    return filterVisibleGraph(
-      entities,
-      connections,
+    return filterVisibleGraph(entities, connections, {
       activeRootSystemUuid,
       viewDepth,
-      focusEntityUuid
-    );
+      focusEntityUuid,
+    });
   }, [
     entities,
     connections,
@@ -125,13 +130,7 @@ export default function CanvasScene({
     return visibleGraph.entities.map((entity) => entity.uuid);
   }, [visibleGraph.entities]);
 
-/**
- * فقط وضعیت Workspace نوع FEM برای نودهای visible گرفته می‌شود.
- * داده تحلیلی Workspace/FEM هرگز اینجا fetch نمی‌شود.
- * نتیجه داخل WorkspaceStatusStore cache می‌شود و کامپوننت‌ها جداگانه از آن می‌خوانند.
- */
   useWorkspaceBulkStatus(projectUuid, visibleEntityUuids, 'FEM');
-
 
   const floatingSource = useMemo(() => {
     if (!edgeCreationSourceUuid) return null;
@@ -183,29 +182,38 @@ export default function CanvasScene({
     entity: CanvasEntity,
     nextPosition: [number, number, number]
   ) => {
-    const [cx, cy, cz] = entity.position;
-    const [nx, ny, nz] = nextPosition;
+    const previousPosition = entity.position;
+    const [currentX, currentY, currentZ] = previousPosition;
+    const [nextX, nextY, nextZ] = nextPosition;
 
-    const unchanged = cx === nx && cy === ny && cz === nz;
+    const unchanged =
+      currentX === nextX && currentY === nextY && currentZ === nextZ;
+
     if (unchanged) return;
 
-    // optimistic update
-    useCanvasStore.getState().updateEntityProps(entity.uuid, {
-      position: nextPosition,
+    /**
+     * optimistic local update
+     */
+    updateEntityProps(entity.uuid, {
+      position: [nextX, nextY, nextZ],
     });
 
     try {
-      await updateEntity.mutateAsync({
-        entityUuid: entity.uuid,
-        payload: {
-          pos_x: nx,
-          pos_y: ny,
-          pos_z: nz,
-        },
+      await updateEntityPosition.mutateAsync({
+        uuid: entity.uuid,
+        position: [nextX, nextY, nextZ],
       });
     } catch (error: any) {
+      /**
+       * rollback
+       */
+      updateEntityProps(entity.uuid, {
+        position: previousPosition,
+      });
+
       console.error('Position update failed:', error);
       console.error('Response error data:', error?.response?.data);
+      throw error;
     }
   };
 
@@ -293,7 +301,6 @@ export default function CanvasScene({
             infiniteGrid
           />
 
-          {/* اتصالات */}
           {visibleGraph.connections.map((connection) => {
             const source = visibleEntityMap.get(connection.sourceUuid);
             const target = visibleEntityMap.get(connection.targetUuid);
@@ -311,13 +318,12 @@ export default function CanvasScene({
                 onDelete={() =>
                   deleteConnection
                     .mutateAsync(connection.uuid)
-                    .then(clearSelection)
+                    .then(() => clearSelection())
                 }
               />
             );
           })}
 
-          {/* موجودیت‌ها */}
           {visibleGraph.entities.map((entity) => (
             <EntityNode
               key={entity.uuid}
@@ -332,7 +338,6 @@ export default function CanvasScene({
             />
           ))}
 
-          {/* خط شناور هنگام ساخت اتصال */}
           {mode === 'create-edge' && floatingSource && (
             <FloatingEdge source={floatingSource.position} target={mouseWorld} />
           )}

@@ -26,7 +26,7 @@ type Props = {
   onPositionCommit: (
     entity: CanvasEntity,
     nextPosition: [number, number, number]
-  ) => void;
+  ) => Promise<void> | void;
 };
 
 function normalizeObject(value: unknown): Record<string, unknown> {
@@ -148,6 +148,13 @@ function getFocusRadius(entity: CanvasEntity) {
   return Math.max(radius ?? 0, diameterFromBox ?? 0, 1.2) + 0.35;
 }
 
+function positionsEqual(
+  first: [number, number, number],
+  second: [number, number, number]
+) {
+  return first[0] === second[0] && first[1] === second[1] && first[2] === second[2];
+}
+
 export default function EntityNode({
   entity,
   isSelected,
@@ -163,6 +170,10 @@ export default function EntityNode({
     entity.position
   );
 
+  const [pendingPosition, setPendingPosition] = useState<
+    [number, number, number] | null
+  >(null);
+
   const femWorkspaceStatus = useWorkspaceStatusStore((state) =>
     state.getByEntityUuid(entity.uuid, 'FEM')
   );
@@ -171,10 +182,19 @@ export default function EntityNode({
   const focusMaterialRef = useRef<THREE.MeshBasicMaterial>(null);
 
   useEffect(() => {
-    if (!dragging) {
-      setLocalPosition(entity.position);
+    if (dragging) return;
+
+    if (pendingPosition) {
+      if (positionsEqual(entity.position, pendingPosition)) {
+        setPendingPosition(null);
+        setLocalPosition(entity.position);
+      }
+
+      return;
     }
-  }, [entity.position, dragging]);
+
+    setLocalPosition(entity.position);
+  }, [entity.position, dragging, pendingPosition]);
 
   const dragPlane = useMemo(() => {
     return new THREE.Plane(new THREE.Vector3(0, 0, 1), -localPosition[2]);
@@ -208,6 +228,7 @@ export default function EntityNode({
     }
 
     onSelect(entity.uuid);
+    setPendingPosition(null);
     setDragging(true);
 
     try {
@@ -217,12 +238,23 @@ export default function EntityNode({
     }
   };
 
-  const handlePointerUp = (e: ThreeEvent<PointerEvent>) => {
+  const handlePointerUp = async (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
 
     if (dragging) {
+      const committedPosition = localPosition;
+
       setDragging(false);
-      onPositionCommit(entity, localPosition);
+      setPendingPosition(committedPosition);
+      setLocalPosition(committedPosition);
+
+      try {
+        await onPositionCommit(entity, committedPosition);
+      } catch (error) {
+        console.error('Position commit failed:', error);
+        setPendingPosition(null);
+        setLocalPosition(entity.position);
+      }
     }
 
     try {

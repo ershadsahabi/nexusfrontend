@@ -1,12 +1,13 @@
 // src/components/canvas/RootSystemSelector.tsx
 
+
 'use client';
 
 import { useMemo, useState } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 
 import { useCanvasStore } from '@/store/useCanvasStore';
-import { findRootSystems } from '@/lib/graph/systemTree';
+import { buildSystemTree } from '@/lib/graph/systemTree';
 import FloatingPanel from '@/components/common/FloatingPanel/FloatingPanel';
 import floatingStyles from '@/components/common/FloatingPanel/FloatingPanel.module.css';
 
@@ -20,16 +21,21 @@ export default function RootSystemSelector({ className = '' }: Props) {
   const entities = useCanvasStore((s) => s.entities);
   const activeRootSystemUuid = useCanvasStore((s) => s.activeRootSystemUuid);
   const setActiveRootSystem = useCanvasStore((s) => s.setActiveRootSystem);
+  const setFocusEntity = useCanvasStore((s) => s.setFocusEntity);
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const roots = useMemo(() => findRootSystems(entities), [entities]);
+  const roots = useMemo(() => {
+    const tree = buildSystemTree(entities);
+    return tree.roots.map((node) => node.entity);
+  }, [entities]);
 
   const activeRoot = roots.find((root) => root.uuid === activeRootSystemUuid);
   const displayLabel = activeRoot ? activeRoot.name : 'همه سیستم‌ها (نمای کلی)';
 
   const handleSelect = (uuid: string | null) => {
     setActiveRootSystem(uuid);
+    setFocusEntity(null);
     setIsOpen(false);
   };
 
@@ -93,3 +99,4 @@ export default function RootSystemSelector({ className = '' }: Props) {
     </div>
   );
 }
+

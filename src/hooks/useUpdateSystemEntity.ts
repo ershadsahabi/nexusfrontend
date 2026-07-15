@@ -2,10 +2,9 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { refreshProjectGraphQuery } from '@/hooks/useProjectGraph';
+
 import { updateSystemEntity } from '@/lib/api/system';
-import { getProjectGraphQueryKey } from '@/hooks/useProjectGraph';
-import { mapApiEntityToCanvas } from '@/lib/mappers/canvas.mappers';
-import { useCanvasStore } from '@/store/useCanvasStore';
 
 import type { UpdateSystemEntityPayload } from '@/lib/api/system';
 
@@ -19,14 +18,10 @@ export function useUpdateSystemEntity(
   scenarioId?: string
 ) {
   const queryClient = useQueryClient();
-  const updateEntityProps = useCanvasStore((state) => state.updateEntityProps);
 
   return useMutation({
-    mutationFn: async (variables: Variables) => {
-      const entityUuid = variables?.entityUuid;
-      const payload = variables?.payload;
-
-      if (!projectUuid) {
+    mutationFn: async ({ entityUuid, payload }: Variables) => {
+      if (!projectUuid || typeof projectUuid !== 'string') {
         throw new Error('projectUuid is required for updating system entity.');
       }
 
@@ -44,41 +39,22 @@ export function useUpdateSystemEntity(
       });
     },
 
-    /**
-     * نکته مهم:
-     * اینجا عمداً optimistic update انجام نمی‌دهیم.
-     * چون validateهای backend برای parent / system_type_uuid / entity_type پیچیده هستند
-     * و ممکن است PATCH با 400 برگردد.
-     *
-     * پس state فقط بعد از موفقیت سرور تغییر می‌کند.
-     */
-    onSuccess: async (updatedApiEntity) => {
-      const mapped = mapApiEntityToCanvas(updatedApiEntity);
-
-      updateEntityProps(mapped.uuid, {
-        name: mapped.name,
-        code: mapped.code,
-        description: mapped.description,
-        entityType: mapped.entityType,
-        systemType: mapped.systemType,
-        parentId: mapped.parentId,
-        childIds: mapped.childIds,
-        position: mapped.position,
-        sortOrder: mapped.sortOrder,
-        isActive: mapped.isActive,
-        metadata: mapped.metadata,
-        isRoot: mapped.isRoot,
-        isLeaf: mapped.isLeaf,
-        updatedAt: mapped.updatedAt,
-      });
-
+    onSuccess: async () => {
       /**
-       * برای اطمینان از sync کامل کل graph:
-       * مخصوصاً parent/children/connections بعد از تغییرات rule-heavy
+       * این hook فقط backend و React Query graph cache را sync می‌کند.
+       *
+       * نکته مهم:
+       * اینجا نباید Zustand/canvas store را مستقیم update کنیم.
+       * optimistic update مربوط به UI owner است، یعنی PropertiesPanel یا CanvasScene.
+       *
+       * بعد از mutation موفق، graph کامل را از backend می‌گیریم و cache مربوط
+       * به useProjectGraph را جایگزین می‌کنیم.
        */
-      await queryClient.invalidateQueries({
-        queryKey: getProjectGraphQueryKey(projectUuid, scenarioId),
-      });
+      await refreshProjectGraphQuery(queryClient, projectUuid, scenarioId);
+    },
+
+    onError: (error) => {
+      console.error('Failed to update system entity:', error);
     },
   });
 }

@@ -25,26 +25,34 @@ export interface ResolvedEntityVisual {
 }
 
 export interface CanvasEntity {
-  id: number;
   uuid: string;
 
-  parentId: string | null;
-  childIds: string[];
+  parentUuid: string | null;
+  childrenUuids: string[];
 
   name: string;
   code: string;
   description: string;
 
   entityType: ApiEntityType;
+
+  systemTypeUuid: string | null;
+  systemTypeCode: string | null;
+  systemTypeName: string | null;
+
   systemType: SystemEntityTypeSummary | null;
+  visualDefinition: ApiVisualDefinition | null;
+  renderVariant: string | null;
+  colorKey: string | null;
+  shapeKey: string | null;
 
   position: [number, number, number];
 
   sortOrder: number;
-
   isActive: boolean;
 
   metadata: Record<string, unknown>;
+  effectiveMetadata: Record<string, unknown>;
 
   isRoot: boolean;
   isLeaf: boolean;
@@ -54,21 +62,20 @@ export interface CanvasEntity {
 }
 
 export interface CanvasConnection {
-  id: number;
   uuid: string;
-
-  sourceId: number;
-  targetId: number;
-
   sourceUuid: string;
   targetUuid: string;
 
   relationType: RelationType;
-
   metadata: Record<string, unknown>;
 
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface CanvasGraph {
+  entities: CanvasEntity[];
+  connections: CanvasConnection[];
 }
 
 export type EntityVisualDefinition = ApiVisualDefinition;
