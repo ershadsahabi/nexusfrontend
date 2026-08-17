@@ -1,28 +1,34 @@
-## خلاصه
+## Summary
 
-<!-- هدف تغییر و Issue مرتبط را توضیح دهید. -->
+<!-- Describe the change and link the Issue. -->
 
 Closes #
 
-## دامنه
+## Scope
 
 - [ ] UI/UX
 - [ ] API integration
 - [ ] tooling/documentation
 - [ ] test
 
-## کنترل‌ها
+## Branch governance
+
+- [ ] Source branch is based on `develop`.
+- [ ] Target branch is `develop` (or an explicitly approved release PR to `main`).
+- [ ] No direct commit to protected branches.
+
+## Validation
 
 - [ ] `npm run lint`
-- [ ] type-check (در صورت وجود)
-- [ ] تست‌های مرتبط (در صورت وجود)
-- [ ] بررسی تغییرات خارج از محدوده
+- [ ] type-check (when available)
+- [ ] related tests (when available)
+- [ ] no out-of-scope changes
 
-## وابستگی بین‌مخزنی
+## Cross-repository dependency
 
 Backend PR/Issue:
 
-## تأیید
+## Approval
 
-- [ ] شواهد تست در PR ثبت شده است.
-- [ ] Merge به `develop` نیازمند تأیید مالک محصول است.
+- [ ] Test evidence is recorded in the PR.
+- [ ] Merge to `develop` has product-owner approval.
